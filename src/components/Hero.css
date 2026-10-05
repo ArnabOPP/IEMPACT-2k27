@@ -1,0 +1,69 @@
+.hero {
+  --red: #c00000;
+  --band: clamp(180px, 29vh, 280px);
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr var(--band) 1fr;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--red);
+}
+.hero__art {
+  background-color: var(--red);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+/* Up artwork hugs the band from above, down artwork hangs from below */
+.hero__art--up { background-image: url('/intro%20up%20design.png'); background-position: center bottom; }
+.hero__art--down { background-image: url('/intro%20down%20design.png'); background-position: center top; }
+
+.hero__band { position: relative; z-index: 2; background: #fff; }
+.hero__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: calc(var(--band) * 1.8);
+  transform: translate(-50%, -50%);
+}
+.hero__logo img { height: 100%; width: auto; display: block; }
+
+.hero__presents,
+.hero__year {
+  position: absolute;
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
+}
+.hero__presents { right: 100%; top: 24%; text-align: right; white-space: nowrap; margin-right: -2%; }
+.hero__year { left: 100%; bottom: 25%; margin-left: 2%; font-size: clamp(1.2rem, 2vw, 1.9rem); }
+
+.hero__tagline {
+  position: absolute;
+  left: 50%;
+  bottom: 6vh;
+  z-index: 3;
+  margin: 0;
+  width: max-content;
+  max-width: 92vw;
+  text-align: center;
+  transform: translateX(-50%);
+  font-family: 'Londrina Solid', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 2.6rem);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #f2d21b;
+  text-shadow: 2px 2px 0 #6b4a00, 0 0 8px rgba(0, 0, 0, 0.35);
+}
+.hero__tagline sup { font-size: 0.55em; }
+
+@media (max-width: 700px) {
+  .hero__presents, .hero__year { position: static; text-align: center; margin: 0; }
+  .hero__logo { display: flex; flex-direction: column; align-items: center; height: auto; }
+  .hero__logo img { height: calc(var(--band) * 1.3); }
+}

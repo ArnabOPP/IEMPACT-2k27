@@ -1,0 +1,44 @@
+/* Scroll track: hero and strip layer are both pinned, so the strips rise over the hero */
+.reveal {
+  position: relative;
+  height: 420svh;
+}
+.reveal__hero {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100svh;
+}
+
+.maya {
+  --p: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20; /* above the fixed navbar (10) so the strips cover it */
+  height: 100svh;
+  margin-top: -100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+.maya__strips {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  height: max(100%, 56.1vw); /* 1369 / 768 aspect keeps the strips aligned */
+  aspect-ratio: 1369 / 768;
+  transform: translate(-50%, -50%);
+}
+.maya__strips img {
+  /* each strip owns a quarter of the scroll progress */
+  --t: clamp(0, calc(var(--p) * 4 - var(--i)), 1);
+  flex-basis: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: translateY(calc((1 - var(--t)) * 100%));
+  will-change: transform;
+}
+.maya__strips img + img { border-left: 1px solid rgba(255, 255, 255, 0.35); }

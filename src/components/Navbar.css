@@ -1,0 +1,75 @@
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 20px clamp(16px, 3.6vw, 50px);
+  font-family: 'Londrina Solid', system-ui, sans-serif;
+  color: #fff;
+}
+.navbar__brand, .navbar__end { display: flex; align-items: center; gap: 1.6rem; }
+.navbar__impact { height: 68px; width: auto; display: block; }
+.navbar__maya { height: 68px; width: auto; display: block; filter: drop-shadow(0 0 1px #fff); }
+.navbar__pill {
+  display: flex;
+  gap: clamp(1rem, 4vw, 3.4rem);
+  padding: 0.5rem clamp(1.2rem, 3vw, 3.2rem);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(2px);
+}
+.navbar__link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 1.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.navbar__link:hover, .navbar__link.active { opacity: 1; transform: translateY(-1px); }
+.navbar__icon { width: 1.5rem; height: 1.5rem; fill: currentColor; }
+.navbar__register {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 1.4rem 0.5rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.navbar__register:hover { background: rgba(0, 0, 0, 0.75); }
+.navbar__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: #fff;
+  color: #1a1a1a;
+}
+.navbar__arrow svg { width: 1.3rem; height: 1.3rem; }
+.navbar__iem { height: 68px; width: 68px; padding: 6px; border-radius: 14px; background: #fff; object-fit: contain; }
+
+@media (max-width: 1000px) {
+  .navbar { flex-wrap: wrap; justify-content: center; padding-top: 12px; }
+  .navbar__impact, .navbar__maya, .navbar__iem { height: 52px; }
+  .navbar__iem { width: 52px; }
+  .navbar__link { font-size: 1.3rem; }
+  .navbar__register { font-size: 1.2rem; }
+}
+@media (max-width: 560px) {
+  .navbar__maya { display: none; }
+  .navbar__link svg { display: none; }
+}

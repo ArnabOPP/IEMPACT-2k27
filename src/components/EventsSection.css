@@ -1,0 +1,115 @@
+/* Background art is 1366 x 904. Layout is in % / cqw of that so it matches the design at any width. */
+.events {
+  --card-w: 28.9cqw;
+  --step: 31.1cqw;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1366 / 904;
+  container-type: inline-size;
+  overflow: hidden;
+  background: #c00000 url('/5th%20section%20bg.png') center / 100% 100% no-repeat;
+  outline: none;
+}
+
+.events__title {
+  position: absolute;
+  top: 2.6%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: 'Londrina Solid', sans-serif;
+  font-weight: 400;
+  font-size: 4.1cqw;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.events__stage {
+  position: absolute;
+  inset: 0;
+  touch-action: pan-y;
+}
+.events__card {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: var(--card-w);
+  aspect-ratio: 398 / 533;
+  padding: 0;
+  border: 0;
+  border-radius: 0.8cqw;
+  overflow: hidden;
+  background: #1a0808;
+  cursor: pointer;
+  box-shadow: 0 1cqw 2.4cqw rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%) translateX(calc(var(--d) * var(--step))) scale(0.86);
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.6s;
+  z-index: 1;
+}
+.events__card.is-active { transform: translate(-50%, -50%) scale(1); z-index: 2; cursor: default; }
+.events__card[data-near='false'] { opacity: 0; pointer-events: none; }
+.events__card img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; }
+.events__card:focus-visible { outline: 3px solid #f2d21b; outline-offset: 4px; }
+
+.events__arrow {
+  position: absolute;
+  top: 87.7%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 7cqw;
+  height: 7cqw;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #000;
+  color: #e0211f;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s, background 0.2s;
+}
+.events__arrow svg { width: 52%; height: 52%; }
+.events__arrow:hover { transform: translate(-50%, -50%) scale(1.08); background: #1a1a1a; }
+.events__arrow:active { transform: translate(-50%, -50%) scale(0.96); }
+.events__arrow:focus-visible { outline: 3px solid #f2d21b; outline-offset: 3px; }
+.events__arrow--prev { left: 27.7%; }
+.events__arrow--next { left: 72.3%; }
+
+.events__caption {
+  position: absolute;
+  top: 79.5%;
+  left: 50%;
+  width: 34cqw;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: 'Londrina Solid', sans-serif;
+  animation: events-caption 0.5s ease both;
+}
+.events__caption h3 {
+  margin: 0;
+  font-weight: 900;
+  font-size: 4.3cqw;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #000;
+}
+.events__caption p {
+  margin: 0.5cqw 0 0;
+  font-weight: 900;
+  font-size: 2.1cqw;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  color: #f2d21b;
+  text-shadow: 1px 1px 0 #6b4a00, 0 0 0.6cqw rgba(0, 0, 0, 0.35);
+}
+@keyframes events-caption {
+  from { opacity: 0; transform: translateX(-50%) translateY(1cqw); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .events__card, .events__caption { transition: none; animation: none; }
+}

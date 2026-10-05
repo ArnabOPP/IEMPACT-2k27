@@ -1,0 +1,68 @@
+.intro {
+  --band: clamp(180px, 29vh, 280px); /* same as .hero, so the halves stop exactly on the hero artwork */
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #c00000;
+  cursor: pointer;
+  visibility: visible;
+}
+.intro__half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background-color: #c00000;
+  background-repeat: no-repeat;
+  background-size: 100% auto; /* same scaling as the hero artwork */
+  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+/* Upper half shows the bottom of its artwork; lower half shows the top */
+.intro__half--up {
+  top: 0;
+  background-image: url('/intro%20up%20design.png');
+  background-position: center bottom;
+}
+.intro__half--down {
+  bottom: 0;
+  background-image: url('/intro%20down%20design.png');
+  background-position: center top;
+}
+
+/* Logo sits on the curtain, same size/position as the hero logo so the hand-off is seamless */
+.intro__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  height: calc(var(--band) * 1.8);
+  width: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.5s ease 0.15s;
+}
+/* when the curtain leaves the screen the logo fades out with it */
+.intro--away .intro__logo { opacity: 0; transition-delay: 0s; }
+
+/* away: halves slide fully off screen */
+.intro--away { background: transparent; pointer-events: none; }
+.intro--away .intro__half--up { transform: translateY(-100%); }
+.intro--away .intro__half--down { transform: translateY(100%); }
+
+/* settled: halves stop where the hero's own up/down artwork sits, then the curtain hides */
+.intro--settled {
+  background: transparent;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 1.2s;
+}
+.intro--settled .intro__half--up { transform: translateY(calc(var(--band) / -2)); }
+.intro--settled .intro__half--down { transform: translateY(calc(var(--band) / 2)); }
+
+/* Phone hero stacks its text around the logo, so the curtain logo just fades out there */
+@media (max-width: 700px) {
+  .intro__logo { height: calc(var(--band) * 1.3); }
+  .intro--settled .intro__logo { opacity: 0; transition-delay: 0s; }
+}
