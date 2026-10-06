@@ -1,0 +1,609 @@
+/* =====================================================
+   EVENTS PAGE — "Phases"
+   Crimson sky from the artwork (a veiled figure under a halo
+   of moons), deepening to maroon night as you scroll. Events are
+   admission tickets, grouped by segment.
+===================================================== */
+
+.evp {
+  --sky-deep: #4d0305;
+  --sky: #62070a;
+  --sky-hi: #730c0b;
+  --night: #1a0202;
+  --moon: #ffd6e6;
+  --moon-hi: #ffe9c9;
+
+  color: #fff;
+  /* the header ends and the list begins in --sky, so the strip
+     behind the segment bar must be --sky too */
+  background: var(--sky);
+}
+
+
+/* =====================================================
+   MOON — phase icon (--ph: 0 new … 4 full)
+===================================================== */
+
+.moon {
+  --s: 14px;
+
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, var(--moon) 55%, #f3a6c8 100%);
+  box-shadow:
+    inset calc((4 - var(--ph)) * var(--s) / -4) 0 0 0 rgba(26, 2, 2, 0.92),
+    0 0 10px rgba(255, 190, 220, 0.55);
+}
+
+
+/* =====================================================
+   HEADER — the figure stands right; her sky runs the width
+===================================================== */
+
+.evp__hero {
+  position: relative;
+  overflow: hidden;
+
+  min-height: min(100svh, 900px);
+  display: flex;
+  align-items: center;
+
+  padding: 120px clamp(20px, 7vw, 110px) 80px;
+  background:
+    linear-gradient(180deg, rgba(26, 2, 2, 0) 70%, var(--sky) 100%),
+    linear-gradient(90deg, var(--sky-deep) 0%, var(--sky) 50%, var(--sky-hi) 100%);
+}
+
+.evp__art {
+  position: absolute;
+  top: 0;
+  right: clamp(0px, 6vw, 120px);
+  height: 100%;
+  aspect-ratio: 736 / 1308;
+  background: url('/events-crimson-halo.jpg') center / cover no-repeat;
+  /* soften every edge into the sky so the photo has no frame */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 22%, #000 78%, transparent 100%),
+    linear-gradient(180deg, #000 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 22%, #000 78%, transparent 100%),
+    linear-gradient(180deg, #000 70%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.evp__intro {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+}
+
+.evp__intro .eyebrow {
+  color: var(--moon-hi);
+}
+
+.evp__title {
+  margin-top: 14px;
+  font-size: clamp(84px, 13vw, 190px);
+  line-height: 0.85;
+  text-shadow: 0 10px 40px rgba(26, 2, 2, 0.35);
+}
+
+.evp__lede {
+  margin: 22px 0 0;
+  max-width: 34ch;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.9vw, 26px);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.evp__counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 30px;
+  margin: 34px 0 0;
+  padding: 22px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  list-style: none;
+}
+
+.evp__counts li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.evp__counts strong {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.evp__counts span:last-child {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+
+/* =====================================================
+   SEGMENT BAR — sticky glass pill with a liquid droplet
+===================================================== */
+
+.evp__barWrap {
+  position: sticky;
+  z-index: 50;
+  top: 86px;
+
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  margin-top: -32px;
+}
+
+.evp__bar {
+  --glass-r: 999px;
+  --glass-blur: 20px;
+  --glass-fill: rgba(40, 4, 4, 0.4);
+  --glass-rim: rgba(255, 255, 255, 0.6);
+
+  position: relative;
+  display: flex;
+  gap: 2px;
+  max-width: 100%;
+  padding: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.evp__bar::-webkit-scrollbar {
+  display: none;
+}
+
+.evp__drop {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  z-index: 0;
+  width: var(--w, 0);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff, #fbeee6);
+  box-shadow:
+    inset 0 1px 1px #fff,
+    0 6px 18px -8px rgba(20, 2, 2, 0.7);
+  transform: translateX(var(--x, 0));
+  transition:
+    transform 0.55s var(--ease-liquid),
+    width 0.35s var(--ease-out);
+  pointer-events: none;
+}
+
+.evp__tab {
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-brand);
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.evp__tab:hover {
+  color: #fff;
+}
+
+.evp__tab.is-on {
+  color: var(--night);
+}
+
+.evp__tab .moon {
+  --s: 12px;
+}
+
+.evp__tabCount {
+  min-width: 24px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.evp__tab.is-on .evp__tabCount {
+  background: var(--night);
+  color: #fff;
+}
+
+
+/* =====================================================
+   LIST — the sky deepens to night behind the tickets
+===================================================== */
+
+.evp__list {
+  padding: 70px clamp(16px, 5vw, 80px) 120px;
+  background: linear-gradient(180deg, var(--sky) 0%, #420506 22%, #2a0303 55%, var(--night) 100%);
+}
+
+.evp__seg {
+  max-width: 1240px;
+  margin: 0 auto;
+  animation: seg-in 0.6s var(--ease-out) both;
+}
+
+.evp__seg + .evp__seg {
+  margin-top: 96px;
+}
+
+.evp__segHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+
+  padding-bottom: 18px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.evp__segHead .moon {
+  --s: 24px;
+}
+
+.evp__segHead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.evp__segCount {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--moon-hi);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.evp__segHead p {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 15px;
+}
+
+.evp__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 40px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evp__empty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-style: italic;
+}
+
+.evp__empty .moon {
+  --s: 22px;
+}
+
+@keyframes seg-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* =====================================================
+   TICKET
+   Poster on top, a perforated tear line with notches cut
+   from both edges, and a paper stub. Tilts toward the
+   pointer; a holographic foil follows it.
+===================================================== */
+
+.tk {
+  container-type: inline-size;
+  perspective: 1000px;
+
+  /* the drop shadow follows the notched mask */
+  filter: drop-shadow(0 22px 24px rgba(20, 2, 2, 0.55));
+
+  animation: tk-in 0.75s var(--ease-out) backwards;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+.tk__body {
+  /* where the tear line falls: poster (with 8px frame) + 6px */
+  --cut: calc((100cqw - 16px) * 1.3392 + 14px);
+  --lift: 0px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  border-radius: 18px;
+  background: #fbf6ec;
+  color: #2a1010;
+
+  -webkit-mask:
+    radial-gradient(circle 11px at 0 var(--cut), #0000 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 11px at 100% var(--cut), #0000 97%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 11px at 0 var(--cut), #0000 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 11px at 100% var(--cut), #0000 97%, #000) right / 51% 100% no-repeat;
+
+  transform: translateY(var(--lift)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.6s var(--ease-out);
+  will-change: transform;
+}
+
+.tk__body:hover {
+  --lift: -8px;
+  transition-duration: 0.25s;
+}
+
+.tk__poster {
+  padding: 8px 8px 0;
+}
+
+.tk__poster img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 398 / 533;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.tk__stub {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 18px 16px;
+}
+
+/* the perforation */
+.tk__stub::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 16px;
+  right: 16px;
+  border-top: 2px dashed rgba(42, 16, 16, 0.22);
+}
+
+.tk__meta {
+  display: flex;
+  justify-content: space-between;
+  color: #8c6d66;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.tk__name {
+  margin: 10px 0 4px;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tk__cat {
+  margin: 0;
+  color: var(--sindoor);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tk__tag {
+  margin: 10px 0 16px;
+  color: #6b5550;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.tk__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.tk__barcode {
+  width: 110px;
+  height: 26px;
+  background: repeating-linear-gradient(
+    90deg,
+    #2a1010 0 2px,
+    transparent 2px 4px,
+    #2a1010 4px 5px,
+    transparent 5px 8px,
+    #2a1010 8px 11px,
+    transparent 11px 12px
+  );
+  opacity: 0.8;
+}
+
+.tk__year {
+  color: #8c6d66;
+  font-family: var(--font-brand);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* holographic foil — after the rainbow-edged moons in the art */
+.tk__foil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255, 130, 200, 0.45) 36%,
+      rgba(130, 205, 255, 0.45) 48%,
+      rgba(255, 236, 150, 0.4) 60%,
+      transparent 78%
+    );
+  background-size: 100% 100%, 260% 260%;
+  background-position: center, var(--mx, 50%) var(--my, 50%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.tk__body:hover .tk__foil {
+  opacity: 1;
+}
+
+@keyframes tk-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(calc((var(--i) - 2) * 1.5deg)) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* =====================================================
+   FOOTER — begins in this page's night instead of ivory
+===================================================== */
+
+body:has(.evp) .footer {
+  --ft-a: var(--night, #1a0202);
+  --ft-b: #220303;
+  --ft-c: #2e0405;
+}
+
+
+/* =====================================================
+   PHONE + TABLET
+===================================================== */
+
+@media (max-width: 860px) {
+  /* the portrait owns the top of the header (her face sits at ~62% of
+     the art); the type starts below her face, over her fading robe */
+  .evp__hero {
+    align-items: flex-start;
+    min-height: 0;
+    padding-top: 58svh;
+    padding-bottom: 80px;
+  }
+
+  .evp__art {
+    right: 50%;
+    height: 74svh;
+    transform: translateX(50%);
+    /* fade the sides too: the portrait can be narrower than the screen */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+      linear-gradient(180deg, #000 62%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+      linear-gradient(180deg, #000 62%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  .evp__hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 2, 2, 0) 0,
+      rgba(26, 2, 2, 0) 52svh,
+      rgba(70, 6, 8, 0.7) 66svh,
+      var(--sky) 80svh
+    );
+  }
+
+  .evp__barWrap {
+    top: 78px;
+    margin-top: -28px;
+    padding: 0 8px;
+  }
+
+  .evp__grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 26px 14px;
+  }
+
+  .tk__stub {
+    padding: 18px 12px 12px;
+  }
+
+  .tk__name {
+    font-size: 21px;
+  }
+
+  .tk__tag {
+    font-size: 12px;
+  }
+
+  .tk__barcode {
+    width: 56px;
+    height: 20px;
+  }
+
+  .tk__year {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk,
+  .evp__seg {
+    animation: none;
+  }
+
+  .tk__body {
+    transition: none;
+  }
+}

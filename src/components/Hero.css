@@ -1,873 +1,445 @@
+/* =====================================================
+   HERO — two scenes (IEMPACT / Maya) that swap with the logo.
+   Poster layout: logo alone at the top, the photo's subject left
+   open in the middle, tagline + actions gathered at the foot.
+===================================================== */
 
 .hero {
+  --accent: #ffd0c4;
 
   position: relative;
-
   width: 100%;
-
-  min-height: 100vh;
-
+  min-height: 100svh;
   overflow: hidden;
-
-
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-
-
-  background: #fff8f2;
-
+  background: #1a0003;
 }
 
 
-
+/* =====================================================
+   BACKGROUNDS — crossfaded with the logo swap
+===================================================== */
 
 .hero__bg {
-
   position: absolute;
-
   inset: 0;
-
-
-
-  background-image: url("/bg.jpeg");
-
-  background-size: cover;
-
-  background-position: center;
-
-  background-repeat: no-repeat;
-
-
-
   z-index: 0;
+  overflow: hidden;
+  transition: opacity 1.2s ease;
+}
 
+/* Maya: the red thread of fate */
+.hero__bg--maya {
+  background:
+    radial-gradient(75% 70% at 50% 45%, rgba(60, 0, 0, 0) 30%, rgba(40, 0, 0, 0.5) 100%),
+    url("/maya-thread.jpg") center 52% / cover no-repeat,
+    #8f0d08;
+}
+
+/* IEMPACT: "Woven Red Canopy, Shared Ritual". The photo fills the
+   screen; it is placed so the women's heads (from 39% of the photo's
+   height down) start at 60% of the screen, just under the centred
+   logo, with the canopy behind the logo and the type above it.
+   Width-fitted, the photo is 124.96vw tall, so 39% of it is 48.7vw. */
+.hero__bg--iempact {
+  background:
+    url("/iempact-canopy.jpg") center min(0px, calc(56svh - 48.7vw)) / 100% auto no-repeat,
+    #4a0b08;
+}
+
+/* portrait screens: height-fit at 144svh puts 39% of it at 56svh */
+@media (max-aspect-ratio: 4 / 5) {
+  .hero__bg--iempact {
+    background-position: center top;
+    background-size: auto 144svh;
+  }
+}
+
+.hero--iempact .hero__bg--maya,
+.hero--maya .hero__bg--iempact {
+  opacity: 0;
+}
+
+/* a deep fade at the foot where the buttons sit — the rest stays
+   clear for the photo */
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 3, 3, 0) 0%,
+    rgba(26, 3, 3, 0) 78%,
+    rgba(26, 3, 3, 0.55) 90%,
+    rgba(26, 3, 3, 0.88) 100%
+  );
+  pointer-events: none;
+}
+
+/* Maya keeps a darker crown so its white type reads */
+.hero--maya .hero__shade {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 3, 3, 0.45) 0%,
+    rgba(26, 3, 3, 0) 30%,
+    rgba(26, 3, 3, 0) 78%,
+    rgba(26, 3, 3, 0.55) 90%,
+    rgba(26, 3, 3, 0.88) 100%
+  );
 }
 
 
+/* =====================================================
+   LAYOUT
+===================================================== */
 
-
-.hero__center {
-
+.hero__layout {
   position: relative;
+  z-index: 3;
 
-  z-index: 2;
-
-
-
-  width: min(48vw, 560px);
-
-
+  min-height: 100svh;
+  padding: clamp(100px, 15svh, 130px) 16px clamp(20px, 3svh, 36px);
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
+  justify-content: space-between;
 }
 
+
+/* =====================================================
+   HEAD — chip + tagline under the navbar
+===================================================== */
+
+.hero__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  animation: rise 0.9s 0.25s var(--ease-out) both;
+}
+
+
+/* =====================================================
+   LOGO — dead centre of the screen
+===================================================== */
 
 .hero__logoBox {
-
-  position: relative;
-
-
-
-  width: 100%;
-
-  height: 490px;
-
-
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(720px, 92vw);
+  height: clamp(150px, 30svh, 320px);
+  transform: translate(-50%, -50%);
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
 }
-
-
 
 .hero__logo {
-
   position: absolute;
-
-
-
   width: 100%;
-
-  max-height: 490px;
-
+  max-height: 100%;
   height: auto;
-
-
-
   object-fit: contain;
-
-
-
   opacity: 0;
-
-
-
   pointer-events: none;
-
+  filter:
+    drop-shadow(0 2px 0 rgba(255, 255, 255, 0.5))
+    drop-shadow(0 14px 22px rgba(42, 10, 10, 0.28));
 }
 
-
-
+/* the IEMPACT PNG carries wide empty margins around its artwork,
+   so scale the drawing itself up (the `scale` property composes
+   with the entrance animation's transform) */
 .hero__logo--iempact {
-
-  width: 100%;
-
+  scale: 1.28;
 }
 
-
-
+/* the mark is pure red — on the red thread it turns white */
 .hero__logo--maya {
-
-  width: 88%;
-
+  width: 70%;
+  filter:
+    url(#maya-white)
+    drop-shadow(0 0 24px rgba(255, 120, 100, 0.55))
+    drop-shadow(0 12px 24px rgba(40, 0, 0, 0.5));
 }
-
-
 
 .hero__logo--visible {
-
-  opacity: 1;
-
-
-
-  animation:
-
-    logoJump
-
-    0.85s
-
-    cubic-bezier(0.22, 1, 0.36, 1)
-
-    forwards;
-
+  animation: logo-liquid 1.1s var(--ease-out) forwards;
 }
 
-
-@keyframes logoJump {
-
-
-
+/* settles like a drop finding its shape */
+@keyframes logo-liquid {
   0% {
-
     opacity: 0;
-
-    transform: scale(0.78) translateY(18px);
-
+    transform: scale(0.82, 0.74) translateY(24px);
   }
-
-
-
   45% {
-
     opacity: 1;
-
-    transform: scale(1.04) translateY(-10px);
-
+    transform: scale(1.05, 1.08) translateY(-8px);
   }
-
-
-
   70% {
-
-    transform: scale(0.98) translateY(3px);
-
+    transform: scale(0.98, 0.97) translateY(2px);
   }
-
-
-
-  88% {
-
-    transform: scale(1.01) translateY(-2px);
-
-  }
-
-
-
   100% {
-
     opacity: 1;
-
-    transform: scale(1) translateY(0);
-
+    transform: none;
   }
-
-
-
 }
 
 
-.hero__tagline,
+/* =====================================================
+   FOOT — chip, tagline, actions, switcher
+===================================================== */
 
-.hero__cta {
+.hero__dock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 
-  font-family: "Taiganja", sans-serif !important;
+  animation: rise 0.9s 0.35s var(--ease-out) both;
+}
 
-  font-weight: normal !important;
+.hero__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
 
-  font-style: normal !important;
+  color: rgba(255, 240, 235, 0.88);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(30, 0, 0, 0.7);
+}
 
+.hero__chipDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sindoor);
+  box-shadow: 0 0 0 4px rgba(215, 38, 30, 0.3);
+}
+
+.hero__chipSep {
+  color: var(--gold-hi);
 }
 
 .hero__tagline {
-
-  position: relative;
-
-  z-index: 5;
-
-
-
-  margin: -30px 0 0;
-
-
-
-  color: #c93631;
-
-
-
-  font-size: clamp(30px, 3vw, 42px);
-
-
-
-  line-height: 1.1;
-
-
-
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.2vw, 56px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
   text-align: center;
+  text-shadow:
+    0 2px 18px rgba(30, 0, 0, 0.7),
+    0 0 2px rgba(30, 0, 0, 0.4);
+}
 
+.hero__tagline em {
+  color: var(--accent);
+  font-weight: 600;
+}
 
+.hero__chip,
+.hero__tagline,
+.hero__tagline em {
+  transition: color 1.2s ease, text-shadow 1.2s ease;
+}
 
-  white-space: nowrap;
+/* IEMPACT: the top band sits on the light woven canopy — dark type */
+.hero--iempact .hero__chip {
+  color: var(--maroon);
+  text-shadow: 0 0 14px rgba(255, 250, 244, 0.9);
+}
 
+.hero--iempact .hero__tagline {
+  color: var(--maroon-deep);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 26px rgba(255, 250, 244, 0.95);
+}
+
+.hero--iempact .hero__tagline em {
+  color: var(--sindoor);
 }
 
 .hero__actions {
-
-  position: relative;
-
-  z-index: 20;
-
-
-
   display: flex;
-
+  flex-wrap: wrap;
   align-items: center;
-
   justify-content: center;
-
-
-
   gap: 14px;
+  margin-top: 4px;
+}
 
+/* a red button on a red scene disappears — ivory instead */
+.hero__actions .lbtn--primary {
+  color: var(--sindoor);
+  background: linear-gradient(180deg, #fff, #f6e9e2);
+  box-shadow:
+    inset 0 1px 1px #fff,
+    inset 0 -6px 14px -8px rgba(215, 38, 30, 0.35),
+    0 14px 30px -12px rgba(30, 0, 0, 0.7);
+}
 
+.hero__actions .lbtn--primary .lbtn__orb {
+  background: radial-gradient(circle at 32% 28%, #ff6a5c 0%, var(--sindoor) 60%, #a3140f 100%);
+  color: #fff;
+}
 
-  margin-top: 28px;
+.hero__ghost {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+    0 10px 24px -14px rgba(30, 0, 0, 0.6);
+}
 
+.hero__ghost .lbtn__orb {
+  background: #fff;
+  color: var(--sindoor);
 }
 
 
+/* =====================================================
+   LOGO SWITCHER
+===================================================== */
 
-.hero__cta {
+.hero__switch {
+  display: flex;
+  gap: 22px;
+  margin-top: 6px;
+}
 
+.hero__tab {
   position: relative;
 
-
-
-  height: 54px;
-
-
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-
-
-  gap: 12px;
-
-
-
-  padding: 0 9px 0 21px;
-
-
-
-  border-radius: 16px;
-
-
-
-  font-size: 17px;
-
-
-
-  text-decoration: none;
-
-
-
-  cursor: pointer;
-
-
-
-  z-index: 30;
-
-
-
-  transform: translateY(0) scale(1);
-
-
-
-  transition:
-
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-
-    background 0.3s ease,
-
-    color 0.3s ease,
-
-    border-color 0.3s ease,
-
-    box-shadow 0.3s ease;
-
-}
-
-
-.hero__ctaText {
-
-  display: inline-block;
-
-
-
-  transition:
-
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-
-}
-
-
-.hero__cta--primary {
-
-  background: #ef3934;
-
-
-
-  color: #ffffff;
-
-
-
-  border: 1px solid rgba(255, 255, 255, 0.6);
-
-
-
-  box-shadow:
-
-    0 8px 20px rgba(239, 57, 52, 0.18);
-
-}
-
-
-.hero__cta--primary:hover,
-.hero__cta--primary.hero__cta--hovered {
-
-  transform:
-
-    translateY(-8px)
-
-    scale(1.08);
-
-
-
-  background: #ff4039;
-
-
-
-  box-shadow:
-
-    0 18px 35px rgba(239, 57, 52, 0.32),
-
-    0 0 0 6px rgba(239, 57, 52, 0.09);
-
-}
-
-
-
-.hero__cta--primary:hover .hero__ctaText,
-.hero__cta--primary.hero__cta--hovered .hero__ctaText {
-
-  transform: translateX(4px);
-
-}
-
-
-
-.hero__cta--secondary {
-
-  background: rgba(255, 255, 255, 0.52);
-
-
-
-  color: #c93631;
-
-
-
-  border:
-
-    1px solid
-
-    rgba(201, 54, 49, 0.35);
-
-
-
-  backdrop-filter: blur(14px);
-
-  -webkit-backdrop-filter: blur(14px);
-
-
-
-  box-shadow:
-
-    0 8px 20px rgba(120, 70, 55, 0.06);
-
-}
-
-
-.hero__cta--secondary:hover,
-.hero__cta--secondary.hero__cta--hovered {
-
-  transform:
-
-    translateY(-8px)
-
-    scale(1.08);
-
-
-
-  background: #ffffff;
-
-
-
-  color: #b82e2a;
-
-
-
-  border-color: #d93430;
-
-
-
-  box-shadow:
-
-    0 18px 35px rgba(120, 70, 55, 0.14),
-
-    0 0 0 6px rgba(201, 54, 49, 0.07);
-
-}
-
-
-
-.hero__cta--secondary:hover .hero__ctaText,
-.hero__cta--secondary.hero__cta--hovered .hero__ctaText {
-
-  transform: translateX(4px);
-
-}
-
-
-
-.hero__ctaArrow {
-
-  width: 36px;
-
-  height: 36px;
-
-
-
   display: flex;
-
+  flex-direction: column;
   align-items: center;
+  gap: 7px;
 
-  justify-content: center;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
 
+  color: rgba(255, 235, 230, 0.55);
+  font-family: var(--font-brand);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
 
+.hero__tab--maya {
+  font-family: "Noto Serif Bengali", var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
 
-  flex-shrink: 0;
+.hero__tab:hover,
+.hero__tab.is-on {
+  color: #fff;
+}
 
+/* track */
+.hero__bar {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
 
+/* fill runs for exactly as long as that logo holds */
+.hero__tab.is-on .hero__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--accent);
+  transform-origin: left;
+  animation: bar-fill var(--dur) linear var(--wait, 0ms) both;
+}
 
-  border-radius: 11px;
+@keyframes bar-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
 
-
-
-  background: #ffffff;
-
-
-
-  color: #ef3934;
-
-
-
-  font-family: Arial, sans-serif !important;
-
-
-
-  font-size: 18px;
-
-
-
-  line-height: 1;
-
-
-
-  transform:
-
-    rotate(-8deg)
-
-    translateX(0);
-
-
-
-  box-shadow:
-
-    0 3px 9px rgba(80, 40, 30, 0.1);
-
-
-
-  transition:
-
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-
-    box-shadow 0.3s ease,
-
-    border-radius 0.3s ease;
-
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
 
 
-.hero__cta--secondary .hero__ctaArrow {
-
-  color: #c93631;
-
-}
-
-.hero__cta:hover .hero__ctaArrow {
-  transform:
-    rotate(0deg)
-    translateX(8px)
-    scale(1.13);
-
-  border-radius: 9px;
-
-  box-shadow:
-    0 7px 16px rgba(80, 40, 30, 0.16);
-}
-
-
-
-@keyframes arrowBounce {
-
-
-
-  0% {
-
-    transform:
-
-      rotate(-8deg)
-
-      translateX(0)
-
-      scale(1);
-
-  }
-
-
-
-  45% {
-
-    transform:
-
-      rotate(4deg)
-
-      translateX(10px)
-
-      scale(1.16);
-
-  }
-
-
-
-  75% {
-
-    transform:
-
-      rotate(-1deg)
-
-      translateX(7px)
-
-      scale(1.08);
-
-  }
-
-
-
-  100% {
-
-    transform:
-
-      rotate(0deg)
-
-      translateX(8px)
-
-      scale(1.13);
-
-  }
-
-
-
-}
-
-
-.hero__cta:active {
-
-  transform:
-
-    translateY(-2px)
-
-    scale(0.96) !important;
-
-}
-
-
-@media (max-width: 850px) {
-
-
-
-  .hero__center {
-
-    width: min(62vw, 500px);
-
-  }
-
-
-
-  .hero__logoBox {
-
-    height: 420px;
-
-  }
-
-
-
-  .hero__logo {
-
-    max-height: 420px;
-
-  }
-
-
-
-  .hero__tagline {
-
-    margin-top: -26px;
-
-    font-size: 34px;
-
-  }
-
-
-
-  .hero__actions {
-
-    margin-top: 25px;
-
-  }
-
-
-
-}
-
+/* =====================================================
+   PHONE
+===================================================== */
 
 @media (max-width: 650px) {
-
-
-
-  .hero__center {
-
-    width: 82vw;
-
+  .hero__layout {
+    padding-top: 84px;
   }
-
-
 
   .hero__logoBox {
-
-    height: 330px;
-
+    width: 96vw;
+    height: clamp(140px, 29svh, 260px);
   }
 
-
-
-  .hero__logo {
-
-    max-height: 330px;
-
+  /* the box is already full-width here; scale less so it stays on screen */
+  .hero__logo--iempact {
+    scale: 1.08;
   }
 
-
-
-  .hero__tagline {
-
-    margin-top: -20px;
-
-
-
-    font-family: "Taiganja", sans-serif !important;
-
-
-
-    font-size: 27px;
-
-
-
-    line-height: 1.1;
-
-
-
-    white-space: normal;
-
+  .hero__chip {
+    font-size: 10px;
+    letter-spacing: 0.18em;
   }
 
-
+  .hero__dock {
+    width: 100%;
+    gap: 14px;
+  }
 
   .hero__actions {
-
+    flex-direction: column;
+    width: 100%;
     gap: 10px;
-
-    margin-top: 20px;
-
   }
 
-
-
-  .hero__cta {
-
-    height: 46px;
-
-
-
-    padding-left: 16px;
-
-    padding-right: 6px;
-
-
-
-    border-radius: 13px;
-
-
-
-    font-size: 14px;
-
-
-
-    gap: 8px;
-
+  .hero__actions .lbtn {
+    width: 100%;
+    justify-content: space-between;
+    height: 50px;
   }
-
-
-
-  .hero__ctaArrow {
-
-    width: 31px;
-
-    height: 31px;
-
-
-
-    border-radius: 9px;
-
-
-
-    font-size: 15px;
-
-  }
-
-
-
-
 }
 
-
-
-
-@media (max-width: 400px) {
-
-
-
-  .hero__tagline {
-
-    font-size: 23px;
-
+@media (prefers-reduced-motion: reduce) {
+  .hero__head,
+  .hero__dock {
+    animation: none;
   }
 
-
-
-  .hero__actions {
-
-    gap: 8px;
-
+  .hero__logo--visible {
+    animation: none;
+    opacity: 1;
   }
 
-
-
-  .hero__cta {
-
-    height: 43px;
-
-
-
-    padding-left: 13px;
-
-    padding-right: 5px;
-
-
-
-    border-radius: 12px;
-
-
-
-    font-size: 12px;
-
+  .hero__tab.is-on .hero__bar::after {
+    animation: none;
+    transform: none;
   }
-
-
-
-  .hero__ctaArrow {
-
-    width: 29px;
-
-    height: 29px;
-
-
-
-    border-radius: 8px;
-
-
-
-    font-size: 14px;
-
-  }
-
-
-
 }

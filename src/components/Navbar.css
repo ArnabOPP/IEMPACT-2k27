@@ -1,839 +1,420 @@
 /* =====================================================
-   IEMPACT 2027 — FLOATING GLASS NAVBAR
+   IEMPACT 2027 — LIQUID ISLAND NAVBAR
+   Three glass islands spread across the top of the page; on scroll
+   the bar narrows, the gaps close and the inner corners square off,
+   so the islands fuse into a single capsule.
 ===================================================== */
 
-.navbar {
+.nav {
+  --h: 62px;
+  --gap: 12px;
+
   position: fixed;
-  top: 22px;
+  top: 18px;
   left: 50%;
-  transform: translateX(-50%);
-
-  width: fit-content;
-  min-width: 760px;
-  max-width: calc(100% - 50px);
-
-  height: 64px;
-  padding: 0 18px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   z-index: 1000;
 
-  background: rgba(255, 250, 247, 0.27);
-
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-
-  border: 1px solid rgba(239, 57, 52, 0.45);
-  border-radius: 45px;
-
-  box-shadow:
-    0 7px 28px rgba(120, 70, 55, 0.045),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
-}
-
-
-/* =====================================================
-   LOGO
-===================================================== */
-
-.navbar__logo {
-  width: 94px;
-
+  width: min(1240px, calc(100% - 40px));
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  text-decoration: none;
-
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.3s ease;
-}
-
-.navbar__logo:hover {
-  transform: scale(1.08);
-
-  filter:
-    drop-shadow(0 5px 8px rgba(239, 57, 52, 0.12));
-}
-
-.navbar__logo img {
-  width: 100%;
-  height: auto;
-
-  display: block;
-
-  object-fit: contain;
-}
-
-
-/* =====================================================
-   DESKTOP NAVIGATION
-===================================================== */
-
-.navbar__links--desktop {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 30px;
-
-  margin-left: 45px;
-  margin-right: 45px;
-}
-
-
-/* =====================================================
-   NAVIGATION WORDS
-===================================================== */
-
-.navbar__link {
-  position: relative;
-
-  padding: 9px 7px;
-
-  color: #594c47;
-
-  font-family: "Taiganja", sans-serif !important;
-  font-weight: normal !important;
-  font-style: normal !important;
-
-  font-size: 16px;
-
-  text-decoration: none;
-
-  white-space: nowrap;
-
-  border-radius: 10px;
-
-  transition:
-    color 0.25s ease,
-    font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* =====================================================
-   WORD GROWS ON HOVER
-===================================================== */
-
-.navbar__link:hover {
-  color: #e63b35;
-
-  font-size: 20px;
-
-  transform: translateY(-1px);
-
-  background: transparent;
-
-  box-shadow: none;
-}
-
-
-/* =====================================================
-   ACTIVE LINK
-===================================================== */
-
-.navbar__link.active {
-  color: #d9322e;
-}
-
-.navbar__link.active::after {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-  bottom: 1px;
-
-  width: 22px;
-  height: 2px;
+  justify-content: space-between;
+  gap: var(--gap);
 
   transform: translateX(-50%);
-
-  background: #e63b35;
-
-  border-radius: 10px;
-
-  transition:
-    width 0.3s ease,
-    height 0.3s ease;
-}
-
-.navbar__link:hover::after {
-  width: 30px;
-  height: 2px;
-}
-
-
-/* =====================================================
-   RIGHT SECTION
-===================================================== */
-
-.navbar__right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-}
-
-
-/* =====================================================
-   REGISTER BUTTON
-===================================================== */
-
-.navbar__register {
-  position: relative;
-
-  height: 41px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 9px;
-
-  padding-left: 18px;
-  padding-right: 7px;
-
-  border-radius: 14px;
-
-  background: #ef3934;
-
-  color: #ffffff;
-
-  font-family: "Taiganja", sans-serif !important;
-  font-weight: normal !important;
-  font-style: normal !important;
-
-  font-size: 16px;
-
-  text-decoration: none;
-
-  overflow: hidden;
-
-  isolation: isolate;
-
-  box-shadow:
-    0 6px 15px rgba(239, 57, 52, 0.18);
-
-  transition:
-    background 0.25s ease,
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s ease;
-}
-
-
-/* =====================================================
-   REGISTER SHINE
-===================================================== */
-
-.navbar__register::before {
-  content: "";
-
-  position: absolute;
-
-  top: -80%;
-  left: -130%;
-
-  width: 55%;
-  height: 260%;
-
-  background:
-    linear-gradient(
-      105deg,
-      transparent 15%,
-      rgba(255, 255, 255, 0.08) 35%,
-      rgba(255, 255, 255, 0.75) 50%,
-      rgba(255, 255, 255, 0.08) 65%,
-      transparent 85%
-    );
-
-  transform: rotate(20deg);
-
-  opacity: 0;
-
   pointer-events: none;
 
-  z-index: 1;
-}
-
-.navbar__register:hover::before {
-  opacity: 1;
-
-  animation:
-    navbarShine
-    0.75s
-    cubic-bezier(0.4, 0, 0.2, 1)
-    forwards;
-}
-
-@keyframes navbarShine {
-  0% {
-    left: -130%;
-  }
-
-  100% {
-    left: 160%;
-  }
-}
-
-
-/* =====================================================
-   REGISTER HOVER
-===================================================== */
-
-.navbar__register:hover {
-  background: #ff4540;
-
-  transform:
-    translateY(-4px)
-    scale(1.04);
-
-  box-shadow:
-    0 13px 28px rgba(239, 57, 52, 0.30),
-    0 0 0 5px rgba(239, 57, 52, 0.09);
-}
-
-
-/* =====================================================
-   REGISTER TEXT — GROWS
-===================================================== */
-
-.navbar__registerText {
-  position: relative;
-  z-index: 3;
-
-  font-family: "Taiganja", sans-serif !important;
-  font-weight: normal !important;
-  font-style: normal !important;
-
-  font-size: 16px;
-
   transition:
-    font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.3s ease;
+    width 0.8s var(--ease-liquid),
+    top 0.5s var(--ease-out),
+    gap 0.6s var(--ease-out);
 }
 
-.navbar__register:hover .navbar__registerText {
-  font-size: 19px;
-
-  transform: translateX(2px);
+/* --mw is the islands' combined width (measured in Navbar.jsx), so the
+   bar narrows until they touch */
+.nav--merged {
+  --h: 56px;
+  --gap: 0px;
+  top: 12px;
+  width: min(var(--mw, 820px), calc(100% - 24px));
 }
 
 
 /* =====================================================
-   REGISTER ARROW
+   ISLANDS
 ===================================================== */
 
-.navbar__arrow {
-  position: relative;
-  z-index: 3;
+.nav__island {
+  --glass-r: 999px;
+  --glass-blur: 20px;
+  --glass-fill: rgba(255, 250, 244, 0.62);
 
-  width: 29px;
-  height: 29px;
-
+  height: var(--h);
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  border-radius: 9px;
-
-  background: #ffffff;
-
-  color: #ef3934;
-
-  flex-shrink: 0;
-
-  transform:
-    rotate(-8deg)
-    translateX(0);
+  pointer-events: auto;
 
   transition:
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.25s ease,
-    box-shadow 0.3s ease;
+    height 0.5s var(--ease-out),
+    border-radius 0.6s var(--ease-out),
+    background-color 0.4s ease;
 }
 
-.navbar__arrow svg {
-  width: 14px;
-  height: 14px;
-
-  display: block;
-
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+/* fused: square the inner corners so the three read as one */
+.nav--merged .nav__brand {
+  border-radius: 999px 0 0 999px;
 }
 
-.navbar__register:hover .navbar__arrow {
-  transform:
-    rotate(0deg)
-    translateX(5px)
-    scale(1.12);
-
-  border-radius: 8px;
-
-  box-shadow:
-    0 5px 13px rgba(80, 40, 30, 0.18);
+.nav--merged .nav__links {
+  border-radius: 0;
 }
 
-.navbar__register:hover .navbar__arrow svg {
-  transform: translateX(2px);
+.nav--merged .nav__cta {
+  border-radius: 0 999px 999px 0;
+}
+
+/* over dark sections: smoked glass, light type */
+.nav--dark .nav__island {
+  --glass-fill: rgba(26, 4, 4, 0.42);
+  --glass-rim: rgba(255, 220, 205, 0.5);
+}
+
+.nav--dark .nav__island::after {
+  opacity: 0.16;
 }
 
 
 /* =====================================================
-   HAMBURGER
+   BRAND
 ===================================================== */
 
-.navbar__hamburger {
-  display: none;
+.nav__brand {
+  padding: 0 20px;
+}
 
-  width: 40px;
-  height: 40px;
+.nav__brand img {
+  width: 88px;
+  height: auto;
+  transition: transform 0.5s var(--ease-liquid);
+}
 
-  padding: 0;
+.nav__brand:hover img {
+  transform: scale(1.07) rotate(-2deg);
+}
 
-  border: none;
-  outline: none;
 
-  background: rgba(255, 255, 255, 0.5);
+/* =====================================================
+   LINKS + LIQUID DROPLET + PROGRESS
+===================================================== */
 
+.nav__links {
+  position: relative;
+  gap: 2px;
+  padding: 0 7px;
+  overflow: hidden;
+}
+
+/* slides to the hovered link; the left edge and width ease on
+   different curves, so it stretches mid-flight like liquid */
+.nav__drop {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 0;
+
+  width: var(--w, 0);
+  height: calc(var(--h) - 16px);
+  border-radius: 999px;
+
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55));
+  box-shadow:
+    inset 0 1px 1px #fff,
+    inset 0 -4px 10px -4px rgba(215, 38, 30, 0.22),
+    0 6px 16px -8px rgba(90, 11, 11, 0.45);
+
+  transform: translate(var(--x, 0), -50%);
+  transition:
+    transform 0.55s var(--ease-liquid),
+    width 0.35s var(--ease-out),
+    height 0.5s var(--ease-out),
+    opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.nav__link {
+  position: relative;
+  z-index: 1;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  color: var(--ink-soft);
+  font-family: var(--font-brand);
+  font-size: 15.5px;
+  white-space: nowrap;
+
+  transition: color 0.3s ease;
+}
+
+.nav__link.is-lit {
+  color: var(--maroon);
+}
+
+.nav__link.active {
+  color: var(--sindoor);
+}
+
+/* kumkum dot marks the current page */
+.nav__link.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-direction: column;
-
-  gap: 4px;
-
-  cursor: pointer;
-
-  transition:
-    background 0.3s ease,
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  background: var(--sindoor);
+  transform: translateX(-50%);
 }
 
-.navbar__hamburger:hover {
-  background: rgba(255, 255, 255, 0.9);
+/* reading progress — a red thread along the foot of the island */
+.nav__progress {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sindoor);
+  transform-origin: left;
+  transform: scaleX(var(--progress, 0));
+  opacity: 0.85;
+  pointer-events: none;
+}
 
-  transform:
-    scale(1.08)
-    rotate(3deg);
-
+.nav--dark .nav__drop {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07));
   box-shadow:
-    0 6px 15px rgba(120, 70, 55, 0.1);
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
-.navbar__hamburger span {
-  width: 17px;
-  height: 1.8px;
+.nav--dark .nav__link {
+  color: rgba(255, 238, 232, 0.72);
+}
 
-  background: #d9322e;
+.nav--dark .nav__link.is-lit {
+  color: #fff;
+}
 
-  border-radius: 10px;
+.nav--dark .nav__link.active {
+  color: #ffb4a8;
+}
 
+.nav--dark .nav__link.active::after {
+  background: #ffb4a8;
+}
+
+.nav--dark .nav__progress {
+  background: #ffb4a8;
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+.nav__cta {
+  padding: 0 7px;
+}
+
+.nav__register {
+  height: calc(var(--h) - 14px);
+  padding-left: 20px;
+  padding-right: 5px;
+  font-size: 15.5px;
+  gap: 10px;
   transition:
-    transform 0.3s ease,
-    opacity 0.25s ease,
-    width 0.25s ease;
+    height 0.5s var(--ease-out),
+    transform 0.5s var(--ease-liquid),
+    box-shadow 0.4s ease;
 }
 
-.navbar__hamburger:hover span {
-  width: 19px;
-}
-
-
-/* =====================================================
-   HAMBURGER → X
-===================================================== */
-
-.navbar__hamburger--open span:nth-child(1) {
-  transform:
-    translateY(5.8px)
-    rotate(45deg);
-}
-
-.navbar__hamburger--open span:nth-child(2) {
-  opacity: 0;
-}
-
-.navbar__hamburger--open span:nth-child(3) {
-  transform:
-    translateY(-5.8px)
-    rotate(-45deg);
+.nav__register .lbtn__orb {
+  width: calc(var(--h) - 24px);
+  height: calc(var(--h) - 24px);
+  transition:
+    width 0.5s var(--ease-out),
+    height 0.5s var(--ease-out),
+    transform 0.55s var(--ease-liquid);
 }
 
 
 /* =====================================================
-   MOBILE MENU
+   PHONE — brand + menu islands, a glass sheet for links
 ===================================================== */
 
-.navbar__mobileMenu {
+.nav__burger {
   display: none;
 }
 
-
-/* =====================================================
-   TABLET
-===================================================== */
-
-@media (max-width: 850px) {
-
-  .navbar {
-    min-width: 0;
-
-    width: calc(100% - 50px);
-  }
-
-  .navbar__links--desktop {
-    gap: 18px;
-
-    margin-left: 25px;
-    margin-right: 25px;
-  }
-
-  .navbar__link {
-    padding: 8px 5px;
-
-    font-size: 15px;
-  }
-
-  .navbar__link:hover {
-    font-size: 18px;
-  }
-
-  .navbar__logo {
-    width: 86px;
-  }
-
-  .navbar__register {
-    font-size: 15px;
-  }
+.nav__sheet {
+  display: none;
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 650px) {
-
-  .navbar {
-    top: 14px;
-
+@media (max-width: 760px) {
+  .nav,
+  .nav--merged {
     width: calc(100% - 24px);
-
-    min-width: 0;
-
-    height: 56px;
-
-    padding: 0 10px 0 15px;
-
-    justify-content: space-between;
-
-    border-radius: 30px;
+    top: 12px;
+    --gap: 10px;
   }
 
-
-  /* LOGO */
-
-  .navbar__logo {
-    width: 74px;
-  }
-
-
-  /* HIDE DESKTOP */
-
-  .navbar__links--desktop {
+  .nav__links,
+  .nav__cta {
     display: none;
   }
 
-  .navbar__right--desktop {
-    display: none;
+  /* phones never fuse: two islands, brand and menu */
+  .nav--merged .nav__brand {
+    border-radius: 999px;
   }
 
+  .nav__brand {
+    padding: 0 18px;
+  }
 
-  /* HAMBURGER */
+  .nav__brand img {
+    width: 76px;
+  }
 
-  .navbar__hamburger {
+  .nav__burger {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    width: var(--h);
+    padding: 0;
+    border: 0;
+    cursor: pointer;
   }
 
+  .nav__burger span {
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--sindoor);
+    transition: transform 0.45s var(--ease-liquid);
+  }
 
-  /* =================================================
-     MOBILE DROPDOWN
-  ================================================= */
+  .nav--dark .nav__burger span {
+    background: #fff;
+  }
 
-  .navbar__mobileMenu {
-    position: absolute;
+  .nav--open .nav__burger span:nth-child(1) {
+    transform: translateY(4px) rotate(45deg);
+  }
 
-    top: calc(100% + 10px);
-    left: 0;
+  .nav--open .nav__burger span:nth-child(2) {
+    transform: translateY(-4px) rotate(-45deg);
+  }
 
-    width: 100%;
+  .nav__sheet {
+    --glass-r: 30px;
+    --glass-fill: rgba(255, 248, 240, 0.72);
+    --glass-blur: 26px;
 
-    padding: 18px;
+    position: fixed;
+    top: 84px;
+    left: 12px;
+    right: 12px;
+    z-index: 999;
 
     display: flex;
     flex-direction: column;
-
     gap: 16px;
-
-    background: rgba(255, 250, 247, 0.78);
-
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-
-    border: 1px solid rgba(239, 57, 52, 0.32);
-
-    border-radius: 25px;
-
-    box-shadow:
-      0 12px 35px rgba(120, 70, 55, 0.1);
+    padding: 14px;
 
     opacity: 0;
     visibility: hidden;
-
-    transform:
-      translateY(-12px)
-      scale(0.96);
-
-    transform-origin: top center;
-
+    transform: translateY(-14px) scale(0.94);
+    transform-origin: top right;
     pointer-events: none;
 
     transition:
       opacity 0.25s ease,
       visibility 0.25s ease,
-      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.5s var(--ease-liquid);
   }
 
-  .navbar__mobileMenu--open {
+  .nav__sheet.is-open {
     opacity: 1;
-
     visibility: visible;
-
-    transform:
-      translateY(0)
-      scale(1);
-
+    transform: none;
     pointer-events: auto;
   }
 
-
-  /* =================================================
-     MOBILE LINKS
-  ================================================= */
-
-  .navbar__mobileLinks {
+  .nav__sheet nav {
     display: flex;
-
     flex-direction: column;
-
-    gap: 5px;
   }
 
-  .navbar__mobileLink {
-    padding: 12px 13px;
-
-    color: #594c47;
-
-    font-family: "Taiganja", sans-serif !important;
-    font-weight: normal !important;
-    font-style: normal !important;
-
-    font-size: 20px;
-
-    text-decoration: none;
-
-    border-radius: 14px;
-
-    transition:
-      color 0.25s ease,
-      font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.25s ease;
-  }
-
-  .navbar__mobileLink:hover {
-    color: #d9322e;
-
-    font-size: 23px;
-
-    transform: translateX(4px);
-
-    background: transparent;
-
-    box-shadow: none;
-  }
-
-  .navbar__mobileLink.active {
-    color: #d9322e;
-  }
-
-
-  /* =================================================
-     MOBILE REGISTER
-  ================================================= */
-
-  .navbar__mobileRegister {
-    height: 46px;
-
+  .nav__sheetLink {
     display: flex;
-
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
 
-    padding-left: 18px;
-    padding-right: 7px;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(90, 11, 11, 0.08);
 
-    border-radius: 14px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
 
-    background: #ef3934;
-
-    color: #ffffff;
-
-    font-family: "Taiganja", sans-serif !important;
-    font-weight: normal !important;
-    font-style: normal !important;
-
-    text-decoration: none;
-
-    box-shadow:
-      0 6px 16px rgba(239, 57, 52, 0.16);
-
+    opacity: 0;
+    transform: translateY(8px);
     transition:
-      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.35s ease,
-      background 0.25s ease;
+      color 0.2s ease,
+      opacity 0.35s ease,
+      transform 0.5s var(--ease-liquid);
   }
 
-  .navbar__mobileRegister:hover {
-    background: #ff4540;
-
-    transform:
-      translateY(-4px)
-      scale(1.03);
-
-    box-shadow:
-      0 12px 24px rgba(239, 57, 52, 0.28);
+  .nav__sheet.is-open .nav__sheetLink {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 45ms + 80ms);
   }
 
-
-  /* MOBILE REGISTER TEXT */
-
-  .navbar__mobileRegisterText {
-    font-family: "Taiganja", sans-serif !important;
-    font-weight: normal !important;
-
-    font-size: 19px;
-
-    transition:
-      font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  .nav__sheetLink.active {
+    color: var(--sindoor);
+    font-style: italic;
   }
 
-  .navbar__mobileRegister:hover .navbar__mobileRegisterText {
-    font-size: 22px;
+  .nav__sheetNo {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--gold);
   }
 
-
-  /* =================================================
-     MOBILE ARROW
-  ================================================= */
-
-  .navbar__mobileArrow {
-    width: 32px;
-    height: 32px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #ef3934;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 17px;
-
-    transform:
-      rotate(-7deg)
-      translateX(0);
-
-    transition:
-      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      border-radius 0.25s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .navbar__mobileRegister:hover .navbar__mobileArrow {
-    transform:
-      rotate(0deg)
-      translateX(5px)
-      scale(1.12);
-
-    border-radius: 8px;
-
-    box-shadow:
-      0 5px 12px rgba(80, 40, 30, 0.16);
+  .nav__sheetCta {
+    justify-content: space-between;
+    height: 52px;
+    padding-right: 6px;
   }
 }
 
-
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
-
-@media (max-width: 400px) {
-
-  .navbar {
-    width: calc(100% - 16px);
-
-    height: 54px;
-  }
-
-  .navbar__logo {
-    width: 68px;
-  }
-
-  .navbar__hamburger {
-    width: 38px;
-    height: 38px;
-  }
-
-  .navbar__mobileMenu {
-    padding: 15px;
-  }
-
-  .navbar__mobileLink {
-    font-size: 18px;
-  }
-
-  .navbar__mobileLink:hover {
-    font-size: 21px;
-  }
-
-  .navbar__mobileRegister {
-    font-size: 17px;
-  }
-
-  .navbar__mobileRegisterText {
-    font-size: 17px;
-  }
-
-  .navbar__mobileRegister:hover .navbar__mobileRegisterText {
-    font-size: 20px;
+@media (prefers-reduced-motion: reduce) {
+  .nav,
+  .nav__island,
+  .nav__drop,
+  .nav__sheet,
+  .nav__sheetLink {
+    transition: none;
   }
 }

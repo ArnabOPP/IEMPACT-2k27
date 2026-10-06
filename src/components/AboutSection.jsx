@@ -1,79 +1,183 @@
+import { useEffect, useRef } from 'react'
+import { events } from '@/data/events'
 import './AboutSection.css'
 
-const icons = {
-  calendar: (
-    <svg viewBox="0 0 40 40" aria-hidden="true">
-      <rect x="4" y="7" width="32" height="30" rx="4" />
-      <rect x="10" y="2" width="4" height="8" rx="2" />
-      <rect x="26" y="2" width="4" height="8" rx="2" />
-      <g fill="#fff">
-        {[0, 1, 2, 3].map((c) => [0, 1, 2].map((r) => (
-          <rect key={`${c}${r}`} x={9 + c * 6.5} y={15 + r * 6.5} width="4" height="4" rx="1" />
-        )))}
-      </g>
-    </svg>
-  ),
-  infinity: (
-    <svg viewBox="0 0 60 30" aria-hidden="true">
-      <path
-        d="M30 15C24 6 18 4 13 4 7 4 3 9 3 15s4 11 10 11c5 0 11-2 17-11s12-11 17-11c6 0 10 5 10 11s-4 11-10 11c-5 0-11-2-17-11Z"
-        fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  music: (
-    <svg viewBox="0 0 30 40" aria-hidden="true">
-      <circle cx="9" cy="32" r="6" />
-      <rect x="13" y="4" width="4" height="28" />
-      <path d="M17 4c3 6 9 6 10 14-3-4-6-5-10-5z" />
-    </svg>
-  ),
-  people: (
-    <svg viewBox="0 0 60 36" aria-hidden="true">
-      <circle cx="30" cy="9" r="6.5" />
-      <path d="M17 33c0-8 5-14 13-14s13 6 13 14z" />
-      <circle cx="11" cy="14" r="5" />
-      <path d="M0 33c0-6 3-11 11-11 2 0 4 .4 5.500 1.200C14 26 13 29 13 33z" />
-      <circle cx="49" cy="14" r="5" />
-      <path d="M60 33c0-6-3-11-11-11-2 0-4 .4-5.500 1.200C46 26 47 29 47 33z" />
-    </svg>
-  ),
-}
+// Frames extracted from the source clip (every 2nd frame, 600×750 WebP).
+const FRAME_COUNT = 137
+const frameSrc = (i) => `/about-frames/f${String(i).padStart(3, '0')}.webp`
 
 const stats = [
-  { icon: 'calendar', big: <>36<sup>TH</sup></>, small: 'Edition', grow: 125 },
-  { icon: 'infinity', big: '30+', small: <>Years of<br />Culture</>, grow: 138 },
-  { icon: 'music', small: <>Music • Dance<br />Art • Sports</>, grow: 187, bold: true },
-  { icon: 'people', big: 'Thousands', small: 'of Attendees', grow: 166, wide: true },
+  { big: <>36<sup>th</sup></>, small: 'Edition' },
+  { big: '30+', small: 'Years of culture' },
+  { big: events.length, small: 'Events' },
+  { big: 'Thousands', small: 'Of attendees' },
 ]
 
+// Each chapter is visible between --a and --b of the scroll progress
+const chapter = (a, b) => ({ '--a': a, '--b': b })
+
 export default function AboutSection() {
+  const trackRef = useRef(null)
+  const stageRef = useRef(null)
+  const filmRef = useRef(null)
+  const ambientRef = useRef(null)
+
+  useEffect(() => {
+    const track = trackRef.current
+    const stage = stageRef.current
+    const film = filmRef.current
+    const ambient = ambientRef.current
+    if (!track || !stage || !film || !ambient) return
+    const filmCtx = film.getContext('2d')
+    const ambientCtx = ambient.getContext('2d')
+
+    const frames = []
+    let loadingStarted = false
+    let current = -1
+    let raf = 0
+
+    const load = () => {
+      if (loadingStarted) return
+      loadingStarted = true
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        const img = new Image()
+        img.decoding = 'async'
+        img.src = frameSrc(i)
+        // first frame paints as soon as it lands
+        if (i === 0) img.onload = () => draw(true)
+        frames[i] = img
+      }
+    }
+
+    // cover-fit the frame into a canvas
+    const fit = (canvas, ctx, img) => {
+      const { width: cw, height: ch } = canvas
+      if (!cw || !ch) return
+      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
+      const w = img.naturalWidth * s
+      const h = img.naturalHeight * s
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h)
+    }
+
+    // the sharp film, plus a tiny copy CSS blurs into the ambient glow
+    const paint = (img) => {
+      fit(film, filmCtx, img)
+      fit(ambient, ambientCtx, img)
+    }
+
+    const draw = (force = false) => {
+      raf = 0
+      const { top, height } = track.getBoundingClientRect()
+      const range = height - window.innerHeight
+      const p = range > 0 ? Math.min(1, Math.max(0, -top / range)) : 0
+      stage.style.setProperty('--p', p.toFixed(4))
+
+      const target = Math.round(p * (FRAME_COUNT - 1))
+      if (target === current && !force) return
+      // nearest frame that has finished loading, searching backwards
+      for (let i = target; i >= 0; i--) {
+        const img = frames[i]
+        if (img?.complete && img.naturalWidth) {
+          paint(img)
+          current = i
+          return
+        }
+      }
+    }
+
+    const size = () => {
+      // frames are 600px wide, so a DPR above 1.5 buys nothing
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+      film.width = Math.round(film.clientWidth * dpr)
+      film.height = Math.round(film.clientHeight * dpr)
+      // the ambient layer is blurred anyway: a few dozen pixels will do
+      ambient.width = 96
+      ambient.height = Math.max(1, Math.round((96 * stage.clientHeight) / stage.clientWidth))
+      draw(true)
+    }
+
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(() => draw())
+    }
+
+    // start fetching frames a screen before the section arrives
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && load(),
+      { rootMargin: '100% 0px' },
+    )
+    io.observe(track)
+
+    size()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', size)
+    return () => {
+      io.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', size)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
-    <section className="about" aria-labelledby="about-title">
-      <h2 id="about-title" className="visually-hidden">About IEMPACT: where Kolkata celebrates culture</h2>
+    <section className="about" ref={trackRef} aria-labelledby="about-title" data-nav="dark">
+      <div className="about__stage" ref={stageRef}>
+        <canvas className="about__ambient" ref={ambientRef} aria-hidden="true" />
+        <div className="about__shade" aria-hidden="true" />
+        <div className="about__film glass glass--dark">
+          <canvas ref={filmRef} aria-hidden="true" />
+        </div>
 
-      <div className="about__text">
-        <p>
-          IEMPACT is the flagship cultural fest of the Institute of Engineering &amp; Management,
-          Kolkata — a celebration where music, dance, art, literature, performance and competition
-          come together.
-        </p>
-        <p>
-          For more than three decades, it has given students a platform to step beyond academics,
-          showcase their creativity, discover new passions and be a part of a vibrant cultural
-          community.
-        </p>
+        {/* 01 — TITLE */}
+        <div className="about__chapter about__chapter--title" style={chapter(-1, 0.24)}>
+          <p className="eyebrow">About</p>
+          <h2 id="about-title" className="about__title">
+            IEM<span>PACT</span>
+          </h2>
+          <p className="about__sub">Where Kolkata celebrates culture</p>
+        </div>
+
+        {/* 02 — WHAT IT IS */}
+        <div className="about__chapter" style={chapter(0.26, 0.5)}>
+          <div className="about__box">
+            <p className="about__no">01</p>
+            <p className="about__lead">
+              The flagship cultural fest of the <em>Institute of Engineering &amp; Management,
+              Kolkata</em> — where music, dance, art, literature, performance and competition
+              come together.
+            </p>
+          </div>
+        </div>
+
+        {/* 03 — WHAT IT MEANS */}
+        <div className="about__chapter" style={chapter(0.52, 0.74)}>
+          <div className="about__box">
+            <p className="about__no">02</p>
+            <p className="about__lead">
+              For more than three decades, it has given students a platform to step beyond
+              academics, showcase their creativity, discover new passions and be part of
+              a <em>vibrant cultural community</em>.
+            </p>
+          </div>
+        </div>
+
+        {/* 04 — IN NUMBERS (stays to the end) */}
+        <div className="about__chapter about__chapter--stats" style={chapter(0.76, 2)}>
+          <p className="about__no">03</p>
+          <ul className="about__stats">
+            {stats.map(({ big, small }) => (
+              <li key={small} className="about__stat">
+                <strong>{big}</strong>
+                <span>{small}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* PROGRESS RAIL */}
+        <div className="about__rail" aria-hidden="true">
+          <i />
+        </div>
       </div>
-
-      <ul className="about__stats">
-        {stats.map(({ icon, big, small, grow, bold, wide }) => (
-          <li key={icon} style={{ flexGrow: grow }}>
-            <span className="about__icon">{icons[icon]}</span>
-            {big && <strong className={wide ? 'about__big about__big--wide' : 'about__big'}>{big}</strong>}
-            <span className={bold ? 'about__small about__small--bold' : 'about__small'}>{small}</span>
-          </li>
-        ))}
-      </ul>
     </section>
   )
 }

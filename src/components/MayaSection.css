@@ -46,30 +46,18 @@
 
 
 /* =====================================================
-   STRIP CONTAINER
+   STRIPS — four equal full-height panels
 ===================================================== */
 
 .maya__strips {
   position: absolute;
+  inset: 0;
 
-  top: 50%;
-  left: 50%;
-
-  display: flex;
-
-  height: max(100%, 56.1vw);
-
-  aspect-ratio: 1369 / 768;
-
-  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
-
-/* =====================================================
-   INDIVIDUAL STRIPS
-===================================================== */
-
-.maya__strips img {
+.maya__strip {
   /* Each strip owns a quarter of the scroll progress */
   --t: clamp(
     0,
@@ -77,31 +65,129 @@
     1
   );
 
-  flex-basis: 0;
-  flex-shrink: 1;
-
+  position: relative;
   min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #1a0303;
 
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-
+  /* --dir: -1 slides in from above, 1 from below */
   transform:
-    translateY(calc((1 - var(--t)) * 100%));
+    translateY(calc((1 - var(--t)) * 100% * var(--dir, 1)));
 
   will-change: transform;
+}
 
-  /* Very light border around every section */
-  border: 1px solid rgba(0, 0, 0, 0.10);
+.maya__strip + .maya__strip {
+  box-shadow: -1px 0 0 rgba(0, 0, 0, 0.45);
+}
+
+.maya__strip img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* off-palette art pulled into the site's reds (filter in LiquidFilter.jsx) */
+.maya__img--crimson {
+  filter: url(#crimson-duotone);
+}
+
+/* deepen the foot of each artwork so the label reads */
+.maya__strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* deeper foot, now that the labels have no box */
+  background: linear-gradient(
+    180deg,
+    rgba(20, 2, 2, 0) 50%,
+    rgba(20, 2, 2, 0.55) 78%,
+    rgba(20, 2, 2, 0.85) 100%
+  );
+  pointer-events: none;
 }
 
 
 /* =====================================================
-   STRIP SEAMS
+   LABEL — number, Bengali word, English term
+   Fades up once its strip has nearly settled.
 ===================================================== */
 
-.maya__strips img + img {
-  border-left: 1px solid rgba(0, 0, 0, 0.10);
+.maya__label {
+  position: absolute;
+  z-index: 1;
+  left: clamp(10px, 1.6vw, 24px);
+  right: clamp(10px, 1.6vw, 24px);
+  bottom: clamp(16px, 4svh, 40px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  padding: 0;
+  text-align: center;
+  text-shadow: 0 2px 18px rgba(10, 0, 0, 0.85);
+
+  opacity: calc((var(--t) - 0.6) * 2.5);
+  transform: translateY(calc((1 - var(--t)) * 30px));
+}
+
+.maya__no {
+  color: var(--gold-hi);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+
+.maya__bn {
+  font-family: "Noto Serif Bengali", var(--font-display);
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.5;
+  color: #ffd8cf;
+}
+
+.maya__en {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.8vw, 44px);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1;
+  color: #fff;
+}
+
+
+/* =====================================================
+   PHONE — narrow columns, so the label turns vertical
+===================================================== */
+
+@media (max-width: 650px) {
+  .maya__label {
+    left: 50%;
+    right: auto;
+    bottom: 20px;
+
+    flex-direction: row;
+    gap: 10px;
+
+    padding: 0;
+
+    writing-mode: vertical-rl;
+    transform: translate(-50%, calc((1 - var(--t)) * 30px)) rotate(180deg);
+  }
+
+  .maya__no {
+    display: none;
+  }
+
+  .maya__bn {
+    font-size: 15px;
+  }
+
+  .maya__en {
+    font-size: 24px;
+  }
 }

@@ -1,8 +1,9 @@
+import ComingSoon from '@/components/ComingSoon'
+
 export default function Contact() {
   return (
-    <section className="container">
-      <h1>Contact</h1>
-      <p>Coming soon.</p>
-    </section>
+    <ComingSoon eyebrow="Contact" title={<>Say <em>hello</em></>}>
+      Contact details for the IEMPACT team will be posted here soon.
+    </ComingSoon>
   )
 }

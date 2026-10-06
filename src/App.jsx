@@ -7,6 +7,7 @@ import Contact from '@/pages/Contact'
 import Events from '@/pages/Events'
 import Home from '@/pages/Home'
 import NotFound from '@/pages/NotFound'
+import Schedule from '@/pages/Schedule'
 
 const HOLD_MS = 2500 // intro hold before first open
 const SPLIT_MS = 1200 // matches the CSS transition duration
@@ -57,6 +58,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="events" element={<Events />} />
+          <Route path="schedule" element={<Schedule />} />
           <Route path="contact" element={<Contact />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />

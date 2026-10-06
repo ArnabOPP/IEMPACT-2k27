@@ -138,6 +138,13 @@
    LOGO STILL REMAINS CENTRE
 ===================================================== */
 
+/* the halves are off-screen, but this full-screen layer would
+   still sit over the page (z-index 2000) and swallow every click,
+   including the navbar's — let clicks through once it is open */
+.intro--settled {
+  pointer-events: none;
+}
+
 .intro--settled .intro__half--up {
   transform: translateY(-100%);
 }

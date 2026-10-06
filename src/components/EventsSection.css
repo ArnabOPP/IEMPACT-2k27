@@ -1,115 +1,392 @@
-/* Background art is 1366 x 904. Layout is in % / cqw of that so it matches the design at any width. */
-.events {
-  --card-w: 28.9cqw;
-  --step: 31.1cqw;
+/* =====================================================
+   EVENTS — a hand of cards
+   The section is tall; its stage pins while scrolling turns
+   the fan. Each card sits on a circle around a pivot below the
+   screen: rotate by its distance from the current card (--d),
+   then push out along the radius. JS writes --d / --ad per card.
+===================================================== */
+
+.ev {
   position: relative;
-  width: 100%;
-  aspect-ratio: 1366 / 904;
-  container-type: inline-size;
-  overflow: hidden;
-  background: #c00000 url('/5th%20section%20bg.png') center / 100% 100% no-repeat;
-  outline: none;
+  height: calc((var(--n) - 1) * 26svh + 100svh);
+  background: var(--ivory);
 }
 
-.events__title {
+/* the dark of the video above dissolves into the paper: this veil
+   rides at the top of the section and scrolls away as the fan pins */
+.ev::before {
+  content: "";
   position: absolute;
-  top: 2.6%;
+  z-index: 300;
+  top: 0;
   left: 0;
   right: 0;
-  margin: 0;
-  text-align: center;
-  font-family: 'Londrina Solid', sans-serif;
-  font-weight: 400;
-  font-size: 4.1cqw;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fff;
+  height: 55svh;
+  background: linear-gradient(
+    180deg,
+    #1a0303 0%,
+    rgba(26, 3, 3, 0.85) 18%,
+    rgba(90, 11, 11, 0.45) 45%,
+    rgba(200, 150, 135, 0.15) 75%,
+    rgba(244, 239, 230, 0) 100%
+  );
+  pointer-events: none;
 }
 
-.events__stage {
+.ev__stage {
+  /* the fan's geometry */
+  --px: 66%;          /* pivot x */
+  --py: 120%;         /* pivot y — below the screen */
+  --r: 78svh;         /* radius */
+  --cw: 26svh;        /* card width */
+  --step: 10deg;      /* angle between cards */
+
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  outline: none;
+  color: var(--ink);
+}
+
+
+/* =====================================================
+   BACKGROUND — the many-armed figure, set left
+===================================================== */
+
+.ev__bg {
   position: absolute;
   inset: 0;
-  touch-action: pan-y;
+  /* scaled up and pushed right so the figure stands in the left
+     third, leaving paper for the fan */
+  background:
+    linear-gradient(90deg, rgba(246, 238, 227, 0) 30%, rgba(246, 238, 227, 0.55) 58%, rgba(246, 238, 227, 0.75) 100%),
+    url('/events-bg.jpg') 100% 30% / auto max(100%, 78.8vw) no-repeat,
+    #f4efe6;
 }
-.events__card {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  width: var(--card-w);
-  aspect-ratio: 398 / 533;
-  padding: 0;
-  border: 0;
-  border-radius: 0.8cqw;
-  overflow: hidden;
-  background: #1a0808;
-  cursor: pointer;
-  box-shadow: 0 1cqw 2.4cqw rgba(0, 0, 0, 0.35);
-  transform: translate(-50%, -50%) translateX(calc(var(--d) * var(--step))) scale(0.86);
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.6s;
-  z-index: 1;
-}
-.events__card.is-active { transform: translate(-50%, -50%) scale(1); z-index: 2; cursor: default; }
-.events__card[data-near='false'] { opacity: 0; pointer-events: none; }
-.events__card img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; }
-.events__card:focus-visible { outline: 3px solid #f2d21b; outline-offset: 4px; }
 
-.events__arrow {
+
+/* =====================================================
+   HEADING
+===================================================== */
+
+.ev__head {
   position: absolute;
-  top: 87.7%;
-  z-index: 3;
+  z-index: 120;
+  top: clamp(96px, 15svh, 130px);
+  right: clamp(20px, 6vw, 90px);
+  text-align: right;
+  color: var(--sindoor);
+}
+
+.ev__title {
+  margin-top: 8px;
+  font-size: clamp(44px, min(6vw, 10svh), 92px);
+  color: var(--ink);
+}
+
+.ev__title em {
+  color: var(--sindoor);
+}
+
+
+/* =====================================================
+   THE FAN
+===================================================== */
+
+.ev__fan {
+  position: absolute;
+  inset: 0;
+}
+
+/* the red thread the cards ride on — dashes travel with the fan */
+.ev__thread {
+  position: absolute;
+  left: var(--px);
+  top: var(--py);
+  width: calc(var(--r) * 2);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(215, 38, 30, 0.45);
+  transform: translate(-50%, -50%) rotate(calc(var(--f, 0) * var(--step) * -1));
+  pointer-events: none;
+}
+
+.ev__card {
+  /* 1 for the held-up card, falling to 0 one card away */
+  --lift: max(0, 1 - var(--ad, 9));
+
+  position: absolute;
+  left: var(--px);
+  top: var(--py);
+
+  width: var(--cw);
+  padding: 6px;
+  border: 0;
+  border-radius: 16px;
+
+  background: #fbf6ec;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 calc(10px + var(--lift) * 24px) calc(24px + var(--lift) * 36px) -14px rgba(60, 10, 8, calc(0.35 + var(--lift) * 0.25));
+  cursor: pointer;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--d, 9) * var(--step)))
+    translateY(calc(var(--r) * -1 - var(--lift) * 4svh))
+    scale(calc(1 + var(--lift) * 0.24));
+  opacity: clamp(0, calc(5.5 - var(--ad, 9)), 1);
+
+  will-change: transform;
+}
+
+.ev__card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 398 / 533;
+  object-fit: cover;
+  border-radius: 11px;
+  user-select: none;
+  /* cards further from the centre fade into the paper */
+  filter:
+    saturate(calc(1 - min(var(--ad, 9), 3) * 0.18))
+    brightness(calc(1 - min(var(--ad, 9), 3) * 0.08));
+}
+
+.ev__card:not(.is-active):hover img {
+  filter: none;
+}
+
+.ev__card.is-active {
+  cursor: default;
+}
+
+.ev__card:focus-visible {
+  outline: 2px solid var(--sindoor);
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   CAPTION
+===================================================== */
+
+.ev__caption {
+  position: absolute;
+  z-index: 120;
+  left: clamp(16px, 5vw, 80px);
+  bottom: clamp(20px, 6svh, 56px);
+
+  width: min(400px, calc(100% - 32px));
+  padding: 0;
+}
+
+/* no box: an edgeless pool of paper fades in behind the type so
+   it stays readable over the halftone figure */
+.ev__caption::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -70px -90px -50px -70px;
+  background: radial-gradient(
+    closest-side,
+    rgba(246, 238, 227, 0.95) 0%,
+    rgba(246, 238, 227, 0.85) 55%,
+    rgba(246, 238, 227, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.ev__captionInner {
+  animation: ev-caption 0.55s var(--ease-out) both;
+}
+
+.ev__cat {
+  margin: 0;
+  color: var(--sindoor);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.ev__name {
+  margin: 6px 0 6px;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.2vw, 46px);
+  font-weight: 700;
+  line-height: 0.98;
+  color: var(--ink);
+}
+
+.ev__tag {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@keyframes ev-caption {
+  from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.ev__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(90, 11, 11, 0.12);
+}
+
+.ev__count {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+}
+
+.ev__count strong {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--sindoor);
+}
+
+.ev__count span {
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.ev__arrow {
   display: grid;
   place-items: center;
-  width: 7cqw;
-  height: 7cqw;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: #000;
-  color: #e0211f;
+  background: linear-gradient(180deg, #fff, #f3e6dc);
+  color: var(--sindoor);
+  box-shadow:
+    inset 0 1px 1px #fff,
+    0 6px 14px -8px rgba(90, 11, 11, 0.5);
   cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 0.45s var(--ease-liquid), opacity 0.2s ease;
 }
-.events__arrow svg { width: 52%; height: 52%; }
-.events__arrow:hover { transform: translate(-50%, -50%) scale(1.08); background: #1a1a1a; }
-.events__arrow:active { transform: translate(-50%, -50%) scale(0.96); }
-.events__arrow:focus-visible { outline: 3px solid #f2d21b; outline-offset: 3px; }
-.events__arrow--prev { left: 27.7%; }
-.events__arrow--next { left: 72.3%; }
 
-.events__caption {
+.ev__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ev__arrow:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.ev__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.ev__progress {
   position: absolute;
-  top: 79.5%;
-  left: 50%;
-  width: 34cqw;
-  transform: translateX(-50%);
-  text-align: center;
-  font-family: 'Londrina Solid', sans-serif;
-  animation: events-caption 0.5s ease both;
-}
-.events__caption h3 {
-  margin: 0;
-  font-weight: 900;
-  font-size: 4.3cqw;
-  line-height: 1;
-  letter-spacing: 0.02em;
+  z-index: 120;
+  right: clamp(20px, 6vw, 90px);
+  bottom: clamp(24px, 6svh, 60px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: #000;
 }
-.events__caption p {
-  margin: 0.5cqw 0 0;
-  font-weight: 900;
-  font-size: 2.1cqw;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  color: #f2d21b;
-  text-shadow: 1px 1px 0 #6b4a00, 0 0 0.6cqw rgba(0, 0, 0, 0.35);
+
+.ev__progress i {
+  position: relative;
+  width: 160px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(90, 11, 11, 0.15);
+  overflow: hidden;
 }
-@keyframes events-caption {
-  from { opacity: 0; transform: translateX(-50%) translateY(1cqw); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.ev__progress i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sindoor);
+  transform-origin: left;
+  transform: scaleX(calc(var(--f, 0) / (var(--n) - 1)));
+}
+
+
+/* =====================================================
+   TABLET + PHONE — figure centred, fan rises from below
+===================================================== */
+
+@media (max-width: 900px) {
+  .ev__stage {
+    --px: 50%;
+    --py: 116%;
+    --r: 64svh;
+    --cw: min(40vw, 24svh);
+    --step: 12deg;
+  }
+
+  .ev__bg {
+    background:
+      linear-gradient(180deg, rgba(246, 238, 227, 0.4) 0%, rgba(246, 238, 227, 0.75) 100%),
+      url('/events-bg.jpg') center 30% / cover no-repeat,
+      #f4efe6;
+  }
+
+  .ev__head {
+    left: 0;
+    right: 0;
+    top: 84px;
+    text-align: center;
+  }
+
+  .ev__caption {
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+    width: auto;
+    padding: 0;
+  }
+
+  .ev__caption::before {
+    inset: -60px -40px -30px;
+  }
+
+  .ev__name {
+    font-size: 30px;
+  }
+
+  .ev__tag {
+    font-size: 13px;
+  }
+
+  .ev__progress {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .events__card, .events__caption { transition: none; animation: none; }
+  .ev__captionInner {
+    animation: none;
+  }
 }
