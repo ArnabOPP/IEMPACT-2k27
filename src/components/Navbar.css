@@ -1,75 +1,839 @@
+/* =====================================================
+   IEMPACT 2027 — FLOATING GLASS NAVBAR
+===================================================== */
+
 .navbar {
   position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 20px clamp(16px, 3.6vw, 50px);
-  font-family: 'Londrina Solid', system-ui, sans-serif;
-  color: #fff;
-}
-.navbar__brand, .navbar__end { display: flex; align-items: center; gap: 1.6rem; }
-.navbar__impact { height: 68px; width: auto; display: block; }
-.navbar__maya { height: 68px; width: auto; display: block; filter: drop-shadow(0 0 1px #fff); }
-.navbar__pill {
-  display: flex;
-  gap: clamp(1rem, 4vw, 3.4rem);
-  padding: 0.5rem clamp(1.2rem, 3vw, 3.2rem);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.38);
-  backdrop-filter: blur(2px);
-}
-.navbar__link {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 1.7rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  opacity: 0.85;
-  transition: opacity 0.2s, transform 0.2s;
-}
-.navbar__link:hover, .navbar__link.active { opacity: 1; transform: translateY(-1px); }
-.navbar__icon { width: 1.5rem; height: 1.5rem; fill: currentColor; }
-.navbar__register {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.5rem 1.4rem 0.5rem 0.5rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  font-size: 1.5rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.navbar__register:hover { background: rgba(0, 0, 0, 0.75); }
-.navbar__arrow {
-  display: grid;
-  place-items: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 50%;
-  background: #fff;
-  color: #1a1a1a;
-}
-.navbar__arrow svg { width: 1.3rem; height: 1.3rem; }
-.navbar__iem { height: 68px; width: 68px; padding: 6px; border-radius: 14px; background: #fff; object-fit: contain; }
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
 
-@media (max-width: 1000px) {
-  .navbar { flex-wrap: wrap; justify-content: center; padding-top: 12px; }
-  .navbar__impact, .navbar__maya, .navbar__iem { height: 52px; }
-  .navbar__iem { width: 52px; }
-  .navbar__link { font-size: 1.3rem; }
-  .navbar__register { font-size: 1.2rem; }
+  width: fit-content;
+  min-width: 760px;
+  max-width: calc(100% - 50px);
+
+  height: 64px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+
+  background: rgba(255, 250, 247, 0.27);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(239, 57, 52, 0.45);
+  border-radius: 45px;
+
+  box-shadow:
+    0 7px 28px rgba(120, 70, 55, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
-@media (max-width: 560px) {
-  .navbar__maya { display: none; }
-  .navbar__link svg { display: none; }
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.navbar__logo {
+  width: 94px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.3s ease;
+}
+
+.navbar__logo:hover {
+  transform: scale(1.08);
+
+  filter:
+    drop-shadow(0 5px 8px rgba(239, 57, 52, 0.12));
+}
+
+.navbar__logo img {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   DESKTOP NAVIGATION
+===================================================== */
+
+.navbar__links--desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 30px;
+
+  margin-left: 45px;
+  margin-right: 45px;
+}
+
+
+/* =====================================================
+   NAVIGATION WORDS
+===================================================== */
+
+.navbar__link {
+  position: relative;
+
+  padding: 9px 7px;
+
+  color: #594c47;
+
+  font-family: "Taiganja", sans-serif !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+
+  font-size: 16px;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  border-radius: 10px;
+
+  transition:
+    color 0.25s ease,
+    font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* =====================================================
+   WORD GROWS ON HOVER
+===================================================== */
+
+.navbar__link:hover {
+  color: #e63b35;
+
+  font-size: 20px;
+
+  transform: translateY(-1px);
+
+  background: transparent;
+
+  box-shadow: none;
+}
+
+
+/* =====================================================
+   ACTIVE LINK
+===================================================== */
+
+.navbar__link.active {
+  color: #d9322e;
+}
+
+.navbar__link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 1px;
+
+  width: 22px;
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  background: #e63b35;
+
+  border-radius: 10px;
+
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
+}
+
+.navbar__link:hover::after {
+  width: 30px;
+  height: 2px;
+}
+
+
+/* =====================================================
+   RIGHT SECTION
+===================================================== */
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   REGISTER BUTTON
+===================================================== */
+
+.navbar__register {
+  position: relative;
+
+  height: 41px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding-left: 18px;
+  padding-right: 7px;
+
+  border-radius: 14px;
+
+  background: #ef3934;
+
+  color: #ffffff;
+
+  font-family: "Taiganja", sans-serif !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+
+  font-size: 16px;
+
+  text-decoration: none;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  box-shadow:
+    0 6px 15px rgba(239, 57, 52, 0.18);
+
+  transition:
+    background 0.25s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+}
+
+
+/* =====================================================
+   REGISTER SHINE
+===================================================== */
+
+.navbar__register::before {
+  content: "";
+
+  position: absolute;
+
+  top: -80%;
+  left: -130%;
+
+  width: 55%;
+  height: 260%;
+
+  background:
+    linear-gradient(
+      105deg,
+      transparent 15%,
+      rgba(255, 255, 255, 0.08) 35%,
+      rgba(255, 255, 255, 0.75) 50%,
+      rgba(255, 255, 255, 0.08) 65%,
+      transparent 85%
+    );
+
+  transform: rotate(20deg);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.navbar__register:hover::before {
+  opacity: 1;
+
+  animation:
+    navbarShine
+    0.75s
+    cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
+}
+
+@keyframes navbarShine {
+  0% {
+    left: -130%;
+  }
+
+  100% {
+    left: 160%;
+  }
+}
+
+
+/* =====================================================
+   REGISTER HOVER
+===================================================== */
+
+.navbar__register:hover {
+  background: #ff4540;
+
+  transform:
+    translateY(-4px)
+    scale(1.04);
+
+  box-shadow:
+    0 13px 28px rgba(239, 57, 52, 0.30),
+    0 0 0 5px rgba(239, 57, 52, 0.09);
+}
+
+
+/* =====================================================
+   REGISTER TEXT — GROWS
+===================================================== */
+
+.navbar__registerText {
+  position: relative;
+  z-index: 3;
+
+  font-family: "Taiganja", sans-serif !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+
+  font-size: 16px;
+
+  transition:
+    font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s ease;
+}
+
+.navbar__register:hover .navbar__registerText {
+  font-size: 19px;
+
+  transform: translateX(2px);
+}
+
+
+/* =====================================================
+   REGISTER ARROW
+===================================================== */
+
+.navbar__arrow {
+  position: relative;
+  z-index: 3;
+
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #ef3934;
+
+  flex-shrink: 0;
+
+  transform:
+    rotate(-8deg)
+    translateX(0);
+
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.25s ease,
+    box-shadow 0.3s ease;
+}
+
+.navbar__arrow svg {
+  width: 14px;
+  height: 14px;
+
+  display: block;
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar__register:hover .navbar__arrow {
+  transform:
+    rotate(0deg)
+    translateX(5px)
+    scale(1.12);
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 5px 13px rgba(80, 40, 30, 0.18);
+}
+
+.navbar__register:hover .navbar__arrow svg {
+  transform: translateX(2px);
+}
+
+
+/* =====================================================
+   HAMBURGER
+===================================================== */
+
+.navbar__hamburger {
+  display: none;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border: none;
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  border-radius: 50%;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.navbar__hamburger:hover {
+  background: rgba(255, 255, 255, 0.9);
+
+  transform:
+    scale(1.08)
+    rotate(3deg);
+
+  box-shadow:
+    0 6px 15px rgba(120, 70, 55, 0.1);
+}
+
+.navbar__hamburger span {
+  width: 17px;
+  height: 1.8px;
+
+  background: #d9322e;
+
+  border-radius: 10px;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.25s ease,
+    width 0.25s ease;
+}
+
+.navbar__hamburger:hover span {
+  width: 19px;
+}
+
+
+/* =====================================================
+   HAMBURGER → X
+===================================================== */
+
+.navbar__hamburger--open span:nth-child(1) {
+  transform:
+    translateY(5.8px)
+    rotate(45deg);
+}
+
+.navbar__hamburger--open span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__hamburger--open span:nth-child(3) {
+  transform:
+    translateY(-5.8px)
+    rotate(-45deg);
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.navbar__mobileMenu {
+  display: none;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 850px) {
+
+  .navbar {
+    min-width: 0;
+
+    width: calc(100% - 50px);
+  }
+
+  .navbar__links--desktop {
+    gap: 18px;
+
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  .navbar__link {
+    padding: 8px 5px;
+
+    font-size: 15px;
+  }
+
+  .navbar__link:hover {
+    font-size: 18px;
+  }
+
+  .navbar__logo {
+    width: 86px;
+  }
+
+  .navbar__register {
+    font-size: 15px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+
+  .navbar {
+    top: 14px;
+
+    width: calc(100% - 24px);
+
+    min-width: 0;
+
+    height: 56px;
+
+    padding: 0 10px 0 15px;
+
+    justify-content: space-between;
+
+    border-radius: 30px;
+  }
+
+
+  /* LOGO */
+
+  .navbar__logo {
+    width: 74px;
+  }
+
+
+  /* HIDE DESKTOP */
+
+  .navbar__links--desktop {
+    display: none;
+  }
+
+  .navbar__right--desktop {
+    display: none;
+  }
+
+
+  /* HAMBURGER */
+
+  .navbar__hamburger {
+    display: flex;
+  }
+
+
+  /* =================================================
+     MOBILE DROPDOWN
+  ================================================= */
+
+  .navbar__mobileMenu {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    left: 0;
+
+    width: 100%;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    background: rgba(255, 250, 247, 0.78);
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    border: 1px solid rgba(239, 57, 52, 0.32);
+
+    border-radius: 25px;
+
+    box-shadow:
+      0 12px 35px rgba(120, 70, 55, 0.1);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+      translateY(-12px)
+      scale(0.96);
+
+    transform-origin: top center;
+
+    pointer-events: none;
+
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .navbar__mobileMenu--open {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    pointer-events: auto;
+  }
+
+
+  /* =================================================
+     MOBILE LINKS
+  ================================================= */
+
+  .navbar__mobileLinks {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+  .navbar__mobileLink {
+    padding: 12px 13px;
+
+    color: #594c47;
+
+    font-family: "Taiganja", sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+
+    font-size: 20px;
+
+    text-decoration: none;
+
+    border-radius: 14px;
+
+    transition:
+      color 0.25s ease,
+      font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.25s ease;
+  }
+
+  .navbar__mobileLink:hover {
+    color: #d9322e;
+
+    font-size: 23px;
+
+    transform: translateX(4px);
+
+    background: transparent;
+
+    box-shadow: none;
+  }
+
+  .navbar__mobileLink.active {
+    color: #d9322e;
+  }
+
+
+  /* =================================================
+     MOBILE REGISTER
+  ================================================= */
+
+  .navbar__mobileRegister {
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding-left: 18px;
+    padding-right: 7px;
+
+    border-radius: 14px;
+
+    background: #ef3934;
+
+    color: #ffffff;
+
+    font-family: "Taiganja", sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+
+    text-decoration: none;
+
+    box-shadow:
+      0 6px 16px rgba(239, 57, 52, 0.16);
+
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease,
+      background 0.25s ease;
+  }
+
+  .navbar__mobileRegister:hover {
+    background: #ff4540;
+
+    transform:
+      translateY(-4px)
+      scale(1.03);
+
+    box-shadow:
+      0 12px 24px rgba(239, 57, 52, 0.28);
+  }
+
+
+  /* MOBILE REGISTER TEXT */
+
+  .navbar__mobileRegisterText {
+    font-family: "Taiganja", sans-serif !important;
+    font-weight: normal !important;
+
+    font-size: 19px;
+
+    transition:
+      font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .navbar__mobileRegister:hover .navbar__mobileRegisterText {
+    font-size: 22px;
+  }
+
+
+  /* =================================================
+     MOBILE ARROW
+  ================================================= */
+
+  .navbar__mobileArrow {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #ef3934;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 17px;
+
+    transform:
+      rotate(-7deg)
+      translateX(0);
+
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 0.25s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .navbar__mobileRegister:hover .navbar__mobileArrow {
+    transform:
+      rotate(0deg)
+      translateX(5px)
+      scale(1.12);
+
+    border-radius: 8px;
+
+    box-shadow:
+      0 5px 12px rgba(80, 40, 30, 0.16);
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .navbar {
+    width: calc(100% - 16px);
+
+    height: 54px;
+  }
+
+  .navbar__logo {
+    width: 68px;
+  }
+
+  .navbar__hamburger {
+    width: 38px;
+    height: 38px;
+  }
+
+  .navbar__mobileMenu {
+    padding: 15px;
+  }
+
+  .navbar__mobileLink {
+    font-size: 18px;
+  }
+
+  .navbar__mobileLink:hover {
+    font-size: 21px;
+  }
+
+  .navbar__mobileRegister {
+    font-size: 17px;
+  }
+
+  .navbar__mobileRegisterText {
+    font-size: 17px;
+  }
+
+  .navbar__mobileRegister:hover .navbar__mobileRegisterText {
+    font-size: 20px;
+  }
 }

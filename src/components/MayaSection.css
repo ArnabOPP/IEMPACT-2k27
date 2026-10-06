@@ -1,44 +1,107 @@
-/* Scroll track: hero and strip layer are both pinned, so the strips rise over the hero */
+/* =====================================================
+   SCROLL REVEAL
+   Hero + Maya strips are both pinned
+===================================================== */
+
 .reveal {
   position: relative;
   height: 420svh;
 }
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
 .reveal__hero {
   position: sticky;
   top: 0;
+
   z-index: 1;
+
   height: 100svh;
 }
 
+
+/* =====================================================
+   MAYA STRIP LAYER
+===================================================== */
+
 .maya {
   --p: 0;
+
   position: sticky;
   top: 0;
-  z-index: 20; /* above the fixed navbar (10) so the strips cover it */
+
+  z-index: 20;
+
   height: 100svh;
+
   margin-top: -100svh;
+
   overflow: hidden;
+
   pointer-events: none;
 }
+
+
+/* =====================================================
+   STRIP CONTAINER
+===================================================== */
+
 .maya__strips {
   position: absolute;
+
   top: 50%;
   left: 50%;
+
   display: flex;
-  height: max(100%, 56.1vw); /* 1369 / 768 aspect keeps the strips aligned */
+
+  height: max(100%, 56.1vw);
+
   aspect-ratio: 1369 / 768;
+
   transform: translate(-50%, -50%);
 }
+
+
+/* =====================================================
+   INDIVIDUAL STRIPS
+===================================================== */
+
 .maya__strips img {
-  /* each strip owns a quarter of the scroll progress */
-  --t: clamp(0, calc(var(--p) * 4 - var(--i)), 1);
+  /* Each strip owns a quarter of the scroll progress */
+  --t: clamp(
+    0,
+    calc(var(--p) * 4 - var(--i)),
+    1
+  );
+
   flex-basis: 0;
   flex-shrink: 1;
+
   min-width: 0;
+
   height: 100%;
+
   object-fit: cover;
+
   display: block;
-  transform: translateY(calc((1 - var(--t)) * 100%));
+
+  transform:
+    translateY(calc((1 - var(--t)) * 100%));
+
   will-change: transform;
+
+  /* Very light border around every section */
+  border: 1px solid rgba(0, 0, 0, 0.10);
 }
-.maya__strips img + img { border-left: 1px solid rgba(255, 255, 255, 0.35); }
+
+
+/* =====================================================
+   STRIP SEAMS
+===================================================== */
+
+.maya__strips img + img {
+  border-left: 1px solid rgba(0, 0, 0, 0.10);
+}

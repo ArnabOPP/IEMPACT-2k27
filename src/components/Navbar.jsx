@@ -1,52 +1,149 @@
+import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import './Navbar.css'
 
-const icons = {
-  home: <path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3L12 3Z" />,
-  events: <path d="M20 7h-2.2A3 3 0 0 0 12 5.3 3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3h18V8a1 1 0 0 0-1-1ZM9 7a1 1 0 1 1 1 1H9V7Zm6 1h-1a1 1 0 1 1 1-1v1ZM4 13v7a1 1 0 0 0 1 1h6v-8H4Zm9 0v8h6a1 1 0 0 0 1-1v-7h-7Z" />,
-  contact: <path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z" />,
-}
-
-function Icon({ name }) {
-  return (
-    <svg className="navbar__icon" viewBox="0 0 24 24" aria-hidden="true">
-      {icons[name]}
-    </svg>
-  )
-}
-
 const links = [
-  { to: '/', label: 'Home', icon: 'home' },
-  { to: '/events', label: 'Events', icon: 'events' },
-  { to: '/contact', label: 'Contact', icon: 'contact' },
+  { to: '/', label: 'Home' },
+  { to: '/events', label: 'Events' },
+  { to: '/schedule', label: 'Schedule' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 export default function Navbar() {
-  return (
-    <header className="navbar">
-      <div className="navbar__brand">
-        <Link to="/"><img className="navbar__impact" src="/IEMPACT%20logo.png" alt="IMPACT" /></Link>
-        <img className="navbar__maya" src="/Maya%20logo.png" alt="Maya" />
-      </div>
+  const [menuOpen, setMenuOpen] = useState(false)
 
-      <nav className="navbar__pill" aria-label="Main">
-        {links.map(({ to, label, icon }) => (
-          <NavLink key={to} to={to} end={to === '/'} className="navbar__link">
-            <Icon name={icon} />
+  const closeMenu = () => {
+    setMenuOpen(false)
+  }
+
+  return (
+    <header className={`navbar ${menuOpen ? 'navbar--open' : ''}`}>
+
+      {/* LOGO */}
+      <Link
+        to="/"
+        className="navbar__logo"
+        onClick={closeMenu}
+      >
+        <img
+          src="/IEMPACT%20logo.png"
+          alt="IEMPACT"
+        />
+      </Link>
+
+
+      {/* DESKTOP NAVIGATION */}
+      <nav
+        className="navbar__links navbar__links--desktop"
+        aria-label="Main navigation"
+      >
+        {links.map(({ to, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === '/'}
+            className={({ isActive }) =>
+              `navbar__link ${isActive ? 'active' : ''}`
+            }
+          >
             {label}
           </NavLink>
         ))}
       </nav>
 
-      <div className="navbar__end">
-        <Link to="/events" className="navbar__register">
-          <span className="navbar__arrow">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+
+      {/* DESKTOP REGISTER */}
+      <div className="navbar__right navbar__right--desktop">
+
+        <Link
+          to="/events"
+          className="navbar__register"
+        >
+          <span className="navbar__registerText">
+            Register Now
           </span>
-          Register Now
+
+          <span className="navbar__arrow">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 12h8M13 7l5 5-5 5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
         </Link>
-        <img className="navbar__iem" src="/IEM%20logo.png" alt="Institute of Engineering and Management" />
+
       </div>
+
+
+      {/* MOBILE HAMBURGER */}
+      <button
+        className={`navbar__hamburger ${
+          menuOpen ? 'navbar__hamburger--open' : ''
+        }`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+
+      {/* MOBILE MENU */}
+      <div
+        className={`navbar__mobileMenu ${
+          menuOpen ? 'navbar__mobileMenu--open' : ''
+        }`}
+      >
+
+        <nav
+          className="navbar__mobileLinks"
+          aria-label="Mobile navigation"
+        >
+          {links.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/'}
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                `navbar__mobileLink ${
+                  isActive ? 'active' : ''
+                }`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+
+
+        {/* MOBILE REGISTER */}
+        <Link
+          to="/events"
+          className="navbar__mobileRegister"
+          onClick={closeMenu}
+        >
+          <span>
+            Register Now
+          </span>
+
+          <span className="navbar__mobileArrow">
+            →
+          </span>
+        </Link>
+
+      </div>
+
     </header>
   )
 }
