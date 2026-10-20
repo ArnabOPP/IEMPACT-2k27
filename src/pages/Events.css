@@ -347,6 +347,13 @@
   animation-delay: calc(var(--i) * 60ms);
 }
 
+.tk__link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
 .tk__body {
   /* where the tear line falls: poster (with 8px frame) + 6px */
   --cut: calc((100cqw - 16px) * 1.3392 + 14px);

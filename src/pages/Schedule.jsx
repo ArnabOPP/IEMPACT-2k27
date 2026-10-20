@@ -243,7 +243,6 @@ export default function Schedule() {
                           <h3 className="sch__name">{ev.name}</h3>
                           <p className="sch__tag">{ev.tagline}</p>
                         </div>
-                        <img className="sch__thumb" src={ev.card} alt="" loading="lazy" />
                       </div>
                     </li>
                   )

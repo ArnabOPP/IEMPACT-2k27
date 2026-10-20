@@ -248,7 +248,42 @@
   font-weight: 600;
 }
 
+.hero__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 7px 20px;
+
+  border: 1px solid rgba(230, 201, 138, 0.6);
+  border-radius: 999px;
+  background: rgba(30, 0, 0, 0.28);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(30, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.hero__date span {
+  color: var(--gold-hi);
+}
+
+.hero--iempact .hero__date {
+  border-color: rgba(90, 11, 11, 0.45);
+  background: rgba(255, 250, 244, 0.6);
+  color: var(--maroon);
+  text-shadow: none;
+}
+
+.hero--iempact .hero__date span {
+  color: var(--sindoor);
+}
+
 .hero__chip,
+.hero__date,
 .hero__tagline,
 .hero__tagline em {
   transition: color 1.2s ease, text-shadow 1.2s ease;
@@ -407,6 +442,12 @@
   .hero__chip {
     font-size: 10px;
     letter-spacing: 0.18em;
+  }
+
+  .hero__date {
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
   }
 
   .hero__dock {

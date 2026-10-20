@@ -73,6 +73,12 @@ export default function Hero() {
           <p className="hero__tagline">
             A string that <em>binds us all</em>
           </p>
+
+          <p className="hero__date">
+            <time dateTime="2027-01-16">16th</time>
+            <span aria-hidden="true">&amp;</span>
+            <time dateTime="2027-01-17">17th January 2027</time>
+          </p>
         </div>
 
         <div className="hero__logoBox">

@@ -1,0 +1,624 @@
+/* =====================================================
+   EVENT DETAIL
+   The Events page's crimson sky and moons, one event at a
+   time: a tilting foil poster, an oversized number behind
+   the title, a ticker, and a ticket-stub fact strip.
+===================================================== */
+
+.evd {
+  --sky-deep: #4d0305;
+  --sky: #62070a;
+  --night: #1a0202;
+  --moon: #ffd6e6;
+  --moon-hi: #ffe9c9;
+  --line: rgba(255, 255, 255, 0.16);
+
+  overflow-x: clip;
+  color: #fff;
+  background: linear-gradient(180deg, var(--sky) 0%, var(--sky-deep) 50%, var(--night) 100%);
+}
+
+.evd__wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+/* moon phase icon, same as the Events page */
+.evd .moon {
+  --s: 14px;
+
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, var(--moon) 55%, #f3a6c8 100%);
+  box-shadow:
+    inset calc((4 - var(--ph)) * var(--s) / -4) 0 0 0 rgba(26, 2, 2, 0.92),
+    0 0 10px rgba(255, 190, 220, 0.55);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.evd__hero {
+  position: relative;
+  overflow: hidden;
+  padding: 130px 0 90px;
+}
+
+/* the halo of moons, ghosted behind everything */
+.evd__sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(55% 60% at 78% 40%, rgba(239, 57, 52, 0.4), transparent 70%),
+    url('/events-crimson-halo.jpg') 85% 20% / auto 120% no-repeat;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 30%, #000 65%, #000 90%, transparent 100%),
+    linear-gradient(180deg, #000 55%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 30%, #000 65%, #000 90%, transparent 100%),
+    linear-gradient(180deg, #000 55%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* giant outlined number */
+.evd__num {
+  position: absolute;
+  left: -0.04em;
+  bottom: -0.2em;
+  font-family: var(--font-display);
+  font-size: clamp(260px, 42vw, 620px);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 233, 201, 0.16);
+  pointer-events: none;
+  user-select: none;
+}
+
+.evd__heroGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr minmax(260px, 0.85fr);
+  gap: clamp(32px, 6vw, 90px);
+  align-items: center;
+}
+
+.evd__copy > * {
+  animation: evd-rise 0.8s var(--ease-out) backwards;
+}
+
+.evd__copy > :nth-child(2) { animation-delay: 80ms; }
+.evd__copy > :nth-child(3) { animation-delay: 160ms; }
+.evd__copy > :nth-child(4) { animation-delay: 240ms; }
+.evd__copy > :nth-child(5) { animation-delay: 320ms; }
+.evd__copy > :nth-child(6) { animation-delay: 400ms; }
+
+.evd__back {
+  display: inline-flex;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(26, 2, 2, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.3s var(--ease-liquid);
+}
+
+.evd__back:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateX(-4px);
+}
+
+.evd__kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 40px 0 0;
+  color: var(--moon-hi);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.evd__kicker i {
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.evd__title {
+  margin-top: 18px;
+  font-size: clamp(60px, 9.5vw, 148px);
+  line-height: 0.86;
+  text-wrap: balance;
+  text-shadow: 0 12px 50px rgba(26, 2, 2, 0.45);
+}
+
+.evd__cat {
+  display: inline-block;
+  margin: 26px 0 0;
+  padding: 8px 18px;
+  border: 1px solid var(--moon-hi);
+  border-radius: 999px;
+  color: var(--moon-hi);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.evd__tag {
+  margin: 22px 0 0;
+  max-width: 28ch;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.evd__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.evd__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.35s var(--ease-liquid), background 0.2s, box-shadow 0.3s;
+}
+
+.evd__btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px);
+}
+
+.evd__btn--solid {
+  border-color: var(--sindoor-hi);
+  background: linear-gradient(180deg, var(--sindoor-hi), var(--sindoor));
+  box-shadow: 0 14px 30px -10px rgba(239, 57, 52, 0.8);
+}
+
+.evd__btn--solid:hover {
+  background: linear-gradient(180deg, #ff4b46, var(--sindoor-hi));
+  box-shadow: 0 18px 36px -10px rgba(255, 75, 70, 0.9);
+}
+
+
+/* ---- poster ---- */
+
+.evd__stage {
+  position: relative;
+  perspective: 1000px;
+  justify-self: center;
+  width: min(100%, 400px);
+}
+
+.evd__glow {
+  position: absolute;
+  inset: -12% -18%;
+  background: radial-gradient(closest-side, rgba(255, 120, 100, 0.55), transparent);
+  filter: blur(30px);
+  animation: evd-breathe 5s ease-in-out infinite;
+}
+
+.evd__poster {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+
+  position: relative;
+  margin: 0;
+  padding: 10px;
+  border-radius: 22px;
+  background: #fbf6ec;
+  box-shadow:
+    0 40px 70px -24px rgba(10, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  transform: rotate(2.5deg) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.5s var(--ease-out);
+  animation: evd-poster 1s var(--ease-out) 0.15s backwards;
+}
+
+.evd__poster img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 398 / 533;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+/* holographic foil that follows the pointer */
+.evd__foil {
+  position: absolute;
+  inset: 10px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.55), transparent 45%),
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255, 140, 190, 0.25) 40%,
+      rgba(255, 233, 160, 0.25) 50%,
+      rgba(140, 200, 255, 0.25) 60%,
+      transparent 80%
+    );
+  background-size: 100% 100%, 220% 100%;
+  background-position: 0 0, calc(var(--mx) * -1 + 100%) 0;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.evd__stage:hover .evd__foil {
+  opacity: 1;
+}
+
+/* round "seal" pinned to the corner */
+.evd__stamp {
+  position: absolute;
+  right: -14px;
+  bottom: -18px;
+  display: grid;
+  place-content: center;
+  width: 92px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--gold-hi), var(--gold));
+  color: var(--maroon-deep);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-align: center;
+  box-shadow: 0 14px 26px -8px rgba(10, 0, 0, 0.7);
+  transform: rotate(-12deg);
+}
+
+.evd__stamp b {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0;
+}
+
+
+/* =====================================================
+   TICKER
+===================================================== */
+
+.evd__ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: rgba(26, 2, 2, 0.45);
+}
+
+.evd__tickerTrack {
+  display: flex;
+  width: max-content;
+  padding: 16px 0;
+  animation: evd-scroll 40s linear infinite;
+}
+
+.evd__tickerTrack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  margin-right: 40px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-style: italic;
+  white-space: nowrap;
+  color: rgba(255, 233, 201, 0.85);
+}
+
+
+/* =====================================================
+   FACTS — a ticket-stub strip
+===================================================== */
+
+.evd__facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: clamp(40px, 6vw, 70px) 0 0;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(10px);
+}
+
+.evd__fact {
+  position: relative;
+  padding: 26px 26px 28px;
+}
+
+/* perforated divider between stubs */
+.evd__fact + .evd__fact {
+  border-left: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.evd__fact dt {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.evd__fact dd {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.evd__sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+
+/* =====================================================
+   DETAILS
+===================================================== */
+
+.evd__body {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.evd__card {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 28px 32px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(26, 2, 2, 0.4);
+  transition: transform 0.4s var(--ease-out), border-color 0.3s;
+}
+
+.evd__card:hover {
+  border-color: rgba(255, 233, 201, 0.45);
+  transform: translateY(-4px);
+}
+
+.evd__cardNo {
+  position: absolute;
+  top: 8px;
+  right: 18px;
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 233, 201, 0.22);
+}
+
+.evd__card h2 {
+  margin: 0 0 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  max-width: 70%;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.evd__card p {
+  margin: 0 0 10px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.evd__card .evd__lead {
+  color: var(--moon-hi);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.evd__card .evd__tba {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+
+/* =====================================================
+   PAGER
+===================================================== */
+
+.evd__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: clamp(48px, 7vw, 90px);
+  padding-bottom: clamp(60px, 8vw, 100px);
+}
+
+.evd__pg {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(26, 2, 2, 0.4);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.4s var(--ease-out), background 0.3s, border-color 0.3s;
+}
+
+.evd__pg:hover {
+  border-color: rgba(255, 233, 201, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+}
+
+.evd__pg--next {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.evd__pg img {
+  flex-shrink: 0;
+  width: 76px;
+  aspect-ratio: 398 / 533;
+  object-fit: cover;
+  border: 4px solid #fbf6ec;
+  border-radius: 8px;
+  transform: rotate(-3deg);
+  transition: transform 0.4s var(--ease-liquid);
+}
+
+.evd__pg--next img {
+  transform: rotate(3deg);
+}
+
+.evd__pg:hover img {
+  transform: rotate(0deg) scale(1.06);
+}
+
+.evd__pgText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.evd__pgText small {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.evd__pgText strong {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.evd__pgText em {
+  color: var(--moon-hi);
+  font-size: 13px;
+  font-style: normal;
+}
+
+
+/* =====================================================
+   MOTION
+===================================================== */
+
+@keyframes evd-rise {
+  from { opacity: 0; transform: translateY(26px); }
+}
+
+@keyframes evd-poster {
+  from { opacity: 0; transform: translateY(50px) rotate(-8deg) scale(0.92); }
+}
+
+@keyframes evd-breathe {
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+
+@keyframes evd-scroll {
+  to { transform: translateX(-50%); }
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 960px) {
+  .evd__facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .evd__fact:nth-child(3) {
+    border-left: 0;
+  }
+
+  .evd__fact:nth-child(n + 3) {
+    border-top: 2px dashed rgba(255, 255, 255, 0.2);
+  }
+
+  .evd__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .evd__hero {
+    padding-top: 110px;
+  }
+
+  .evd__heroGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .evd__stage {
+    order: -1;
+    width: min(72%, 300px);
+    margin-top: 10px;
+  }
+
+  .evd__kicker {
+    margin-top: 28px;
+  }
+
+  .evd__pager {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evd__copy > *,
+  .evd__poster,
+  .evd__glow,
+  .evd__tickerTrack {
+    animation: none;
+  }
+}

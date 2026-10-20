@@ -4,7 +4,9 @@ import Curtain from '@/components/Curtain'
 import Layout from '@/components/Layout'
 import About from '@/pages/About'
 import Contact from '@/pages/Contact'
+import EventDetail from '@/pages/EventDetail'
 import Events from '@/pages/Events'
+import Gallery from '@/pages/Gallery'
 import Home from '@/pages/Home'
 import NotFound from '@/pages/NotFound'
 import Schedule from '@/pages/Schedule'
@@ -58,7 +60,9 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="events" element={<Events />} />
+          <Route path="events/:no" element={<EventDetail />} />
           <Route path="schedule" element={<Schedule />} />
+          <Route path="gallery" element={<Gallery />} />
           <Route path="contact" element={<Contact />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />

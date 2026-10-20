@@ -5,7 +5,7 @@ export const days = [
   {
     id: 'day-1',
     label: 'Day 01',
-    date: 'Date TBA',
+    date: '16 January 2027',
     slots: [
       { time: '10:00', no: '01' },
       { time: '11:00', no: '08' },
@@ -21,7 +21,7 @@ export const days = [
   {
     id: 'day-2',
     label: 'Day 02',
-    date: 'Date TBA',
+    date: '17 January 2027',
     slots: [
       { time: '10:00', no: '09' },
       { time: '11:00', no: '17' },

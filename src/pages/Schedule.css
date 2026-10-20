@@ -425,32 +425,6 @@
   line-height: 1.45;
 }
 
-/* the poster hangs from its top edge; it swings into place when the
-   thread reaches its bead */
-.sch__thumb {
-  --rot: 4deg;
-
-  flex-shrink: 0;
-  width: 96px;
-  aspect-ratio: 398 / 533;
-  object-fit: cover;
-  border: 5px solid #fff;
-  border-radius: 6px;
-  box-shadow: 0 14px 24px -12px rgba(60, 20, 15, 0.5);
-
-  transform-origin: 50% -12px;
-  transform: rotate(calc(var(--rot) * -5));
-  transition: transform 1.1s var(--ease-liquid);
-}
-
-.sch__slot--left .sch__thumb {
-  --rot: -4deg;
-}
-
-.sch__slot.is-on .sch__thumb {
-  transform: rotate(var(--rot));
-}
-
 
 /* =====================================================
    END — the lower hand, then the closing line
@@ -572,19 +546,10 @@
     font-size: 13px;
   }
 
-  .sch__thumb {
-    width: 70px;
-    order: 2;
-  }
-
-  .sch__slot--left .sch__thumb {
-    --rot: 4deg;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sch__entry,
-  .sch__thumb,
   .sch__bead {
     transition: none;
   }

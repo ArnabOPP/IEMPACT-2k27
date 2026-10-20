@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { events, segments } from '@/data/events'
 import './Events.css'
 
@@ -43,12 +44,12 @@ function Ticket({ ev, i }) {
 
   return (
     <li className="tk" style={{ '--i': i }}>
+      <Link to={`/events/${ev.no}`} className="tk__link" aria-label={`${ev.name} — ${ev.category}`}>
       <article
         ref={ref}
         className="tk__body"
         onPointerMove={move}
         onPointerLeave={leave}
-        aria-label={`${ev.name} — ${ev.category}`}
       >
         <div className="tk__poster">
           <img src={ev.card} alt="" loading="lazy" draggable="false" />
@@ -70,6 +71,7 @@ function Ticket({ ev, i }) {
 
         <span className="tk__foil" aria-hidden="true" />
       </article>
+      </Link>
     </li>
   )
 }

@@ -63,6 +63,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: var(--ivory);
+  /* decorative glows and tilted cards must never widen the page on phones;
+     clip (unlike hidden) keeps position: sticky working */
+  overflow-x: clip;
 }
 
 button,
