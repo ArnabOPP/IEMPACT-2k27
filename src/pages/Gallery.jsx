@@ -145,6 +145,19 @@ export default function Gallery() {
 
   const cur = shown[active]
 
+  if (!cur) {
+    return (
+      <div className="gal" data-nav="dark">
+        <header className="gal__hero">
+          <h1 className="gal__title display">
+            Gal<em>lery</em>
+          </h1>
+          <p className="gal__lede">No photos yet — add images to src/gallery and they appear here.</p>
+        </header>
+      </div>
+    )
+  }
+
   return (
     <div className="gal" data-nav="dark">
       <header className="gal__hero">

@@ -1,25 +1,38 @@
-// Gallery items. ⚠ PLACEHOLDER — these are the fest's artwork and event posters.
-// Swap in real photos from the fest: drop files in /public and add
-// { src: '/your-photo.jpg', title: 'Caption', tag: 'Day 1' } entries.
-// `tag` becomes a filter chip on the Gallery page.
-import { events } from '@/data/events'
+// The gallery reads every image in /src/gallery automatically — no code to edit.
+//
+//   src/gallery/Day 1/opening.jpg        -> filter chip "Day 1", caption "Opening"
+//   src/gallery/Day 2/05-battle-of-bands.jpg
+//   src/gallery/cover.jpg                -> images at the top level go under "Moments"
+//
+// Each sub-folder becomes a filter chip. A leading number ("05-") only sets the
+// order; dashes and underscores in the filename become spaces in the caption.
+// Supported: jpg, jpeg, png, webp, avif, gif.
+const files = import.meta.glob('/src/gallery/**/*.{jpg,jpeg,png,webp,avif,gif}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+})
 
-const artwork = [
-  { src: '/strip-1.jpg', title: 'Heritage', tag: 'Artwork' },
-  { src: '/strip-2.jpg', title: 'Stage', tag: 'Artwork' },
-  { src: '/strip-3.jpg', title: 'Imagination', tag: 'Artwork' },
-  { src: '/strip-4.jpg', title: 'Rhythm', tag: 'Artwork' },
-  { src: '/maya-thread.jpg', title: 'The thread', tag: 'Artwork' },
-  { src: '/events-crimson-halo.jpg', title: 'Halo of moons', tag: 'Artwork' },
-]
+const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })
 
-const posters = events.map((e) => ({
-  src: e.card,
-  title: e.name,
-  sub: e.category,
-  tag: 'Posters',
-}))
+const clean = (name) =>
+  name
+    .replace(/\.[^.]+$/, '')
+    .replace(/^\d+[\s._-]+/, '')
+    .replace(/[-_]+/g, ' ')
+    .trim()
 
-export const gallery = [...artwork, ...posters]
+export const gallery = Object.entries(files)
+  .map(([path, src]) => {
+    const parts = path.replace('/src/gallery/', '').split('/')
+    const file = parts.pop()
+    return {
+      path,
+      src,
+      title: clean(file) || file,
+      tag: parts.length ? parts[0].replace(/[-_]+/g, ' ') : 'Moments',
+    }
+  })
+  .sort((a, b) => collator.compare(a.path, b.path))
 
 export const galleryTags = ['All', ...new Set(gallery.map((g) => g.tag))]
