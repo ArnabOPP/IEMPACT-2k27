@@ -73,6 +73,7 @@ export default function Gallery() {
   const [paused, setPaused] = useState(false)
   const [opened, setOpened] = useState(false) // envelope flap open, photos risen
   const [drag, setDrag] = useState(0)
+  const stripRef = useRef(null)
   const start = useRef(null)
   const moved = useRef(false)
 
@@ -93,6 +94,14 @@ export default function Gallery() {
     const t = setTimeout(() => setOpened(true), 650)
     return () => clearTimeout(t)
   }, [tag])
+
+  // keep the lit thumbnail centred in the filmstrip
+  useEffect(() => {
+    // scroll the strip itself — scrollIntoView would also drag the page
+    const strip = stripRef.current
+    const el = strip?.children[active]
+    if (el) strip.scrollTo({ left: el.offsetLeft - strip.clientWidth / 2 + el.offsetWidth / 2, behavior: 'smooth' })
+  }, [active, tag])
 
   // autoplay — stops while hovered, dragged, or the lightbox is open
   useEffect(() => {
@@ -187,6 +196,7 @@ export default function Gallery() {
               onClick={() => pick(t)}
             >
               {t}
+              <small>{t === 'All' ? gallery.length : gallery.filter((g) => g.tag === t).length}</small>
             </button>
           ))}
         </div>
@@ -272,6 +282,20 @@ export default function Gallery() {
               <i style={{ width: `${((active + 1) / n) * 100}%` }} />
             </span>
             <span>{pad(n)}</span>
+          </div>
+          <div className="gal__strip" ref={stripRef} aria-label="All photos">
+            {shown.map((g, i) => (
+              <button
+                key={g.src}
+                type="button"
+                className={`gal__thumb${i === active ? ' is-on' : ''}`}
+                onClick={() => setActive(i)}
+                aria-label={`Show ${g.title}`}
+                aria-current={i === active || undefined}
+              >
+                <img src={g.src} alt="" loading="lazy" draggable="false" />
+              </button>
+            ))}
           </div>
           <p className="gal__hint">Drag, swipe or use ← → · tap the centre photo to enlarge</p>
         </div>
