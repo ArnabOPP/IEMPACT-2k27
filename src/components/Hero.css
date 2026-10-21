@@ -31,7 +31,7 @@
 .hero__bg--maya {
   background:
     radial-gradient(75% 70% at 50% 45%, rgba(60, 0, 0, 0) 30%, rgba(40, 0, 0, 0.5) 100%),
-    url("/maya-thread.jpg") center 52% / cover no-repeat,
+    url("/maya-thread-hd.jpg") center 52% / cover no-repeat,
     #8f0d08;
 }
 
@@ -42,7 +42,7 @@
    Width-fitted, the photo is 124.96vw tall, so 39% of it is 48.7vw. */
 .hero__bg--iempact {
   background:
-    url("/iempact-canopy.jpg") center min(0px, calc(56svh - 48.7vw)) / 100% auto no-repeat,
+    url("/iempact-canopy-hd.jpg") center min(0px, calc(56svh - 48.7vw)) / 100% auto no-repeat,
     #4a0b08;
 }
 
@@ -57,6 +57,17 @@
 .hero--iempact .hero__bg--maya,
 .hero--maya .hero__bg--iempact {
   opacity: 0;
+}
+
+/* soft vignette so the photo's edges sink and the centre glows */
+.hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 40%, rgba(255, 210, 190, 0.08) 0%, transparent 55%),
+    radial-gradient(130% 100% at 50% 45%, transparent 55%, rgba(20, 0, 2, 0.45) 100%);
+  pointer-events: none;
 }
 
 /* a deep fade at the foot where the buttons sit — the rest stays
