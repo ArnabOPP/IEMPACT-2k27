@@ -3,7 +3,7 @@ import { gallery, galleryTags } from '@/data/gallery'
 import './Gallery.css'
 
 const AUTOPLAY_MS = 4200
-const REACH = 3 // slides shown each side of the centre
+const REACH = 2 // slides shown each side of the centre (they all sit inside the envelope)
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -71,6 +71,7 @@ export default function Gallery() {
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState(null)
   const [paused, setPaused] = useState(false)
+  const [opened, setOpened] = useState(false) // envelope flap open, photos risen
   const [drag, setDrag] = useState(0)
   const start = useRef(null)
   const moved = useRef(false)
@@ -81,9 +82,17 @@ export default function Gallery() {
   const go = useCallback((d) => setActive((i) => (i + d + n) % n), [n])
 
   const pick = (t) => {
+    if (t === tag) return
+    setOpened(false)
     setTag(t)
     setActive(0)
   }
+
+  // the envelope opens on arrival and again whenever the folder (filter) changes
+  useEffect(() => {
+    const t = setTimeout(() => setOpened(true), 650)
+    return () => clearTimeout(t)
+  }, [tag])
 
   // autoplay — stops while hovered, dragged, or the lightbox is open
   useEffect(() => {
@@ -194,7 +203,7 @@ export default function Gallery() {
         <span className="gal__halo" aria-hidden="true" />
 
         <div
-          className={`gal__stage${drag ? ' is-drag' : ''}`}
+          className={`gal__stage${drag ? ' is-drag' : ''}${opened ? ' is-open' : ''}`}
           style={{ '--drag': `${drag}px` }}
           onPointerDown={down}
           onPointerMove={move}
@@ -225,6 +234,24 @@ export default function Gallery() {
               </button>
             )
           })}
+
+          {/* the envelope the photos rise out of */}
+          <div className="gal__env" aria-hidden="true">
+            <span className="gal__envBack" />
+            <span className="gal__flap" />
+            <span className="gal__pocket">
+              <i className="gal__fold gal__fold--l" />
+              <i className="gal__fold gal__fold--r" />
+              <i className="gal__fold gal__fold--b" />
+            </span>
+            <span className="gal__seal">
+              IEMPACT
+              <b>’27</b>
+            </span>
+            <span className="gal__label">
+              {tag === 'All' ? 'The Gallery' : tag} · {pad(n)} photos
+            </span>
+          </div>
         </div>
 
         <button type="button" className="gal__nav gal__nav--prev" onClick={() => go(-1)} aria-label="Previous">
