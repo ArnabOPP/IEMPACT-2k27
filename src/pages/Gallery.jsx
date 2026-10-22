@@ -168,9 +168,9 @@ export default function Gallery() {
       <div className="gal" data-nav="dark">
         <header className="gal__hero">
           <h1 className="gal__title display">
-            Gal<em>lery</em>
+            Past <em>Glimpses</em>
           </h1>
-          <p className="gal__lede">No photos yet — add images to src/gallery and they appear here.</p>
+          <p className="gal__lede">Past glimpses are on their way — check back soon.</p>
         </header>
       </div>
     )
@@ -179,11 +179,11 @@ export default function Gallery() {
   return (
     <div className="gal" data-nav="dark">
       <header className="gal__hero">
-        <p className="eyebrow">IEMPACT 2027 · মায়া</p>
+        <p className="eyebrow">The previous edition · Day 1 &amp; Day 2</p>
         <h1 className="gal__title display">
-          Gal<em>lery</em>
+          Past <em>Glimpses</em>
         </h1>
-        <p className="gal__lede">Moments, artwork and posters from the festival of illusions.</p>
+        <p className="gal__lede">A look back at the stages, the crowds and the colours of IEMPACT’s last edition.</p>
 
         <div className="gal__tags" role="tablist" aria-label="Filter gallery">
           {galleryTags.map((t) => (
@@ -206,7 +206,7 @@ export default function Gallery() {
       <section
         className="gal__show"
         aria-roledescription="carousel"
-        aria-label="Gallery"
+        aria-label="Past glimpses"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => !start.current && setPaused(false)}
       >
@@ -259,7 +259,7 @@ export default function Gallery() {
               <b>’27</b>
             </span>
             <span className="gal__label">
-              {tag === 'All' ? 'The Gallery' : tag} · {pad(n)} photos
+              {tag === 'All' ? 'Past Glimpses' : tag} · {pad(n)} photos
             </span>
           </div>
         </div>
