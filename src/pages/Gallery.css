@@ -3,6 +3,16 @@
    full-screen lightbox
 ===================================================== */
 
+/* The page ends in #1a0202. The footer starts in that same colour and eases
+   into its maroon, with no clouds (they are for pages that end in ivory). */
+body:has(.gal) .footer {
+  --ft-a: #1a0202;
+  --ft-b: #1d0203;
+  --ft-c: #240304;
+  --ft-d: #2c0506;
+  padding-top: clamp(56px, 7vw, 96px);
+}
+
 .gal {
   --moon-hi: #ffe9c9;
   --line: rgba(255, 255, 255, 0.18);
@@ -109,8 +119,13 @@
   /* photos start --lift below their place, hidden inside the envelope */
   --lift: calc(var(--w) * 0.9);
 
+  /* how far the photos sit lower inside the envelope (0 = top of the stage) */
+  --drop: calc(var(--w) * 0.14);
+
   position: relative;
-  height: calc(var(--w) * 1.68);
+  /* the envelope starts at 0.84w and is 1.24w tall: 2.08w, so it sits inside
+     the stage and what follows is pushed down (was 1.68w) */
+  height: calc(var(--w) * 2.08);
   perspective: 1400px;
   touch-action: pan-y;
   cursor: grab;
@@ -141,7 +156,7 @@
   cursor: inherit;
 
   transform:
-    translateY(var(--lift))
+    translateY(calc(var(--lift) + var(--drop)))
     translateX(calc(var(--o) * var(--w) * 0.5 + var(--drag, 0px) * 0.4))
     translateZ(calc(var(--a) * -150px))
     rotateY(calc(var(--o) * -34deg))
@@ -214,7 +229,7 @@
 
 .gal__env {
   --ew: min(calc(var(--w) * 3.1), 100vw);
-  --ph: calc(var(--w) * 0.84); /* pocket height */
+  --ph: calc(var(--w) * 1.24); /* pocket height: the envelope's length, now taller (was 0.84 × a photo's width) */
   --top: calc(var(--w) * 0.84); /* where the pocket's top edge falls */
 
   position: absolute;
@@ -623,7 +638,7 @@
 
   .gal__slide {
     transform:
-      translateY(var(--lift))
+      translateY(calc(var(--lift) + var(--drop)))
       translateX(calc(var(--o) * var(--w) * 0.62 + var(--drag, 0px) * 0.4))
       translateZ(calc(var(--a) * -120px))
       rotateY(calc(var(--o) * -28deg))

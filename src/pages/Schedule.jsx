@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { events } from '@/data/events'
-import { days } from '@/data/schedule'
+import { announced, days } from '@/data/schedule'
 import './Schedule.css'
 
 const byNo = Object.fromEntries(events.map((e) => [e.no, e]))
@@ -186,13 +186,17 @@ export default function Schedule() {
             <button key={d.id} type="button" className="sch__dayChip" onClick={() => jumpTo(d.id)}>
               <strong>{d.label}</strong>
               <span>
-                {d.slots.length} events · {d.date}
+                {announced ? `${d.slots.length} events` : 'To Be Announced'} · {d.date}
               </span>
             </button>
           ))}
         </div>
 
-        <p className="sch__note">Timings are indicative and will be confirmed closer to the fest.</p>
+        <p className="sch__note">
+          {announced
+            ? 'Timings are indicative and will be confirmed closer to the fest.'
+            : 'The full schedule will be announced soon.'}
+        </p>
       </header>
 
       {/* ================= TIMELINE ================= */}
@@ -229,7 +233,22 @@ export default function Schedule() {
               </div>
 
               <ol className="sch__slots">
-                {d.slots.map((s) => {
+                {/* not announced yet: one entry per day, in the same design */}
+                {!announced && (
+                  <li className={`sch__slot sch__slot--${di % 2 ? 'right' : 'left'}`}>
+                    <span className="sch__bead" data-node="bead" aria-hidden="true" />
+                    <div className="sch__entry">
+                      <time className="sch__time">TBA</time>
+                      <div className="sch__info">
+                        <p className="sch__cat">Schedule</p>
+                        <h3 className="sch__name">To Be Announced</h3>
+                        <p className="sch__tag">The line-up and timings for this day will be shared soon.</p>
+                      </div>
+                    </div>
+                  </li>
+                )}
+
+                {announced && d.slots.map((s) => {
                   const ev = byNo[s.no]
                   if (!ev) return null
                   const side = n++ % 2 ? 'right' : 'left'

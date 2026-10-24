@@ -1,6 +1,5 @@
 /* =====================================================
-   FOOTER — the paper above dissolves into maroon night,
-   a kumkum sun glows behind see-through glass
+   FOOTER — the paper above dissolves into maroon night
 ===================================================== */
 
 .footer {
@@ -8,6 +7,7 @@
   overflow: hidden;
   /* content starts below the blend, where the ground is dark
      enough for white type */
+  /* the top 230px is the cloud bank's, so the words begin below it */
   padding: 230px clamp(16px, 4vw, 56px) 0;
   color: #fff;
   /* starts in the colour of the section above, so the two merge;
@@ -17,29 +17,86 @@
     var(--ft-a, var(--ivory)) 0px,
     var(--ft-b, #e3cfc4) 50px,
     var(--ft-c, #8a2a20) 140px,
-    #4a0a08 210px,
+    var(--ft-d, #4a0a08) 210px,
     #1f0404 520px,
     #140202 100%
   );
-}
-
-.footer__sun {
-  position: absolute;
-  top: 300px;
-  right: -10vw;
-  width: min(720px, 80vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #ff4a3a 0%, #c8150f 45%, rgba(120, 8, 6, 0) 70%);
-  filter: blur(30px);
-  opacity: 0.55;
-  pointer-events: none;
 }
 
 .footer__inner {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+
+/* =====================================================
+   CLOUDS — the joint with the section above
+   Cut-out clouds drift over the top of the footer. Their tops are
+   masked away, so over the ivory they vanish; over the maroon they
+   read as a milky bank with a ragged underside. They sit behind the
+   footer's content.
+===================================================== */
+
+.footer__clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 560px; /* tall enough that the mask below never crops a cloud */
+  z-index: 0;
+  pointer-events: none;
+  /* the top rows now start above the footer's edge (it crops them): fade the
+     first 70px so that cut is invisible against the ivory */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 64px);
+  mask-image: linear-gradient(180deg, transparent 0, #000 64px);
+}
+
+.footer__cloud {
+  position: absolute;
+  left: var(--l);
+  top: var(--t);
+  width: clamp(240px, var(--w), 780px);
+  max-width: none;
+  height: auto;
+  opacity: var(--o, 1);
+  /* the cut-outs are a cool grey-white; the section above is warm ivory, and
+     the difference showed as a pale band with a straight top. Warm them to match. */
+  filter: sepia(0.32) brightness(1.04);
+  transform: translateX(-50%) scaleX(var(--flip, 1));
+  /* the source's top edge is not fully transparent: feather it out */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+  animation: footer-cloud var(--dur, 50s) ease-in-out var(--delay, 0s) infinite alternate;
+  user-select: none;
+}
+
+/* a very slow drift: the bank breathes, it never rushes */
+@keyframes footer-cloud {
+  from { translate: -2.5% 0; }
+  to { translate: 2.5% 3%; }
+}
+
+/* the footer's content sits above the clouds */
+.footer__inner { z-index: 1; }
+
+/* pages whose footer starts in night rather than ivory (Contact, Events)
+   have nothing pale above them: no clouds there */
+body:has(.ct) .footer__clouds,
+body:has(.evp) .footer__clouds,
+body:has(.gal) .footer__clouds {
+  display: none;
+}
+
+/* On a phone the clouds are less than half the height (their width has a
+   240px floor), so the same pixel offsets would push the bank off the top of
+   the footer: bring it back down */
+@media (max-width: 700px) {
+  .footer__clouds { top: 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__cloud { animation: none; }
 }
 
 

@@ -1,11 +1,12 @@
 import { useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { days } from '@/data/schedule'
+import { announced, days } from '@/data/schedule'
 import { events, segments } from '@/data/events'
 import NotFound from '@/pages/NotFound'
 import './EventDetail.css'
 
 const slotOf = (no) => {
+  if (!announced) return null // no official timings yet: show TBA
   for (const d of days) {
     const s = d.slots.find((x) => x.no === no)
     if (s) return { day: d.label, date: d.date, time: s.time }

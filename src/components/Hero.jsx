@@ -18,11 +18,8 @@ function Arrow() {
 
 // The scene swap is driven by scroll, not a timer: the page writes its progress
 // into --p, Hero.css turns that into --s (0 = IEMPACT, 1 = Maya) and scrubs the
-// circle reveal and the logos with it. `showMaya` only flips the text colours,
-// and `onPick` scrolls to the end of either scene.
-export default function Hero({ showMaya = false, onPick = () => {} }) {
-  const pick = onPick
-
+// circle reveal and the logos with it. `showMaya` only flips the text colours.
+export default function Hero({ showMaya = false }) {
   return (
     <section
       className={`hero ${showMaya ? 'hero--maya' : 'hero--iempact'}`}
@@ -82,30 +79,6 @@ export default function Hero({ showMaya = false, onPick = () => {} }) {
                 <Arrow />
               </span>
             </Link>
-          </div>
-
-          {/* LOGO SWITCHER — shows which mark is up; each bar fills with the
-              scroll, and a click scrolls to that scene */}
-          <div className="hero__switch" role="group" aria-label="Show logo">
-            <button
-              type="button"
-              className={`hero__tab ${!showMaya ? 'is-on' : ''}`}
-              aria-pressed={!showMaya}
-              onClick={() => pick(false)}
-            >
-              IEMPACT
-              <span className="hero__bar hero__bar--iempact" />
-            </button>
-            <button
-              type="button"
-              className={`hero__tab hero__tab--maya ${showMaya ? 'is-on' : ''}`}
-              aria-pressed={showMaya}
-              onClick={() => pick(true)}
-              lang="bn"
-            >
-              মায়া
-              <span className="hero__bar hero__bar--maya" />
-            </button>
           </div>
         </div>
       </div>

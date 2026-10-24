@@ -48,6 +48,25 @@ const socials = [
   },
 ]
 
+// Three loose rows of clouds. `left` is each cloud's centre, `top` its top edge
+// in px below the footer's top, `width` in vw; the grey ones carry the body of
+// the bank, the cream ones warm it. Fainter, lower rows feather into the maroon.
+const clouds = [
+  // upper row — heavy, grey, closes the join with the ivory above
+  { src: '/cloud-grey.png', left: '12%', top: -150, width: 46, flip: false, o: 0.95, dur: 48, delay: 0 },
+  { src: '/cloud-grey.png', left: '50%', top: -140, width: 54, flip: true, o: 0.95, dur: 56, delay: -12 },
+  { src: '/cloud-grey.png', left: '88%', top: -130, width: 46, flip: false, o: 0.95, dur: 52, delay: -24 },
+  // middle row — overlapping, grey and cream mixed
+  { src: '/cloud-cream.png', left: '0%', top: -150, width: 42, flip: false, o: 0.95, dur: 44, delay: -6 },
+  { src: '/cloud-grey.png', left: '30%', top: -155, width: 44, flip: true, o: 0.9, dur: 50, delay: -18 },
+  { src: '/cloud-grey.png', left: '66%', top: -120, width: 46, flip: false, o: 0.9, dur: 58, delay: -30 },
+  { src: '/cloud-cream.png', left: '100%', top: -110, width: 42, flip: true, o: 0.95, dur: 46, delay: -9 },
+  // lower fringe — fainter, the ragged underside over the maroon
+  { src: '/cloud-cream.png', left: '16%', top: -90, width: 40, flip: false, o: 0.8, dur: 54, delay: -15 },
+  { src: '/cloud-grey.png', left: '50%', top: -55, width: 40, flip: true, o: 0.6, dur: 60, delay: -33 },
+  { src: '/cloud-cream.png', left: '84%', top: -50, width: 40, flip: true, o: 0.8, dur: 49, delay: -21 },
+]
+
 function Arrow({ up }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" style={up ? { transform: 'rotate(-90deg)' } : undefined}>
@@ -59,7 +78,28 @@ function Arrow({ up }) {
 export default function Footer() {
   return (
     <footer className="footer" data-nav="dark">
-      <span className="footer__sun" aria-hidden="true" />
+      {/* CLOUDS — a bank of cloud cut-outs over the joint with the section
+          above: ivory at the top, thickening into the maroon night */}
+      <div className="footer__clouds" aria-hidden="true">
+        {clouds.map(({ src, left, top, width, flip, o, dur, delay }, i) => (
+          <img
+            key={i}
+            src={src}
+            alt=""
+            className="footer__cloud"
+            draggable="false"
+            style={{
+              '--l': left,
+              '--t': `${top}px`,
+              '--w': `${width}vw`,
+              '--flip': flip ? -1 : 1,
+              '--o': o,
+              '--dur': `${dur}s`,
+              '--delay': `${delay}s`,
+            }}
+          />
+        ))}
+      </div>
 
       <div className="footer__inner">
         {/* CLOSING CALL TO ACTION */}

@@ -1,6 +1,14 @@
-// ⚠ PLACEHOLDER SCHEDULE — the dates and times below are illustrative only.
-// Replace them with the official timings. `no` refers to an event's number
-// in events.js; the page pulls name, category and poster from there.
+// The schedule is not out yet. While `announced` is false, the Schedule page
+// shows "To Be Announced" under each day (the two dates and the design stay),
+// and event pages show TBA for day and time.
+//
+// When the official timings are ready: replace the slots below, then set
+// `announced` to true.
+export const announced = false
+
+// ⚠ PLACEHOLDER SLOTS — the times below are illustrative only and are hidden
+// while `announced` is false. `no` refers to an event's number in events.js;
+// the page pulls name, category and poster from there.
 export const days = [
   {
     id: 'day-1',

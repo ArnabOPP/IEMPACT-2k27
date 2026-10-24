@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { gallery, galleryTags } from '@/data/gallery'
 import './Gallery.css'
 
-const AUTOPLAY_MS = 4200
+const AUTOPLAY_MS = 3500 // how long each photo stays in the centre
 const REACH = 2 // slides shown each side of the centre (they all sit inside the envelope)
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -103,13 +103,15 @@ export default function Gallery() {
     if (el) strip.scrollTo({ left: el.offsetLeft - strip.clientWidth / 2 + el.offsetWidth / 2, behavior: 'smooth' })
   }, [active, tag])
 
-  // autoplay — stops while hovered, dragged, or the lightbox is open
+  // autoplay — advances every AUTOPLAY_MS, only holding while a photo is being
+  // dragged or the lightbox is open. Hovering no longer stops it. Depending on
+  // `active` restarts the countdown after any manual change (arrow, thumbnail).
   useEffect(() => {
-    if (paused || open !== null) return
+    if (paused || open !== null || !opened) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const t = setInterval(() => go(1), AUTOPLAY_MS)
-    return () => clearInterval(t)
-  }, [paused, open, go])
+    const t = setTimeout(() => go(1), AUTOPLAY_MS)
+    return () => clearTimeout(t)
+  }, [paused, open, opened, active, go])
 
   // arrow keys steer the carousel when the lightbox is closed
   useEffect(() => {
@@ -207,8 +209,6 @@ export default function Gallery() {
         className="gal__show"
         aria-roledescription="carousel"
         aria-label="Past glimpses"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => !start.current && setPaused(false)}
       >
         <span className="gal__halo" aria-hidden="true" />
 
