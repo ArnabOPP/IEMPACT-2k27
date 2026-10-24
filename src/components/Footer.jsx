@@ -64,6 +64,39 @@ export default function Footer() {
       <div className="footer__inner">
         {/* CLOSING CALL TO ACTION */}
         <section className="footer__cta" aria-label="Register">
+          {/* decoration, left: a giant outlined মায়া and the red thread tied in a knot */}
+          <span className="footer__deco" aria-hidden="true">
+            <span className="footer__maya">মায়া</span>
+            <svg className="footer__thread" viewBox="0 0 640 320" preserveAspectRatio="xMinYMid meet">
+              <defs>
+                <linearGradient id="footer-thread" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#ff4a3a" stopOpacity="0" />
+                  <stop offset="0.25" stopColor="#ff4a3a" />
+                  <stop offset="1" stopColor="#ffb4a8" />
+                </linearGradient>
+              </defs>
+              <path
+                className="footer__threadLine"
+                d="M-10 40 C 110 20, 170 250, 300 215 S 430 70, 520 168 S 600 250, 610 160"
+                fill="none"
+                stroke="url(#footer-thread)"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+              />
+              <path
+                className="footer__threadFlow"
+                d="M-10 40 C 110 20, 170 250, 300 215 S 430 70, 520 168 S 600 250, 610 160"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                pathLength="100"
+              />
+              <circle className="footer__knotHalo" cx="610" cy="160" r="22" />
+              <circle className="footer__knot" cx="610" cy="160" r="8" />
+            </svg>
+          </span>
+
           <p className="eyebrow">IEMPACT 2027 · মায়া</p>
           <h2 className="footer__headline display">
             Be part of the string <em>that binds us all.</em>

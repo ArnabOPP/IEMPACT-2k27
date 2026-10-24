@@ -1,0 +1,402 @@
+/* =====================================================
+   CONTACT — "Hold the thread"
+   The red thread of fate (the Maya artwork) as a crimson ground,
+   smoked glass panes, and one thread knotted through the team.
+===================================================== */
+
+.ct {
+  --thread: #ff4a3a;
+  --blush: #ffd0c4;
+  /* how far the team column sits below the heading's line */
+  --team-drop: clamp(88px, 12vw, 170px);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: clamp(104px, 14svh, 136px) clamp(20px, 6vw, 96px) calc(clamp(24px, 3svh, 36px) + var(--team-drop));
+  color: #fff;
+  background: #1a0003;
+}
+
+
+/* ---------- ground ---------- */
+
+.ct__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  /* the light ink-and-paper drawing is multiplied into crimson, so the
+     paper turns deep red and the ink and thread stay dark on it; a hair
+     of blur hides how small the source image is */
+  background-image: url("/The%20Sacred%20Crimson%20Cord_%20Unveiling%20the%20Spiritual%20Power%20of%20the%20Red%20String.jpeg");
+  background-color: #d9aca3;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  filter: blur(0.8px) contrast(1.15) brightness(1.1) saturate(0.75);
+  transform: scale(1.04);
+  animation: ct-breathe 18s ease-in-out infinite alternate;
+}
+
+/* a deep fade from the left keeps the type readable; the thread
+   glows through on the right */
+.ct__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(20, 0, 3, 0.62) 0%, rgba(30, 0, 4, 0.32) 48%, rgba(30, 0, 4, 0.08) 100%),
+    radial-gradient(130% 100% at 50% 45%, transparent 60%, rgba(14, 0, 2, 0.5) 100%),
+    /* top: sink under the navbar. bottom: dissolve fully into the footer's
+       first colour (--ft-a below) so there is no seam between the two */
+    linear-gradient(
+      180deg,
+      rgba(14, 0, 2, 0.5) 0%,
+      transparent 24%,
+      transparent 52%,
+      rgba(20, 2, 3, 0.55) 72%,
+      rgba(20, 2, 3, 0.9) 88%,
+      #140203 100%
+    );
+  pointer-events: none;
+}
+
+@keyframes ct-breathe {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to { transform: scale(1.1) translate3d(-1.2%, -1%, 0); }
+}
+
+
+/* ---------- layout ---------- */
+
+.ct__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ct__intro > *,
+.ct__cards li {
+  animation: ct-rise 0.9s var(--ease-out) both;
+}
+
+.ct__intro > :nth-child(1) { animation-delay: 0.1s; }
+.ct__intro > :nth-child(2) { animation-delay: 0.2s; }
+.ct__intro > :nth-child(3) { animation-delay: 0.3s; }
+.ct__intro > :nth-child(4) { animation-delay: 0.45s; }
+.ct__cards li { animation-delay: calc(var(--i, 0) * 90ms + 0.4s); }
+
+@keyframes ct-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+
+/* ---------- intro ---------- */
+
+.ct__intro .eyebrow { color: var(--gold-hi); }
+
+.ct__title {
+  margin-top: 18px;
+  font-size: clamp(56px, 8.4vw, 124px);
+  line-height: 0.92;
+  color: #fff;
+}
+
+.ct__title em { color: #ffb4a8; }
+
+.ct__lead {
+  max-width: 440px;
+  margin: 22px 0 clamp(26px, 4vw, 40px);
+  color: rgba(255, 232, 226, 0.82);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+/* ---------- email ---------- */
+
+.ct__mail {
+  --glass-r: 30px;
+  --glass-blur: 22px;
+  --glass-fill: rgba(30, 4, 6, 0.5);
+
+  max-width: 540px;
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.ct__label {
+  margin: 0 0 8px;
+  color: var(--gold-hi);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.ct__email {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: clamp(22px, 2.5vw, 33px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #fff;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.5s var(--ease-out), color 0.3s;
+}
+
+.ct__email:hover { color: var(--blush); background-size: 100% 1px; }
+
+.ct__mailActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.ct__copy { color: #fff; }
+
+
+/* ---------- the team on a thread ---------- */
+
+.ct__team {
+  /* names scale with the column so each one always fits on a single line */
+  container-type: inline-size;
+
+  position: relative;
+  display: grid;
+  gap: clamp(18px, 2.4vw, 26px);
+  /* sits a little lower than the heading; the section's bottom padding
+     already makes room for this */
+  top: var(--team-drop);
+}
+
+/* the thread itself: one glowing line the knots sit on */
+.ct__team::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -40px;
+  bottom: -40px;
+  left: 48px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--thread) 8%,
+    #ff8a78 50%,
+    var(--thread) 92%,
+    transparent 100%
+  );
+  box-shadow: 0 0 14px rgba(255, 74, 58, 0.8);
+}
+
+.ct__tier { position: relative; z-index: 1; }
+
+/* the tier label: a knot on the thread, then the role in gold */
+.ct__role {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 12px 43px;
+  color: var(--gold-hi);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.ct__dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  margin-left: -1px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--sindoor), 0 0 14px 2px rgba(255, 74, 58, 0.9);
+}
+
+.ct__role::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 220, 200, 0.4), transparent);
+}
+
+.ct__cards {
+  display: grid;
+  gap: clamp(10px, 1.4vw, 14px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ct__tier--tech .ct__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.ct__cards li { position: relative; z-index: 1; }
+
+.ct__card {
+  --glass-r: 28px;
+  --glass-blur: 20px;
+  --glass-fill: rgba(30, 4, 6, 0.46);
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  padding: 18px 20px;
+  transition: transform 0.6s var(--ease-liquid), box-shadow 0.4s ease;
+}
+
+.ct__card:hover { transform: translateX(8px); }
+
+/* the knot: a pale orb, like the buttons' */
+.ct__mono {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  color: var(--maroon);
+  font-family: var(--font-display);
+  font-size: 23px;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: radial-gradient(circle at 32% 28%, #fff 0%, #fbeee6 55%, #ecd4c6 100%);
+  box-shadow:
+    0 0 0 4px rgba(215, 38, 30, 0.55),
+    inset 0 -4px 8px rgba(90, 11, 11, 0.16),
+    0 8px 20px -6px rgba(0, 0, 0, 0.55);
+  transition: transform 0.7s var(--ease-liquid);
+}
+
+.ct__card:hover .ct__mono { transform: rotate(-10deg) scale(1.06); }
+
+.ct__who { min-width: 0; }
+
+.ct__name {
+  margin: 0;
+  white-space: nowrap; /* one line, always */
+  font-family: var(--font-display);
+  font-size: clamp(15px, 4.2cqw, 25px);
+  font-weight: 600;
+  line-height: 1.06;
+  color: #fff;
+}
+
+.ct__phone {
+  display: inline-block;
+  white-space: nowrap;
+  margin-top: 5px;
+  color: var(--blush);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s;
+}
+
+.ct__phone:hover { color: #fff; }
+
+.ct__call {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 55%),
+    var(--sindoor);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.65),
+    inset 0 -5px 10px -5px rgba(90, 11, 11, 0.6),
+    0 10px 22px -10px rgba(215, 38, 30, 0.9);
+  transition: transform 0.5s var(--ease-liquid);
+}
+
+.ct__call svg { width: 19px; height: 19px; }
+.ct__call:hover { transform: scale(1.12) rotate(-12deg); }
+.ct__call:active { transform: scale(0.95); }
+
+/* the Faculty Head leads: a larger card
+   (left padding keeps each knot's centre on the thread, 48px in) */
+.ct__tier--head .ct__card { padding: 22px 22px 22px 16px; gap: 18px; }
+.ct__tier--head .ct__mono { width: 64px; height: 64px; font-size: 26px; }
+.ct__tier--head .ct__name { font-size: clamp(16px, 4.7cqw, 28px); }
+
+/* the Technical Team sits two to a row, so its cards are lighter */
+.ct__tier--tech .ct__card { gap: 12px; padding: 14px 14px 14px 26px; }
+.ct__tier--tech .ct__mono { width: 44px; height: 44px; font-size: 18px; box-shadow: 0 0 0 3px rgba(215, 38, 30, 0.55), inset 0 -3px 6px rgba(90, 11, 11, 0.16), 0 6px 14px -6px rgba(0, 0, 0, 0.55); }
+.ct__tier--tech .ct__name { font-size: clamp(13px, 3cqw, 21px); }
+.ct__tier--tech .ct__phone { font-size: 13px; margin-top: 3px; }
+.ct__tier--tech .ct__card:hover { transform: translateY(-4px); }
+
+/* when the column is too narrow for two names across, the Technical Team
+   stacks one per row so every name still fits on a single line */
+@container (max-width: 510px) {
+  .ct__tier--tech .ct__cards { grid-template-columns: minmax(0, 1fr); }
+  .ct__tier--tech .ct__name { font-size: clamp(17px, 4.4cqw, 21px); }
+  .ct__tier--tech .ct__card:hover { transform: translateX(8px); }
+}
+
+
+/* ---------- footer: begins in this page's night ---------- */
+
+body:has(.ct) .footer {
+  --ft-a: #140203;
+  --ft-b: #1a0304;
+  --ft-c: #220405;
+  /* the section above is already dark, so the footer needs far less
+     run-up than the default 230px blend zone */
+  padding-top: clamp(32px, 4vw, 52px);
+}
+
+
+/* ---------- tablet + phone ---------- */
+
+@media (max-width: 900px) {
+  .ct { --team-drop: 0px; align-items: flex-start; }
+
+  .ct__inner { grid-template-columns: 1fr; gap: 48px; }
+
+  .ct__shade {
+    background:
+      linear-gradient(180deg, rgba(20, 0, 3, 0.5) 0%, rgba(30, 0, 4, 0.28) 50%, rgba(20, 2, 3, 0.8) 85%, #140203 100%),
+      radial-gradient(130% 100% at 50% 45%, transparent 55%, rgba(14, 0, 2, 0.5) 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .ct__card { gap: 12px; padding: 16px 16px 16px 18px; }
+  .ct__mono { width: 52px; height: 52px; font-size: 21px; }
+  .ct__tier--head .ct__card { padding-left: 15px; }
+  .ct__tier--head .ct__mono { width: 58px; height: 58px; }
+  .ct__tier--tech .ct__card { padding-left: 22px; }
+  .ct__tier--tech .ct__cards { grid-template-columns: minmax(0, 1fr); }
+  .ct__team::before { left: 44px; }
+  .ct__role { margin-left: 39px; }
+  /* on a phone the card is too narrow for the longest names: let them wrap */
+  .ct__name { white-space: normal; }
+  .ct__tier--head .ct__name, .ct__tier--tech .ct__name { font-size: 19px; }
+  .ct__mailActions .lbtn { flex: 1 1 100%; justify-content: space-between; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct__bg { animation: none; }
+  .ct__intro > *, .ct__cards li { animation: none; }
+  .ct__card, .ct__mono, .ct__call { transition: none; }
+}

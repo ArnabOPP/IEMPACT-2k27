@@ -47,12 +47,91 @@
    CTA
 ===================================================== */
 
+/* right-aligned: the words sit on the right, the thread and a giant
+   outlined মায়া fill the left and lead the eye across to them */
 .footer__cta {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
+  justify-content: center;
   gap: 18px;
+  min-height: clamp(280px, 30vw, 400px);
   margin-bottom: clamp(48px, 7vw, 88px);
+  text-align: right;
+}
+
+.footer__cta > :not(.footer__deco) { position: relative; z-index: 1; }
+
+.footer__deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.footer__maya {
+  position: absolute;
+  left: -1%;
+  top: 50%;
+  transform: translateY(-52%);
+  font-family: "Noto Serif Bengali", var(--font-display), serif;
+  font-size: clamp(120px, 21vw, 300px);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 190, 175, 0.3);
+  background: linear-gradient(180deg, rgba(255, 90, 70, 0.28), rgba(255, 90, 70, 0.02));
+  -webkit-background-clip: text;
+  background-clip: text;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.footer__thread {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(46%, 560px);
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(255, 74, 58, 0.75));
+}
+
+/* a light travels along the thread toward the knot */
+.footer__threadFlow {
+  stroke-dasharray: 6 94;
+  stroke-dashoffset: 0;
+  opacity: 0.85;
+  animation: footer-flow 5s linear infinite;
+}
+
+.footer__knot {
+  fill: #fff;
+  stroke: var(--sindoor);
+  stroke-width: 3;
+}
+
+.footer__knotHalo {
+  fill: rgba(255, 74, 58, 0.25);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: footer-knot 2.6s ease-in-out infinite;
+}
+
+@keyframes footer-flow {
+  from { stroke-dashoffset: 6; }
+  to { stroke-dashoffset: -94; }
+}
+
+@keyframes footer-knot {
+  0%, 100% { transform: scale(0.7); opacity: 0.9; }
+  50% { transform: scale(1.35); opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__threadFlow, .footer__knotHalo { animation: none; }
 }
 
 .footer__cta .eyebrow {
@@ -67,12 +146,16 @@
 
 .footer__headline em {
   color: #ffb4a8;
+  /* the thread underlines what binds us */
+  padding-bottom: 0.06em;
+  background: linear-gradient(90deg, rgba(255, 74, 58, 0), #ff4a3a 35%, #ffb4a8) 0 100% / 100% 2px no-repeat;
 }
 
 .footer__ctaActions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 18px 28px;
   margin-top: 10px;
 }
@@ -212,6 +295,10 @@
   -webkit-background-clip: text;
   background-clip: text;
   user-select: none;
+  /* the letters are taller than this box: crop them exactly at its bottom
+     edge (the hairline of the base bar) so nothing shows below the line;
+     the other three sides stay open so the tops and sides are not cut */
+  clip-path: inset(-0.5em -0.2em 0 -0.2em);
 }
 
 
@@ -266,6 +353,10 @@
 ===================================================== */
 
 @media (max-width: 900px) {
+  /* narrow: the artwork sits behind the right-aligned words, quieter */
+  .footer__maya { opacity: 0.55; }
+  .footer__thread { width: 90%; opacity: 0.5; }
+
   .footer__grid {
     grid-template-columns: 1fr 1fr;
   }
