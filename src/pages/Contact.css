@@ -211,10 +211,12 @@
   gap: 14px;
   margin: 0 0 12px 43px;
   color: var(--gold-hi);
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
+  /* Oswald Bold — the heavy condensed face the site uses for its big captions
+     (Inter only ships up to 600 here, which barely reads as bold) */
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 

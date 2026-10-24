@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react'
+import { FRAME_COUNT, frameSrc } from '@/data/aboutFrames'
 import { events } from '@/data/events'
 import './AboutSection.css'
-
-// Frames extracted from the source clip (every 2nd frame, 600×750 WebP).
-const FRAME_COUNT = 137
-const frameSrc = (i) => `/about-frames/f${String(i).padStart(3, '0')}.webp`
 
 const stats = [
   { big: <>36<sup>th</sup></>, small: 'Edition' },

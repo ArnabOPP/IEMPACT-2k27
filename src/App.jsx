@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Curtain from '@/components/Curtain'
 import Layout from '@/components/Layout'
@@ -10,9 +10,13 @@ import Gallery from '@/pages/Gallery'
 import Home from '@/pages/Home'
 import NotFound from '@/pages/NotFound'
 import Schedule from '@/pages/Schedule'
+import { waitForPageAssets } from '@/utils/pageAssets'
 
-const HOLD_MS = 2500 // intro hold before first open
 const SPLIT_MS = 1200 // matches the CSS transition duration
+// The curtain never flashes open: it holds at least this long even when every
+// asset is already cached. The first visit holds longer, as a proper intro.
+const FIRST_MIN_MS = 1500
+const NEXT_MIN_MS = 250
 
 // On Home the curtain stops on the hero's own artwork; elsewhere it slides away
 const openStateFor = (pathname) => (pathname === '/' ? 'settled' : 'away')
@@ -21,41 +25,45 @@ export default function App() {
   const location = useLocation()
   const [displayLocation, setDisplayLocation] = useState(location)
   const [curtain, setCurtain] = useState('closed')
-  const [booted, setBooted] = useState(false)
-  const [firstPath] = useState(location.pathname)
+  const [progress, setProgress] = useState(0)
+  const booted = useRef(false)
 
-  // Intro: curtain starts closed, opens after a hold (or on click)
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setCurtain(openStateFor(firstPath))
-      setBooted(true)
-    }, HOLD_MS)
-    return () => clearTimeout(t)
-  }, [firstPath])
-
-  // Page change: close curtain, swap page while covered, open again
+  // Page change: close the curtain, swap the page while it is shut
   useEffect(() => {
     if (location.pathname === displayLocation.pathname) return
     setCurtain('closed')
+    setProgress(0)
     const t = setTimeout(() => {
       setDisplayLocation(location)
       window.scrollTo(0, 0)
-      setCurtain(openStateFor(location.pathname))
-      setBooted(true)
     }, SPLIT_MS)
     return () => clearTimeout(t)
   }, [location, displayLocation.pathname])
 
-  const skipIntro = () => {
-    if (!booted) {
+  // The curtain is the loader. Whenever a page has been put on screen (the
+  // first visit, and after every swap above) it stays shut until every asset
+  // that page needs has arrived, then opens.
+  useEffect(() => {
+    let cancelled = false
+    const minHold = new Promise((resolve) =>
+      setTimeout(resolve, booted.current ? NEXT_MIN_MS : FIRST_MIN_MS),
+    )
+    Promise.all([
+      waitForPageAssets(displayLocation.pathname, setProgress, () => cancelled),
+      minHold,
+    ]).then(() => {
+      if (cancelled) return
+      booted.current = true
       setCurtain(openStateFor(displayLocation.pathname))
-      setBooted(true)
+    })
+    return () => {
+      cancelled = true
     }
-  }
+  }, [displayLocation])
 
   return (
     <>
-      <Curtain state={curtain} onClick={skipIntro} />
+      <Curtain state={curtain} progress={progress} />
       <Routes location={displayLocation}>
         <Route element={<Layout />}>
           <Route index element={<Home />} />

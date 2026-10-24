@@ -204,3 +204,72 @@
     width: min(55vw, 300px);
   }
 }
+
+
+/* =====================================================
+   LOADER — percentage and a thin bar at the foot of the
+   closed curtain; gone once the curtain starts to open
+===================================================== */
+
+.intro__loader {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  bottom: clamp(28px, 7svh, 72px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  transform: translateX(-50%);
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(20, 0, 3, 0.85);
+  pointer-events: none;
+
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+
+.intro--settled .intro__loader,
+.intro--away .intro__loader {
+  opacity: 0;
+}
+
+.intro__loaderLabel {
+  font-family: var(--font-body, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  text-indent: 0.34em;
+}
+
+.intro__loaderLabel b {
+  display: inline-block;
+  min-width: 3.4ch;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-hi, #e6c98a);
+}
+
+.intro__loaderBar {
+  position: relative;
+  display: block;
+  width: clamp(140px, 22vw, 240px);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.intro__loaderBar i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff4a3a, #ffd0c4);
+  box-shadow: 0 0 10px rgba(255, 90, 70, 0.9);
+  transform-origin: left;
+  transition: transform 0.25s ease-out;
+}

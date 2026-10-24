@@ -3,9 +3,15 @@
    Hero + Maya strips are both pinned
 ===================================================== */
 
+/* One scroll-driven track, --p = 0..1 written onto it by Home.jsx:
+     0 → 0.47   the hero turns from IEMPACT to Maya in four steps (Hero.css)
+     0.47 → 1   the four strips slide in (below, --t)
+   786svh − 100svh = 686svh of scroll: about 322svh for the hero's turn
+   (including two pauses of about 58svh: Maya in the small circle, and
+   Maya filling the screen) and about 91svh for each strip. */
 .reveal {
   position: relative;
-  height: 420svh;
+  height: 786svh;
 }
 
 
@@ -28,8 +34,7 @@
 ===================================================== */
 
 .maya {
-  --p: 0;
-
+  /* --p is inherited from .reveal */
   position: sticky;
   top: 0;
 
@@ -58,10 +63,11 @@
 }
 
 .maya__strip {
-  /* Each strip owns a quarter of the scroll progress */
+  /* The strips use the last 53% of the track (after the hero's turn), and
+     each strip owns a quarter of it: (p − 0.47) / 0.53 × 4 ≈ (p − 0.47) × 7.5472 */
   --t: clamp(
     0,
-    calc(var(--p) * 4 - var(--i)),
+    calc((var(--p, 0) - 0.47) * 7.5472 - var(--i)),
     1
   );
 

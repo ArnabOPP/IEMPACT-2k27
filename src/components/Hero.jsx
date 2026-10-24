@@ -1,10 +1,5 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Hero.css'
-
-const IEMPACT_MS = 5000 // how long the IEMPACT logo holds before Maya
-const MAYA_MS = 4000
-const INTRO_MS = 3700 // curtain hold + open (App.jsx); the first hold starts after it
 
 function Arrow() {
   return (
@@ -21,27 +16,12 @@ function Arrow() {
   )
 }
 
-export default function Hero() {
-  const [showMaya, setShowMaya] = useState(false)
-  // false until the first swap: that first IEMPACT hold waits out the curtain
-  const [booted, setBooted] = useState(false)
-  const introDelay = booted ? 0 : INTRO_MS
-
-  useEffect(() => {
-    const t = setTimeout(
-      () => {
-        setBooted(true)
-        setShowMaya((m) => !m)
-      },
-      (showMaya ? MAYA_MS : IEMPACT_MS) + introDelay,
-    )
-    return () => clearTimeout(t)
-  }, [showMaya, introDelay])
-
-  const pick = (maya) => {
-    setBooted(true)
-    setShowMaya(maya)
-  }
+// The scene swap is driven by scroll, not a timer: the page writes its progress
+// into --p, Hero.css turns that into --s (0 = IEMPACT, 1 = Maya) and scrubs the
+// circle reveal and the logos with it. `showMaya` only flips the text colours,
+// and `onPick` scrolls to the end of either scene.
+export default function Hero({ showMaya = false, onPick = () => {} }) {
+  const pick = onPick
 
   return (
     <section
@@ -82,20 +62,9 @@ export default function Hero() {
         </div>
 
         <div className="hero__logoBox">
-          <img
-            src="/IEMPACT%20logo.png"
-            alt=""
-            className={`hero__logo hero__logo--iempact ${
-              !showMaya ? 'hero__logo--visible' : ''
-            }`}
-          />
-          <img
-            src="/maya.png"
-            alt=""
-            className={`hero__logo hero__logo--maya ${
-              showMaya ? 'hero__logo--visible' : ''
-            }`}
-          />
+          {/* both logos sit here; their opacity is scrubbed by scroll (Hero.css) */}
+          <img src="/IEMPACT%20logo.png" alt="" className="hero__logo hero__logo--iempact" />
+          <img src="/maya.png" alt="" className="hero__logo hero__logo--maya" />
         </div>
 
         <div className="hero__dock">
@@ -115,7 +84,8 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* LOGO SWITCHER — shows which mark is up and how long it holds */}
+          {/* LOGO SWITCHER — shows which mark is up; each bar fills with the
+              scroll, and a click scrolls to that scene */}
           <div className="hero__switch" role="group" aria-label="Show logo">
             <button
               type="button"
@@ -124,11 +94,7 @@ export default function Hero() {
               onClick={() => pick(false)}
             >
               IEMPACT
-              <span
-                key={`i${showMaya}`}
-                className="hero__bar"
-                style={{ '--dur': `${IEMPACT_MS}ms`, '--wait': `${introDelay}ms` }}
-              />
+              <span className="hero__bar hero__bar--iempact" />
             </button>
             <button
               type="button"
@@ -138,11 +104,7 @@ export default function Hero() {
               lang="bn"
             >
               মায়া
-              <span
-                key={`m${showMaya}`}
-                className="hero__bar"
-                style={{ '--dur': `${MAYA_MS}ms` }}
-              />
+              <span className="hero__bar hero__bar--maya" />
             </button>
           </div>
         </div>

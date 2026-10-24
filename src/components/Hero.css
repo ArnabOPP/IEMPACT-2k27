@@ -7,6 +7,22 @@
 .hero {
   --accent: #ffd0c4;
 
+  /* The IEMPACT → Maya turn, scrubbed by scroll in four steps.
+     --p is the page's scroll progress through the pinned track (Home.jsx):
+       0.000 – 0.019   1. the IEMPACT logo alone
+       0.019 – 0.085   2. a circle grows in behind it          (--a, 0 → 1)
+       0.085 – 0.122      …and rests at its small size
+       0.122 – 0.188   3. IEMPACT fades out, Maya fades in     (--b, 0 → 1)
+       0.188 – 0.273      …Maya in the resting circle: a long pause
+       0.273 – 0.385   4. the circle grows to fill the screen  (--c, 0 → 1)
+       0.385 – 0.470      …Maya fills the screen: a second long pause
+     The turn is done at 0.47 (SWAP_END in Home.jsx), where the strips begin. */
+  --R: clamp(88px, 14vw, 26svh); /* the circle's resting radius (never tiny on phones) */
+  --a: clamp(0, calc((var(--p, 0) - 0.019) / 0.066), 1);
+  --b: clamp(0, calc((var(--p, 0) - 0.122) / 0.066), 1);
+  --c: clamp(0, calc((var(--p, 0) - 0.273) / 0.112), 1);
+  --s: clamp(0, calc((var(--p, 0) - 0.019) / 0.366), 1); /* overall, for the tab bars */
+
   position: relative;
   width: 100%;
   min-height: 100svh;
@@ -19,12 +35,14 @@
    BACKGROUNDS — crossfaded with the logo swap
 ===================================================== */
 
+/* Scene swap, scrubbed by scroll: the Maya scene spreads out from the centre
+   (behind the logo) like a drop, as far as you scroll, over the IEMPACT scene
+   that stays whole underneath. Scroll back and it closes again. */
 .hero__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  transition: opacity 1.2s ease;
 }
 
 /* Maya: the red thread of fate */
@@ -54,9 +72,14 @@
   }
 }
 
-.hero--iempact .hero__bg--maya,
-.hero--maya .hero__bg--iempact {
-  opacity: 0;
+/* Maya rides on top, seen through a circle centred behind the logo:
+   it grows to its resting radius (--a), waits, then grows on past the
+   corners (--c) until it fills the screen */
+.hero__bg--maya {
+  z-index: 1;
+  clip-path: circle(
+    calc(var(--a) * var(--R) + var(--c) * (150% - var(--R))) at 50% 50%
+  );
 }
 
 /* soft vignette so the photo's edges sink and the centre glows */
@@ -154,7 +177,6 @@
   max-height: 100%;
   height: auto;
   object-fit: contain;
-  opacity: 0;
   pointer-events: none;
   filter:
     drop-shadow(0 2px 0 rgba(255, 255, 255, 0.5))
@@ -166,39 +188,24 @@
    with the entrance animation's transform) */
 .hero__logo--iempact {
   scale: 1.28;
+  /* stays put through the circle's arrival, then fades out (step 3) */
+  opacity: calc(1 - var(--b));
 }
 
 /* the mark is pure red — on the red thread it turns white */
 .hero__logo--maya {
   width: 70%;
+  /* the mark is capped by the logo box's height, so grow it with `scale`
+     (as the IEMPACT mark does); ~288px tall still sits inside the resting circle */
+  scale: 1.25;
+  /* fades in inside the resting circle as IEMPACT fades out (step 3) */
+  opacity: var(--b);
   filter:
     url(#maya-white)
     drop-shadow(0 0 24px rgba(255, 120, 100, 0.55))
     drop-shadow(0 12px 24px rgba(40, 0, 0, 0.5));
 }
 
-.hero__logo--visible {
-  animation: logo-liquid 1.1s var(--ease-out) forwards;
-}
-
-/* settles like a drop finding its shape */
-@keyframes logo-liquid {
-  0% {
-    opacity: 0;
-    transform: scale(0.82, 0.74) translateY(24px);
-  }
-  45% {
-    opacity: 1;
-    transform: scale(1.05, 1.08) translateY(-8px);
-  }
-  70% {
-    transform: scale(0.98, 0.97) translateY(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 
 /* =====================================================
@@ -409,21 +416,19 @@
   overflow: hidden;
 }
 
-/* fill runs for exactly as long as that logo holds */
-.hero__tab.is-on .hero__bar::after {
+/* each bar fills with the scroll: IEMPACT's drains, Maya's fills, as the
+   scene turns */
+.hero__bar::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   background: var(--accent);
   transform-origin: left;
-  animation: bar-fill var(--dur) linear var(--wait, 0ms) both;
 }
 
-@keyframes bar-fill {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
+.hero__bar--iempact::after { transform: scaleX(calc(1 - var(--s))); }
+.hero__bar--maya::after { transform: scaleX(var(--s)); }
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
@@ -448,6 +453,11 @@
   /* the box is already full-width here; scale less so it stays on screen */
   .hero__logo--iempact {
     scale: 1.08;
+  }
+
+  /* smaller circle on a phone, so a smaller bump for the Maya mark */
+  .hero__logo--maya {
+    scale: 1.12;
   }
 
   .hero__chip {
@@ -483,15 +493,5 @@
   .hero__head,
   .hero__dock {
     animation: none;
-  }
-
-  .hero__logo--visible {
-    animation: none;
-    opacity: 1;
-  }
-
-  .hero__tab.is-on .hero__bar::after {
-    animation: none;
-    transform: none;
   }
 }
