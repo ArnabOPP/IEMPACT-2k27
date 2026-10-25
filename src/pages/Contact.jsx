@@ -3,65 +3,68 @@ import './Contact.css'
 
 const EMAIL = 'iemculturalcommunity@gmail.com'
 
-// Order = hierarchy, top to bottom. `phone` is optional — only shown when given.
+// Order = hierarchy, top to bottom. `phone` and `linkedin` are optional.
+// ⚠ PLACEHOLDER LinkedIn: paste each person's profile URL into `linkedin`.
+// Until then the Connect button opens a LinkedIn people-search for their name.
 const tiers = [
   {
     id: 'head',
     role: 'Faculty Head',
-    people: [{ name: 'Prof. Dr. Sanghamitra Poddar', phone: '+91 7439 555 091' }],
+    people: [{ name: 'Prof. Dr. Sanghamitra Poddar', phone: '+91 7439 555 091', linkedin: '' }],
   },
   {
     id: 'culture',
     role: 'Cultural Secretary',
     people: [
-      { name: 'Paramartha Ghosh', phone: '+91 77970 32617' },
-      { name: 'Debangkita Saha', phone: '+91 8777494652' },
+      { name: 'Paramartha Ghosh', phone: '+91 77970 32617', linkedin: '' },
+      { name: 'Debangkita Saha', phone: '+91 8777494652', linkedin: '' },
     ],
   },
   {
     id: 'tech',
     role: 'Technical Team',
     people: [
-      { name: 'Debangshu Chatterjee', phone: '+91 6290 277 345' },
-      { name: 'Arnab Chatterjee', phone: '+91 6290623636' },
-      { name: 'Debangkita Saha', phone: '+91 8777494652' },
+      { name: 'Debangshu Chatterjee', phone: '+91 6290 277 345', linkedin: '' },
+      { name: 'Debangkita Saha', phone: '+91 8777494652', linkedin: '' },
+      { name: 'Arnab Chatterjee', phone: '+91 6290623636', linkedin: '' },
     ],
   },
 ]
 
 const telHref = (phone) => `tel:${phone.replace(/\s+/g, '')}`
 
-// "Prof. Dr. Sanghamitra Poddar" → "SP", "Arnab Chatterjee" → "AC"
-const initialsOf = (name) => {
-  const words = name.split(/\s+/).filter((w) => !/^(prof|dr)\.?$/i.test(w))
-  return (words[0][0] + (words[words.length - 1][0] ?? '')).toUpperCase()
-}
+const linkedinHref = ({ name, linkedin }) =>
+  linkedin || `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(`${name} IEM Kolkata`)}`
 
-function Orb({ children }) {
+function Arrow() {
   return (
-    <span className="lbtn__orb">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        {children}
-      </svg>
-    </span>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }
 
-const phonePath = (
-  <path
-    d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z"
-    fill="currentColor"
-  />
-)
-const mailPath = (
-  <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm1.5 2 6.5 5 6.5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-)
-const copyPath = (
-  <path d="M9 9h10v11H9zM5 15V4h10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-)
-const checkPath = (
-  <path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-)
+function LinkedInIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.85h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75v5.29h-4V9.75Z"
+      />
+    </svg>
+  )
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z"
+      />
+    </svg>
+  )
+}
 
 export default function Contact() {
   const [copied, setCopied] = useState(false)
@@ -76,12 +79,12 @@ export default function Contact() {
     navigator.clipboard?.writeText(EMAIL).then(() => setCopied(true)).catch(() => {})
   }
 
-  let n = 0 // running card index, for the staggered entrance
+  let n = 0 // running row index, for the staggered entrance
 
   return (
-    <section className="ct" data-nav="dark">
+    <section className="ct" data-nav="light">
       <div className="ct__bg" aria-hidden="true" />
-      <div className="ct__shade" aria-hidden="true" />
+      <div className="ct__veil" aria-hidden="true" />
 
       <div className="ct__inner">
         {/* LEFT — the invitation, and the inbox */}
@@ -94,58 +97,65 @@ export default function Contact() {
             Questions about events or registration? Pull on the red thread — the IEMPACT team is at the other end.
           </p>
 
-          <article className="ct__mail glass glass--dark">
+          <ul className="ct__facts">
+            <li>16 &amp; 17 January 2027</li>
+            <li>IEM Kolkata</li>
+          </ul>
+
+          <div className="ct__mail">
             <p className="ct__label">Write to us</p>
             <a className="ct__email display" href={`mailto:${EMAIL}`}>
               {EMAIL}
             </a>
             <div className="ct__mailActions">
-              <a className="lbtn lbtn--primary" href={`mailto:${EMAIL}`}>
-                <span className="lbtn__label">Send email</span>
-                <Orb>{mailPath}</Orb>
+              <a className="ct__btn ct__btn--solid" href={`mailto:${EMAIL}`}>
+                Send email <Arrow />
               </a>
-              <button type="button" className="lbtn glass glass--dark ct__copy" onClick={copyEmail}>
-                <span className="lbtn__label" aria-live="polite">
-                  {copied ? 'Copied' : 'Copy address'}
-                </span>
-                <Orb>{copied ? checkPath : copyPath}</Orb>
+              <button type="button" className="ct__btn" onClick={copyEmail} aria-live="polite">
+                {copied ? 'Copied ✓' : 'Copy address'}
               </button>
             </div>
-          </article>
+          </div>
         </div>
 
-        {/* RIGHT — the team in three tiers, all knotted along one thread */}
+        {/* RIGHT — the team, set as a typographic directory */}
         <div className="ct__team">
-          {tiers.map(({ id, role, people }) => (
+          {tiers.map(({ id, role, people }, ti) => (
             <section key={id} className={`ct__tier ct__tier--${id}`} aria-labelledby={`ct-role-${id}`}>
               <h2 className="ct__role" id={`ct-role-${id}`}>
-                <span className="ct__dot" aria-hidden="true" />
+                <span className="ct__no">0{ti + 1}</span>
                 {role}
               </h2>
 
-              <ul className="ct__cards">
-                {people.map(({ name, phone }) => (
-                  <li key={name} style={{ '--i': n++ }}>
-                    <article className="ct__card glass glass--dark">
-                      <span className="ct__mono" aria-hidden="true">
-                        {initialsOf(name)}
-                      </span>
-                      <div className="ct__who">
-                        <h3 className="ct__name">{name}</h3>
-                        {phone && (
-                          <a className="ct__phone" href={telHref(phone)}>
-                            {phone}
-                          </a>
-                        )}
-                      </div>
-                      {phone && id !== 'tech' && (
-                        <a className="ct__call" href={telHref(phone)} aria-label={`Call ${name}`}>
-                          <svg viewBox="0 0 24 24" aria-hidden="true">
-                            {phonePath}
-                          </svg>
+              <ul className="ct__list">
+                {people.map((p) => (
+                  <li key={`${id}-${p.name}`} className="ct__row" style={{ '--i': n++ }}>
+                    <div className="ct__who">
+                      <h3 className="ct__name">{p.name}</h3>
+                      {p.phone && (
+                        <a className="ct__phone" href={telHref(p.phone)}>
+                          {p.phone}
                         </a>
                       )}
-                    </article>
+                    </div>
+
+                    <div className="ct__actions">
+                      {p.phone && (
+                        <a className="ct__icon" href={telHref(p.phone)} aria-label={`Call ${p.name}`} title="Call">
+                          <PhoneIcon />
+                        </a>
+                      )}
+                      <a
+                        className="ct__in"
+                        href={linkedinHref(p)}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Connect with ${p.name} on LinkedIn`}
+                      >
+                        <LinkedInIcon />
+                        <span>Connect</span>
+                      </a>
+                    </div>
                   </li>
                 ))}
               </ul>
