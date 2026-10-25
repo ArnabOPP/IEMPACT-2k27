@@ -12,11 +12,10 @@ import NotFound from '@/pages/NotFound'
 import Schedule from '@/pages/Schedule'
 import { waitForPageAssets } from '@/utils/pageAssets'
 
-const SPLIT_MS = 1200 // matches the CSS transition duration
-// The curtain never flashes open: it holds at least this long even when every
-// asset is already cached. The first visit holds longer, as a proper intro.
+// The curtain is the site's intro: it loads and opens ONCE, on the first visit.
+// It never flashes open, so it holds at least this long even when every asset
+// is already cached.
 const FIRST_MIN_MS = 1500
-const NEXT_MIN_MS = 250
 
 // On Home the curtain stops on the hero's own artwork; elsewhere it slides away
 const openStateFor = (pathname) => (pathname === '/' ? 'settled' : 'away')
@@ -28,26 +27,21 @@ export default function App() {
   const [progress, setProgress] = useState(0)
   const booted = useRef(false)
 
-  // Page change: close the curtain, swap the page while it is shut
+  // Page change: swap straight to the new page, no loader. After the intro the
+  // curtain only re-poses itself (framing the Home hero, or parted away).
   useEffect(() => {
     if (location.pathname === displayLocation.pathname) return
-    setCurtain('closed')
-    setProgress(0)
-    const t = setTimeout(() => {
-      setDisplayLocation(location)
-      window.scrollTo(0, 0)
-    }, SPLIT_MS)
-    return () => clearTimeout(t)
+    setDisplayLocation(location)
+    window.scrollTo(0, 0)
+    if (booted.current) setCurtain(openStateFor(location.pathname))
   }, [location, displayLocation.pathname])
 
-  // The curtain is the loader. Whenever a page has been put on screen (the
-  // first visit, and after every swap above) it stays shut until every asset
-  // that page needs has arrived, then opens.
+  // First visit only: the curtain stays shut until every asset the first page
+  // needs has arrived, then opens.
   useEffect(() => {
+    if (booted.current) return
     let cancelled = false
-    const minHold = new Promise((resolve) =>
-      setTimeout(resolve, booted.current ? NEXT_MIN_MS : FIRST_MIN_MS),
-    )
+    const minHold = new Promise((resolve) => setTimeout(resolve, FIRST_MIN_MS))
     Promise.all([
       waitForPageAssets(displayLocation.pathname, setProgress, () => cancelled),
       minHold,

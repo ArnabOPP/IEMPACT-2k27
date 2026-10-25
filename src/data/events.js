@@ -20,6 +20,10 @@ export const events = [
   { no: '15', group: 'sports', name: 'Call of Duty: Mobile', category: 'Mobile Esports', card: '/HOME%20(36).png', tagline: 'Drop in, squad up, own the lobby' },
   { no: '17', group: 'sports', name: 'Mind Over Moves', category: 'Rapid Chess Tournament', card: '/HOME%20(40).png', tagline: 'Outthink your opponent, one move at a time' },
   { no: '18', group: 'cultural', name: 'Feastopia', category: 'Food Festival', card: '/HOME%20(41).png', tagline: 'A festival of flavours from every corner' },
+  // Technical workshops — names and details are still to be announced
+  { no: '19', group: 'technical', name: 'Workshop 01', category: 'Name to be announced', card: '/workshop-1.png', tagline: 'Details to be announced' },
+  { no: '20', group: 'technical', name: 'Workshop 02', category: 'Name to be announced', card: '/workshop-2.png', tagline: 'Details to be announced' },
+  { no: '21', group: 'technical', name: 'Workshop 03', category: 'Name to be announced', card: '/workshop-3.png', tagline: 'Details to be announced' },
 ]
 
 // Segments on the Events page, in display order. `phase` picks the
@@ -28,5 +32,5 @@ export const segments = [
   { id: 'cultural', name: 'Cultural', phase: 4, blurb: 'Dance, music, bands, street theatre, rap and a festival of food.' },
   { id: 'literary', name: 'Literary & Arts', phase: 3, blurb: 'Poetry, photography, face painting and the mela quiz.' },
   { id: 'sports', name: 'Sports & Gaming', phase: 2, blurb: 'Futsal on the turf, chess on the clock, esports on the phone.' },
-  { id: 'technical', name: 'Technical', phase: 1, blurb: 'Technical events are being lined up — watch this space.' },
+  { id: 'technical', name: 'Technical', phase: 1, blurb: 'Three hands-on workshops — names and details to be announced.' },
 ]

@@ -181,12 +181,13 @@ export default function Gallery() {
   return (
     <div className="gal" data-nav="dark">
       <header className="gal__hero">
-        <p className="eyebrow">The previous edition · Day 1 &amp; Day 2</p>
+        <p className="eyebrow">The previous edition</p>
         <h1 className="gal__title display">
           Past <em>Glimpses</em>
         </h1>
         <p className="gal__lede">A look back at the stages, the crowds and the colours of IEMPACT’s last edition.</p>
 
+        {galleryTags.length > 2 && (
         <div className="gal__tags" role="tablist" aria-label="Filter gallery">
           {galleryTags.map((t) => (
             <button
@@ -202,6 +203,7 @@ export default function Gallery() {
             </button>
           ))}
         </div>
+        )}
       </header>
 
       {/* ================= CAROUSEL ================= */}
@@ -275,7 +277,7 @@ export default function Gallery() {
           <h2 key={cur.src} className="gal__name">
             {cur.title}
           </h2>
-          <p className="gal__sub">{cur.sub ?? cur.tag}</p>
+          <p className="gal__sub">{cur.sub ?? (cur.tag === 'Moments' ? 'Previous edition' : cur.tag)}</p>
           <div className="gal__count">
             <b>{pad(active + 1)}</b>
             <span className="gal__bar" aria-hidden="true">
