@@ -24,7 +24,6 @@ const tiers = [
     people: [
       { name: 'Debangshu Chatterjee', phone: '+91 6290 277 345' },
       { name: 'Arnab Chatterjee', phone: '+91 6290623636' },
-      { name: 'Souherdeya Sarkar', phone: '+91 891 016 9299' },
       { name: 'Debangkita Saha', phone: '+91 8777494652' },
     ],
   },
