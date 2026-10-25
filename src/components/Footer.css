@@ -438,3 +438,30 @@ body:has(.gal) .footer__clouds {
     align-items: flex-start;
   }
 }
+
+
+/* phones + tablets: every footer link is at least a 44px tap target */
+@media (max-width: 1024px) {
+  .footer__col a {
+    display: inline-block;
+    padding: 11px 0;
+  }
+
+  .footer__col a:hover {
+    padding-left: 0;
+  }
+
+  .footer__textLink {
+    min-height: 44px;
+  }
+
+  .footer__top {
+    min-height: 44px;
+    padding: 8px 18px;
+  }
+
+  .privacy-link {
+    display: inline-block;
+    padding: 12px 0;
+  }
+}

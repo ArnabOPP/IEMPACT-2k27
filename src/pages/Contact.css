@@ -386,3 +386,16 @@
   .ct__in,
   .ct__btn { transition: none; }
 }
+
+
+/* phones: bigger tap areas for the email and phone numbers */
+@media (max-width: 900px) {
+  .ct__phone {
+    margin-top: 0;
+    padding: 12px 10px;
+  }
+
+  .ct__email {
+    padding: 8px 0;
+  }
+}

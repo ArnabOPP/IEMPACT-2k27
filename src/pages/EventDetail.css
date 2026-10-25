@@ -622,3 +622,24 @@
     animation: none;
   }
 }
+
+
+/* phones + tablets: a 44px back link, and a smaller seal so it stops covering the poster's text */
+@media (max-width: 1024px) {
+  .evd__back {
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+  }
+
+  .evd__stamp {
+    right: -8px;
+    bottom: -14px;
+    width: 66px;
+    font-size: 8px;
+  }
+
+  .evd__stamp b {
+    font-size: 19px;
+  }
+}
