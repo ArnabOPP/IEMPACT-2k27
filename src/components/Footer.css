@@ -80,9 +80,9 @@
 /* the footer's content sits above the clouds */
 .footer__inner { z-index: 1; }
 
-/* pages whose footer starts in night rather than ivory (Contact, Events)
-   have nothing pale above them: no clouds there */
-body:has(.ct) .footer__clouds,
+/* pages whose footer starts in night rather than ivory (Events, Gallery)
+   have nothing pale above them: no clouds there. Contact is paper, so it
+   keeps the clouds. */
 body:has(.evp) .footer__clouds,
 body:has(.gal) .footer__clouds {
   display: none;
