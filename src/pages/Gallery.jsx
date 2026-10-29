@@ -258,7 +258,7 @@ export default function Gallery() {
             </span>
             <span className="gal__seal">
               IEMPACT
-              <b>’27</b>
+              <b>’26</b>
             </span>
             <span className="gal__label">
               {tag === 'All' ? 'Past Glimpses' : tag} · {pad(n)} photos

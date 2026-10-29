@@ -27,6 +27,7 @@ const tiers = [
       { name: 'Debangshu Chatterjee', phone: '+91 6290 277 345', linkedin: '' },
       { name: 'Debangkita Saha', phone: '+91 8777494652', linkedin: '' },
       { name: 'Arnab Chatterjee', phone: '+91 6290623636', linkedin: '' },
+      { name: 'Nirjhar Mitra', phone: '+91 8274819946', linkedin: 'https://www.linkedin.com/in/nirjhar-mitra-a1481030a/' },
     ],
   },
 ]
