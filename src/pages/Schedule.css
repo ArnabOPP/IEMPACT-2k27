@@ -463,6 +463,34 @@
 
 
 /* =====================================================
+   TABLET — same two-sided thread; the side columns are narrow, so the
+   time stacks above the entry's text instead of sitting beside it
+===================================================== */
+
+@media (min-width: 720px) and (max-width: 1023px) {
+  .sch__entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .sch__slot--left .sch__entry {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .sch__info {
+    max-width: 100%;
+  }
+
+  .sch__time {
+    font-size: 40px;
+  }
+}
+
+
+/* =====================================================
    PHONE — thread down the left edge, entries to its right
 ===================================================== */
 
