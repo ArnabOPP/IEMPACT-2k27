@@ -205,6 +205,50 @@
   }
 }
 
+/* portrait phones: the 16:9 artwork is cropped to the middle, so split the
+   screen evenly, use the real viewport height (no browser-bar jump) and
+   centre the artwork's focal point */
+@media (max-width: 650px) and (orientation: portrait) {
+  .intro {
+    height: 100svh;
+  }
+
+  .intro__half--up,
+  .intro__half--down {
+    height: 50%;
+  }
+
+  /* the cream half carries the "36th annual cultural fest" line, which a
+     cover-crop cuts off on a tall screen: show the whole artwork instead,
+     sitting on the seam, with cream filling any space above it */
+  .intro__half--up {
+    background: #fcefe6;
+  }
+
+  .intro__half--up img {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    width: 140%;
+    height: auto;
+    transform: translateX(-50%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent, #000 22%);
+  }
+
+  .intro__half--down img {
+    object-position: 50% 30%;
+  }
+
+  .intro__logo {
+    width: min(62vw, 280px);
+  }
+
+  .intro__loaderBar {
+    width: 46vw;
+  }
+}
+
 
 /* =====================================================
    LOADER — percentage and a thin bar at the foot of the

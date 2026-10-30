@@ -413,16 +413,32 @@
     gap: 14px;
   }
 
+  /* Register Now + Explore Events share one row */
   .hero__actions {
-    flex-direction: column;
+    flex-wrap: nowrap;
     width: 100%;
-    gap: 10px;
+    gap: 8px;
   }
 
   .hero__actions .lbtn {
-    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
     justify-content: space-between;
-    height: 50px;
+    gap: 6px;
+    height: 48px;
+    padding: 0 6px 0 14px;
+  }
+
+  .hero__actions .lbtn__label {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .hero__actions .lbtn__orb {
+    flex: none;
+    width: 34px;
+    height: 34px;
   }
 }
 
