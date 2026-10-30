@@ -6,7 +6,7 @@ const strips = [
   { src: '/strip-1.jpg', bn: 'ঐতিহ্য', en: 'Heritage', alt: 'A classical dancer with many arms, in red and gold' },
   { src: '/strip-2.jpg', bn: 'মঞ্চ', en: 'Stage', alt: 'A bamboo flute on a red ground with dark feathers and a rising sun' },
   { src: '/strip-3.jpg', bn: 'কল্পনা', en: 'Imagination', alt: 'A surreal figure whose hair swirls into the walls' },
-  { src: '/strip-4.jpg', bn: 'ছন্দ', en: 'Rhythm', alt: 'A dancer's foot in ankle bells, mid-step' },
+  { src: '/strip-4.jpg', bn: 'ছন্দ', en: 'Rhythm', alt: 'A dancer foot in ankle bells, mid-step' },
 ]
 
 // Full-screen layer pinned over the hero.
