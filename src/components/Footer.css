@@ -340,7 +340,7 @@ body:has(.gal) .footer__clouds {
 
 .footer__wordmark {
   margin: clamp(32px, 5vw, 64px) 0 0;
-  font-family: var(--font-display);
+  font-family: "Oswald", "Arial Narrow", sans-serif;
   font-size: clamp(80px, 21vw, 300px);
   font-weight: 700;
   line-height: 0.78;

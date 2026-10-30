@@ -234,7 +234,7 @@
   padding-bottom: 12px;
   border-bottom: 2px solid var(--ink);
   color: var(--ink);
-  font-family: var(--font-display);
+  font-family: "Oswald", "Arial Narrow", sans-serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.24em;
