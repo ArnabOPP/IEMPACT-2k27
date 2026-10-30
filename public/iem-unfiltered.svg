@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 796 1066">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a0d0b"/>
+      <stop offset="0.6" stop-color="#2a0705"/>
+      <stop offset="1" stop-color="#150303"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.7" stop-color="#b01915"/>
+      <stop offset="1" stop-color="#b01915" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="796" height="1066" fill="url(#bg)"/>
+  <circle cx="398" cy="360" r="340" fill="url(#sun)"/>
+  <g fill="none" stroke="#fff5f0" stroke-opacity="0.18">
+    <circle cx="398" cy="360" r="380"/>
+    <circle cx="398" cy="360" r="330"/>
+  </g>
+  <g fill="#fff5f0" font-family="Georgia, serif" text-anchor="middle">
+    <text x="112" y="195" font-size="72" font-weight="700" text-anchor="start">13</text>
+    <rect x="70" y="220" width="80" height="2"/>
+    <text x="398" y="720" font-family="Impact, 'Arial Narrow', sans-serif" font-size="150">IEM</text>
+    <text x="398" y="860" font-style="italic" font-size="110" fill="#ff9d8e">Unfiltered</text>
+    <text x="398" y="970" font-family="Arial, sans-serif" font-size="30" letter-spacing="8" fill="#f5cfc7">LIVE ACT</text>
+  </g>
+</svg>

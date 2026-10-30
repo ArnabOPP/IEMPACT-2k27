@@ -93,7 +93,20 @@ export default function EventDetail() {
     {
       n: '02',
       h: 'Rules & eligibility',
-      body: <p className="evd__tba">Format, team size and eligibility will be announced soon.</p>,
+      body: ev.rules ? (
+        ev.rules.map((r) => (
+          <div key={r.title} className="evd__rules">
+            <h3>{r.title}</h3>
+            <ol>
+              {r.items.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ol>
+          </div>
+        ))
+      ) : (
+        <p className="evd__tba">Format, team size and eligibility will be announced soon.</p>
+      ),
     },
     {
       n: '03',

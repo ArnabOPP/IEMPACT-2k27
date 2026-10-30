@@ -457,6 +457,32 @@
   line-height: 1.25;
 }
 
+.evd__rules h3 {
+  margin: 18px 0 8px;
+  color: var(--moon-hi);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.evd__rules:first-child h3 {
+  margin-top: 0;
+}
+
+.evd__rules ol {
+  margin: 0;
+  padding-left: 20px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.evd__rules li {
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+
 .evd__card .evd__tba {
   color: rgba(255, 255, 255, 0.5);
   font-style: italic;
