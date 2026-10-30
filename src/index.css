@@ -1,4 +1,12 @@
 @font-face {
+  font-family: "Felixti";
+  src: url("/fonts/Felixti.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Samarkan";
   src: url("/fonts/SAMAN___.TTF") format("truetype");
   font-weight: normal;
@@ -31,9 +39,9 @@
   --ink: #1d0f0c;
   --ink-soft: #5b4640;
 
-  --font-display: "Cormorant Garamond", "Times New Roman", serif;
-  --font-brand: "Taiganja", "Cormorant Garamond", serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Felixti", "Cormorant Garamond", serif;
+  --font-brand: "Felixti", "Cormorant Garamond", serif;
+  --font-body: "Felixti", "Inter", system-ui, sans-serif;
 
   --ease-liquid: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
