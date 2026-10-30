@@ -146,10 +146,9 @@ html.liquid .nav .nav__island {
   padding: 10px 18px;
   border-radius: 999px;
 
-  color: var(--ink);
+  color: var(--ink-soft);
   font-family: var(--font-brand);
-  font-size: 14.5px;
-  letter-spacing: 0.07em;
+  font-size: 14px;
   white-space: nowrap;
 
   transition: color 0.3s ease;
@@ -204,8 +203,7 @@ html.liquid .nav .nav__island {
   height: calc(var(--h) - 14px);
   padding-left: 20px;
   padding-right: 5px;
-  font-size: 14.5px;
-  letter-spacing: 0.07em;
+  font-size: 14px;
   gap: 10px;
   transition:
     height 0.5s var(--ease-out),
@@ -239,8 +237,7 @@ html.liquid .nav .nav__island {
 @media (max-width: 1000px) {
   .nav__link {
     padding: 10px 10px;
-    font-size: 13.5px;
-    letter-spacing: 0.04em;
+    font-size: 13px;
   }
 }
 
