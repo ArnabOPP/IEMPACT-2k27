@@ -4,7 +4,7 @@ import './MayaSection.css'
 // in Bengali and English.
 const strips = [
   { src: '/strip-1.jpg', bn: 'ঐতিহ্য', en: 'Heritage', alt: 'A classical dancer with many arms, in red and gold' },
-  { src: '/strip-2.jpg', bn: 'মঞ্চ', en: 'Stage', alt: 'A lone figure before a wall of watching eyes' },
+  { src: '/strip-2.jpg', bn: 'মঞ্চ', en: 'Stage', alt: 'A bamboo flute on a red ground with dark feathers and a rising sun' },
   { src: '/strip-3.jpg', bn: 'কল্পনা', en: 'Imagination', alt: 'A surreal figure whose hair swirls into the walls' },
   // violet artwork, so it gets the crimson duotone to sit in the red set
   { src: '/strip-4.jpg', bn: 'ছন্দ', en: 'Rhythm', alt: 'A four-armed dancer mid-step', tint: true },
