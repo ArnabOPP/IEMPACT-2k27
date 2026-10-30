@@ -148,7 +148,7 @@ html.liquid .nav .nav__island {
 
   color: var(--ink-soft);
   font-family: var(--font-brand);
-  font-size: 15.5px;
+  font-size: 13.5px;
   white-space: nowrap;
 
   transition: color 0.3s ease;
@@ -203,7 +203,7 @@ html.liquid .nav .nav__island {
   height: calc(var(--h) - 14px);
   padding-left: 20px;
   padding-right: 5px;
-  font-size: 15.5px;
+  font-size: 13.5px;
   gap: 10px;
   transition:
     height 0.5s var(--ease-out),
