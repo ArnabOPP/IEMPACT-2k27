@@ -427,7 +427,7 @@ export const events = [
     ],
   },
   {
-    no: '13', group: 'cultural', sub: 'drama', name: 'IEM Unfiltered', category: 'Open-Mic Acts', card: '/iem-unfiltered.svg', tagline: 'Picked from the crowd, live between the acts',
+    no: '13', group: 'cultural', sub: 'drama', name: 'IEM Unfiltered', category: 'Open-Mic Acts', card: '/iem-unfiltered.jpg', tagline: 'Picked from the crowd, live between the acts',
     rules: [
       {
         title: 'Format',
