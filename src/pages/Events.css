@@ -617,3 +617,59 @@ body:has(.evp) .footer {
     transition: none;
   }
 }
+
+
+/* =====================================================
+   SUB-SECTIONS (Music / Dance / Drama, E-Sports / Outdoor / Indoor)
+===================================================== */
+
+.evp__sub + .evp__sub {
+  margin-top: 64px;
+}
+
+.evp__subHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-bottom: 26px;
+}
+
+.evp__subHead::before {
+  content: "";
+  align-self: center;
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--moon-hi);
+}
+
+.evp__subHead h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.evp__subCount {
+  color: var(--moon-hi);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.evp__subHead p {
+  flex-basis: 100%;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+@media (max-width: 650px) {
+  .evp__sub + .evp__sub {
+    margin-top: 44px;
+  }
+}

@@ -188,7 +188,26 @@ export default function Events() {
                 <p>{s.blurb}</p>
               </header>
 
-              {list.length ? (
+              {list.length && s.subs ? (
+                s.subs.map((sub) => {
+                  const part = list.filter((e) => e.sub === sub.id)
+                  if (!part.length) return null
+                  return (
+                    <div key={sub.id} className="evp__sub" role="group" aria-labelledby={`sub-${sub.id}`}>
+                      <header className="evp__subHead">
+                        <h3 id={`sub-${sub.id}`}>{sub.name}</h3>
+                        <span className="evp__subCount">{String(part.length).padStart(2, '0')}</span>
+                        <p>{sub.blurb}</p>
+                      </header>
+                      <ul className="evp__grid">
+                        {part.map((ev, i) => (
+                          <Ticket key={ev.no} ev={ev} i={i} />
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                })
+              ) : list.length ? (
                 <ul className="evp__grid">
                   {list.map((ev, i) => (
                     <Ticket key={ev.no} ev={ev} i={i} />
