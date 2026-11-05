@@ -4,7 +4,7 @@
 // `group` sorts each event into a segment on the Events page (see `segments`).
 export const events = [
   {
-    no: '01', group: 'cultural', name: 'Euphoria', category: 'Eastern Dance', card: '/euphoria.jpg', tagline: 'Where tradition moves to the rhythm of the soul',
+    no: '01', group: 'cultural', name: 'Eastern Euphoria', category: 'Eastern Dance', card: '/euphoria.jpg', tagline: 'Where tradition moves to the rhythm of the soul',
     rules: [
       {
         title: 'Time limit (empty stage to empty stage)',
@@ -277,7 +277,75 @@ export const events = [
       },
     ],
   },
-  { no: '07', group: 'sports', name: 'Futsal', category: 'Mini-Football Tournament', card: '/futsal.jpg', tagline: 'Fast feet, fierce goals, five-a-side glory' },
+  { no: '07', group: 'sports', name: 'Champions League', category: 'Futsal', card: '/futsal.jpg', tagline: 'Fast feet, fierce goals, five-a-side glory' },
+  {
+    no: '08', group: 'cultural', name: 'Step-is-tan', category: 'Street Dance Battle', card: '/step-is-tan.jpg', tagline: 'Own the ground, bring your best move',
+    rules: [
+      {
+        title: 'Eligibility & reporting',
+        items: [
+          'Open to registered participants only.',
+          'A valid ID is required during registration and entry.',
+          'All dancers must report 30 minutes before the event start time.',
+          'No-show after two calls means automatic disqualification.',
+        ],
+      },
+      {
+        title: 'Time rules',
+        items: [
+          'Prelims: 40 seconds.',
+          'Battles: 60 seconds per dancer.',
+          'Tie-breaks: 30–40 seconds (the judges’ call).',
+          'Overtime may lead to score deduction or disqualification.',
+        ],
+      },
+      {
+        title: 'Music rules',
+        items: [
+          'Only official event DJ music is allowed.',
+          'No personal music requests.',
+          'The dancer must begin as soon as the music starts.',
+          'Music restarts only for legitimate technical issues.',
+        ],
+      },
+      {
+        title: 'Judging criteria',
+        items: [
+          'Musicality: rhythm, timing, beat hits.',
+          'Technique: clean controls, foundations, footwork.',
+          'Originality: unique moves, concepts, risks.',
+          'Execution: energy, confidence, clarity.',
+          'Battle presence: engagement, response, attitude.',
+        ],
+      },
+      {
+        title: 'Performance rules',
+        items: [
+          'No vulgar gestures, obscene moves or disrespectful behaviour.',
+          'No intentional physical contact with an opponent.',
+          'Wearable props are allowed; dangerous props are prohibited.',
+          'Unsafe moves may lead to warnings or disqualification.',
+        ],
+      },
+      {
+        title: 'Disqualification',
+        items: [
+          'Reporting late.',
+          'Unsafe or offensive moves.',
+          'Touching or threatening an opponent.',
+          'Trying to influence the judges.',
+          'Violating battle rules.',
+        ],
+      },
+      {
+        title: 'Judges’ decisions',
+        items: [
+          'The judges’ decisions are final, binding and non-negotiable.',
+          'The judges control tie-breakers and final eliminations.',
+        ],
+      },
+    ],
+  },
   {
     no: '11', group: 'literary', name: 'Quizzard', category: 'Mela Quiz', card: '/quizzard.jpg', tagline: 'Music, arts and trivia — only the sharpest survive',
     rules: [
@@ -489,6 +557,6 @@ export const events = [
 export const segments = [
   { id: 'cultural', name: 'Cultural', phase: 4, blurb: 'Dance, music, bands, street theatre and audio drama.' },
   { id: 'literary', name: 'Literary & Arts', phase: 3, blurb: 'The mela quiz.' },
-  { id: 'sports', name: 'Sports & Gaming', phase: 2, blurb: 'Futsal, chess, carrom, racquet sports, tests of strength and esports.' },
+  { id: 'sports', name: 'Sports & Gaming', phase: 2, blurb: 'Champions League futsal, chess, carrom, racquet sports, tests of strength and esports.' },
   { id: 'technical', name: 'Technical', phase: 1, blurb: 'Three hands-on workshops — names and details to be announced.' },
 ]
