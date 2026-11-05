@@ -277,6 +277,7 @@ export const events = [
       },
     ],
   },
+  { no: '09', group: 'cultural', sub: 'music', name: 'Re:লৌক', category: 'Folk Music', card: '/re-lok.jpg', tagline: 'Folk traditions, reborn on stage' },
   { no: '07', group: 'sports', sub: 'outdoor', name: 'Champions League', category: 'Futsal', card: '/futsal.jpg', tagline: 'Fast feet, fierce goals, five-a-side glory' },
   {
     no: '08', group: 'cultural', sub: 'dance', name: 'Step-is-tan', category: 'Street Dance Battle', card: '/step-is-tan.jpg', tagline: 'Own the ground, bring your best move',
