@@ -185,12 +185,12 @@ export default function Navbar() {
 
         {/* REGISTER ISLAND */}
         <div className="nav__island nav__cta glass">
-          <Link to="/events" className="lbtn lbtn--primary nav__register">
+          <a href="https://linktr.ee/debangkitasaha" target="_blank" rel="noopener noreferrer" className="lbtn lbtn--primary nav__register">
             <span className="lbtn__label">Register</span>
             <span className="lbtn__orb">
               <Arrow />
             </span>
-          </Link>
+          </a>
         </div>
 
         {/* PHONE: MENU ISLAND */}
@@ -230,12 +230,12 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link to="/events" className="lbtn lbtn--primary nav__sheetCta" onClick={closeMenu}>
+        <a href="https://linktr.ee/debangkitasaha" target="_blank" rel="noopener noreferrer" className="lbtn lbtn--primary nav__sheetCta" onClick={closeMenu}>
           <span className="lbtn__label">Register Now</span>
           <span className="lbtn__orb">
             <Arrow />
           </span>
-        </Link>
+        </a>
       </div>
     </>
   )

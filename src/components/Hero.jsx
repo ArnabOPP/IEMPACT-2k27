@@ -66,12 +66,12 @@ export default function Hero({ showMaya = false }) {
 
         <div className="hero__dock">
           <div className="hero__actions">
-            <Link to="/events" className="lbtn lbtn--primary">
+            <a href="https://linktr.ee/debangkitasaha" target="_blank" rel="noopener noreferrer" className="lbtn lbtn--primary">
               <span className="lbtn__label">Register Now</span>
               <span className="lbtn__orb">
                 <Arrow />
               </span>
-            </Link>
+            </a>
 
             <Link to="/events" className="lbtn lbtn--ghost hero__ghost">
               <span className="lbtn__label">Explore Events</span>

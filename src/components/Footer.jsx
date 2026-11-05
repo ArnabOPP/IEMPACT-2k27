@@ -142,12 +142,12 @@ export default function Footer() {
             Be part of the string <em>that binds us all.</em>
           </h2>
           <div className="footer__ctaActions">
-            <Link to="/events" className="lbtn lbtn--primary">
+            <a href="https://linktr.ee/debangkitasaha" target="_blank" rel="noopener noreferrer" className="lbtn lbtn--primary">
               <span className="lbtn__label">Register Now</span>
               <span className="lbtn__orb">
                 <Arrow />
               </span>
-            </Link>
+            </a>
             <Link to="/events" className="footer__textLink">
               Explore all {events.length} events <Arrow />
             </Link>
