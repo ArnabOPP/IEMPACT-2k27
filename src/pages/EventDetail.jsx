@@ -113,6 +113,44 @@ export default function EventDetail() {
       h: 'Prizes',
       body: <p className="evd__tba">Prize details will be announced soon.</p>,
     },
+    {
+      n: '04',
+      h: 'Registration fee & contact',
+      body: (
+        <>
+          <div className="evd__rules">
+            <h3>Registration fee</h3>
+            {ev.fees?.length ? (
+              <ul className="evd__pocs">
+                {ev.fees.map((f) => (
+                  <li key={f.label ?? 'fee'}>
+                    <span>{f.label ?? 'Per registration'}</span>
+                    <strong>₹{f.amount}</strong>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="evd__tba">Fee to be announced.</p>
+            )}
+          </div>
+          <div className="evd__rules">
+            <h3>Points of contact</h3>
+            {ev.pocs?.length ? (
+        <ul className="evd__pocs">
+          {ev.pocs.map((p) => (
+            <li key={p.name}>
+              <span>{p.name}</span>
+              <a href={`tel:+91${p.phone}`}>+91 {p.phone}</a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="evd__tba">Event contacts will be announced soon.</p>
+      )}
+          </div>
+        </>
+      ),
+    },
   ]
 
   return (

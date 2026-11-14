@@ -483,6 +483,32 @@
   padding-left: 4px;
 }
 
+.evd__pocs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evd__pocs li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+}
+
+.evd__pocs li:last-child {
+  border-bottom: 0;
+}
+
+.evd__pocs a {
+  color: var(--moon-hi);
+  text-decoration: none;
+}
+
 .evd__card .evd__tba {
   color: rgba(255, 255, 255, 0.5);
   font-style: italic;

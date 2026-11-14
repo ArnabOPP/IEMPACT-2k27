@@ -1,10 +1,13 @@
 // Ordered by card number. `card` files live in /public.
 // NOTE: `tagline` is placeholder copy (shown under the carousel) — edit freely.
 // Optional `rules`: [{ title, items[] }] — shown on the event page under "Rules & eligibility".
+// Optional `fees`: [{ label?, amount }] in ₹ (label = Solo/Duo/Group etc.) and `pocs`: [{ name, phone }] — from the Sub-Event Details sheet.
 // `group` sorts each event into a segment on the Events page (see `segments`).
 export const events = [
   {
     no: '01', group: 'cultural', sub: 'dance', name: 'Eastern Euphoria', category: 'Eastern Dance', card: '/euphoria.jpg', tagline: 'Where tradition moves to the rhythm of the soul',
+    fees: [{ label: 'Solo', amount: 150 }, { label: 'Duo', amount: 400 }, { label: 'Group', amount: 800 }],
+    pocs: [{ name: 'Samriddha Singha Roy', phone: '9330960839' }, { name: 'Sauranjali Dhar', phone: '8597027268' }, { name: 'Debapriya Das', phone: '8336023688' }],
     rules: [
       {
         title: 'Time limit (empty stage to empty stage)',
@@ -47,6 +50,8 @@ export const events = [
   },
   {
     no: '02', group: 'cultural', sub: 'dance', name: 'Step Up', category: 'Western Dance', card: '/step-up.jpg', tagline: 'A western dance journey through decades',
+    fees: [{ label: 'Solo', amount: 199 }, { label: 'Duo', amount: 299 }, { label: 'Group', amount: 799 }],
+    pocs: [{ name: 'Akansha Sinha', phone: '6292017298' }, { name: 'Debapriya Roy', phone: '8910657581' }],
     rules: [
       {
         title: 'Main performance',
@@ -190,6 +195,8 @@ export const events = [
   },
   {
     no: '03', group: 'cultural', sub: 'music', name: 'Raagify', category: 'Eastern Music', card: '/raagify.jpg', tagline: 'Let the ragas of India find their voice',
+    fees: [{ amount: 300 }],
+    pocs: [{ name: 'Shinjini Bhattacharyya', phone: '9339750060' }, { name: 'Pragyo Banerjee', phone: '9073833447' }],
     rules: [
       {
         title: 'Rules',
@@ -214,6 +221,8 @@ export const events = [
   },
   {
     no: '04', group: 'cultural', sub: 'music', name: 'Westwood', category: 'Western Music', card: '/westwood.jpg', tagline: 'Western melodies, one voice, one stage',
+    fees: [{ amount: 300 }],
+    pocs: [{ name: 'Vedarghya Kundu', phone: '9339463247' }, { name: 'Shinjini Bhattacharyya', phone: '9339750060' }],
     rules: [
       {
         title: 'Rules',
@@ -233,6 +242,8 @@ export const events = [
   },
   {
     no: '05', group: 'cultural', sub: 'music', name: 'Instrumental Echoes', category: 'Battle of Instruments', card: '/instrumental-echoes.jpg', tagline: 'Strings, drums and keys in a battle of sound',
+    fees: [{ amount: 300 }],
+    pocs: [{ name: 'Sugata Bazani', phone: '8910171630' }, { name: 'Vedarghya Kundu', phone: '9339463247' }],
     rules: [
       {
         title: 'Rules',
@@ -252,6 +263,8 @@ export const events = [
   },
   {
     no: '06', group: 'cultural', sub: 'music', name: 'The Illusion Jam', category: 'Battle of Bands', card: '/illusion-jam.jpg', tagline: 'Bands collide on one electrifying stage',
+    fees: [{ amount: 1000 }],
+    pocs: [{ name: 'Pragyo Banerjee', phone: '9073833447' }, { name: 'Sugata Bazani', phone: '8910171630' }],
     rules: [
       {
         title: 'Rules',
@@ -281,6 +294,8 @@ export const events = [
   { no: '07', group: 'sports', sub: 'outdoor', name: 'Champions League', category: 'Futsal', card: '/futsal.jpg', tagline: 'Fast feet, fierce goals, five-a-side glory' },
   {
     no: '08', group: 'cultural', sub: 'dance', name: 'Step-is-tan', category: 'Street Dance Battle', card: '/step-is-tan.jpg', tagline: 'Own the ground, bring your best move',
+    fees: [{ amount: 199 }],
+    pocs: [{ name: 'Srija Das', phone: '8910055095' }, { name: 'Debapriya Das', phone: '8336023688' }, { name: 'Sauranjali Dhar', phone: '8597027268' }],
     rules: [
       {
         title: 'Eligibility & reporting',
@@ -349,6 +364,8 @@ export const events = [
   },
   {
     no: '11', group: 'literary', name: 'Quizzard', category: 'Mela Quiz', card: '/quizzard.jpg', tagline: 'Music, arts and trivia — only the sharpest survive',
+    fees: [{ amount: 100 }],
+    pocs: [{ name: 'Atrijo Banerjee', phone: '9007148837' }, { name: 'Ridhi Anand', phone: '8016580047' }],
     rules: [
       {
         title: 'Prelims',
@@ -516,6 +533,8 @@ export const events = [
   // Technical workshops — names and details are still to be announced
   {
     no: '19', group: 'technical', name: 'MAYA: Beyond Prompts', category: 'Agentic AI Workshop', card: '/workshop-1.png', tagline: 'Go beyond prompts and build with agentic AI',
+    fees: [{ amount: 99 }],
+    pocs: [{ name: 'Debangshu Chatterjee', phone: '6290277345' }],
     rules: [
       {
         title: 'What to bring',

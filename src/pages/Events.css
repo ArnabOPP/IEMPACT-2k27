@@ -446,10 +446,30 @@
 }
 
 .tk__tag {
-  margin: 10px 0 16px;
+  margin: 10px 0 10px;
   color: #6b5550;
   font-size: 13px;
   line-height: 1.45;
+}
+
+.tk__fee {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 0 14px;
+}
+
+.tk__fee span {
+  color: #6b5550;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tk__fee strong {
+  color: var(--sindoor);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .tk__foot {

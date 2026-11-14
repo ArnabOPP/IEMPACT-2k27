@@ -6,6 +6,10 @@ import './Events.css'
 const countOf = (id) => events.filter((e) => e.group === id).length
 const live = segments.filter((s) => countOf(s.id) > 0)
 
+// "₹300", or "Solo ₹150 · Duo ₹400 · Group ₹1000" when fees differ by category
+const feeText = (fees) =>
+  fees?.length ? fees.map((f) => `${f.label ? `${f.label} ` : ''}₹${f.amount}`).join(' · ') : 'TBA'
+
 // =====================================================
 // MOON — a phase icon (0 new … 4 full), after the halo of
 // moons in the page's artwork
@@ -63,6 +67,10 @@ function Ticket({ ev, i }) {
           <h3 className="tk__name">{ev.name}</h3>
           <p className="tk__cat">{ev.category}</p>
           <p className="tk__tag">{ev.tagline}</p>
+          <p className="tk__fee">
+            <span>Registration</span>
+            <strong>{feeText(ev.fees)}</strong>
+          </p>
           <div className="tk__foot">
             <span className="tk__barcode" aria-hidden="true" />
             <span className="tk__year">IEMPACT ’27</span>
