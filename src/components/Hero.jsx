@@ -79,6 +79,13 @@ export default function Hero({ showMaya = false }) {
                 <Arrow />
               </span>
             </Link>
+
+            <a href="https://drive.google.com/file/d/1OA7aTSsFlrL3kRkPJiHBTUO4eHGCi9Tt/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="lbtn lbtn--ghost hero__ghost">
+              <span className="lbtn__label">Brochure</span>
+              <span className="lbtn__orb">
+                <Arrow />
+              </span>
+            </a>
           </div>
         </div>
       </div>

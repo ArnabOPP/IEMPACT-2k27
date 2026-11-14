@@ -142,6 +142,15 @@ export default function Events() {
             {events.length} events across {live.length} segments. Pick your phase.
           </p>
 
+          <a
+            className="evp__brochure"
+            href="https://drive.google.com/file/d/1OA7aTSsFlrL3kRkPJiHBTUO4eHGCi9Tt/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Brochure <span aria-hidden="true">→</span>
+          </a>
+
           <ul className="evp__counts">
             {live.map((s) => (
               <li key={s.id}>

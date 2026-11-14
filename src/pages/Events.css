@@ -693,3 +693,26 @@ body:has(.evp) .footer {
     margin-top: 44px;
   }
 }
+
+/* ---- brochure button ---- */
+.evp__brochure {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 4px;
+  padding: 13px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.35s var(--ease-liquid), background 0.2s;
+}
+
+.evp__brochure:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px);
+}
